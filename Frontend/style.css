@@ -1,0 +1,420 @@
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #2196F3;
+    --text-color: #333;
+    --light-gray: #f0f8ff;
+    --mid-gray: #e0e0e0;
+    --dark-gray: #4a4a4a;
+    --white: #fff;
+    --border-radius: 8px;
+    --transition-speed: 0.4s;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.7;
+    color: var(--text-color);
+    background-color: var(--light-gray);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px 0;
+}
+
+a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    transition: color var(--transition-speed) ease;
+}
+
+a:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 12px 25px;
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-speed) ease, transform 0.2s ease;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+    background-color: #43A047;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.secondary-btn {
+    background-color: var(--secondary-color);
+    margin-left: 15px;
+}
+
+.secondary-btn:hover {
+    background-color: #1976D2;
+}
+
+.small-btn {
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+
+header {
+    background-color: var(--white);
+    color: var(--text-color);
+    padding: 20px 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 30px;
+}
+
+header nav ul li a {
+    color: var(--dark-gray);
+    font-weight: bold;
+    font-size: 1.05em;
+    transition: color var(--transition-speed) ease;
+}
+
+header nav ul li a:hover {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+section {
+    padding: 80px 0;
+    text-align: center;
+}
+
+section:nth-of-type(even) {
+    background-color: var(--mid-gray);
+}
+
+h2 {
+    font-size: 3em;
+    margin-bottom: 35px;
+    color: var(--secondary-color);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(33,150,243,0.7), rgba(76,175,80,0.7)), url('https://via.placeholder.com/1500x800/2196F3/FFFFFF?text=Fondo+Crowdfunding') no-repeat center center/cover;
+    color: var(--white);
+    padding: 120px 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.hero-section h2 {
+    font-size: 4em;
+    margin-bottom: 25px;
+    color: var(--white);
+}
+
+.hero-section p {
+    font-size: 1.3em;
+    margin-bottom: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.projects-section {
+    background-color: var(--light-gray);
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px;
+    margin-top: 50px;
+}
+
+.project-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    border: 1px solid var(--mid-gray);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.project-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid var(--mid-gray);
+}
+
+.project-card h3 {
+    font-size: 1.6em;
+    margin: 20px 20px 10px;
+    color: var(--primary-color);
+    text-align: left;
+}
+
+.project-card p {
+    padding: 0 20px;
+    font-size: 1em;
+    color: var(--dark-gray);
+    text-align: left;
+    flex-grow: 1;
+}
+
+.project-card .progress-bar {
+    background-color: var(--mid-gray);
+    height: 12px;
+    margin: 20px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.project-card .progress-bar .progress {
+    background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+    height: 100%;
+    width: 0;
+    border-radius: var(--border-radius);
+    transition: width 1s ease-out;
+}
+
+.project-card .goal {
+    font-weight: bold;
+    color: var(--text-color);
+    padding: 0 20px 15px;
+    font-size: 1em;
+    text-align: left;
+}
+
+.project-card .button-container {
+    padding: 0 20px 20px;
+    text-align: center;
+}
+
+.project-card .btn {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 200px;
+    padding: 12px 0;
+}
+
+.how-it-works-section {
+    background-color: var(--white);
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 35px;
+    margin-top: 50px;
+}
+
+.step-card {
+    background-color: var(--light-gray);
+    padding: 35px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    border: 1px solid var(--mid-gray);
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.step-card h3 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    font-size: 1.7em;
+}
+
+.step-card p {
+    color: var(--dark-gray);
+}
+
+.start-project-section {
+    background: linear-gradient(45deg, var(--primary-color), #388E3C);
+    color: var(--white);
+    padding: 100px 0;
+    box-shadow: inset 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.start-project-section h2 {
+    color: var(--white);
+}
+
+.start-project-section h2::after {
+    background-color: var(--white);
+}
+
+.start-project-section p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.start-project-section .btn {
+    background-color: var(--white);
+    color: var(--primary-color);
+    font-weight: bold;
+    padding: 15px 35px;
+    font-size: 1.1em;
+    border: 2px solid var(--white);
+}
+
+.start-project-section .btn:hover {
+    background-color: transparent;
+    color: var(--white);
+    border-color: var(--white);
+}
+
+footer {
+    background-color: #2c3e50;
+    color: var(--white);
+    padding: 25px 0;
+    text-align: center;
+    font-size: 0.95em;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+footer p {
+    margin: 0;
+}
+
+.social-links a {
+    color: var(--white);
+    margin-left: 20px;
+    font-size: 1.1em;
+    transition: color var(--transition-speed) ease;
+}
+
+.social-links a:hover {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    h2 {
+        font-size: 2.5em;
+    }
+
+    .hero-section h2 {
+        font-size: 3em;
+    }
+
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header nav ul {
+        margin-top: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    header nav ul li {
+        margin: 5px 15px;
+    }
+
+    .btn {
+        width: calc(100% - 20px);
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .secondary-btn {
+        margin-left: 10px;
+    }
+
+    .project-grid, .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    footer .container {
+        flex-direction: column;
+    }
+
+    .social-links {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section h2 {
+        font-size: 2.2em;
+    }
+    .hero-section p {
+        font-size: 1.1em;
+    }
+    h2 {
+        font-size: 2em;
+    }
+    .project-card .btn {
+        max-width: 250px;
+    }
+}
