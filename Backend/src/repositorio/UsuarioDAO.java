@@ -22,7 +22,7 @@ public class UsuarioDAO {
         }
     }
 
-    public Usuario leer(int idUsuario) throws SQLException {
+    public Usuario obtenerUno(int idUsuario) throws SQLException {
         String sql = "SELECT * FROM Usuario WHERE idUsuario = ?";
         try (Connection con = Conexion.obtenerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -43,7 +43,7 @@ public class UsuarioDAO {
         return null;
     }
 
-    public List<Usuario> leerTodos() throws SQLException {
+    public List<Usuario> obtenerTodos() throws SQLException {
         List<Usuario> lista = new ArrayList<>();
         String sql = "SELECT * FROM Usuario";
         try (Connection con = Conexion.obtenerConexion();

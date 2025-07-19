@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PaisDAO {
 
-    public void insertar(Pais pais) {
+    public void crear(Pais pais) {
         String sql = "INSERT INTO Pais (nombre) VALUES (?)";
         try (Connection con = Conexion.obtenerConexion();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -32,9 +32,7 @@ public class PaisDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Pais pais = new Pais();
-                pais.setIdPais(rs.getInt("idPais"));
-                pais.setNombre(rs.getString("nombre"));
+                Pais pais = new Pais(rs.getInt("idPais"), rs.getString("nombre"));
                 lista.add(pais);
             }
 
@@ -45,7 +43,7 @@ public class PaisDAO {
         return lista;
     }
 
-    public Pais obtenerPorId(int id) {
+    public Pais obtenerUno(int id) {
         String sql = "SELECT * FROM Pais WHERE idPais = ?";
         try (Connection con = Conexion.obtenerConexion();
              PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -67,7 +65,6 @@ public class PaisDAO {
         String sql = "UPDATE Pais SET nombre = ? WHERE idPais = ?";
         try (Connection con = Conexion.obtenerConexion();
              PreparedStatement stmt = con.prepareStatement(sql)) {
-
             stmt.setString(1, pais.getNombre());
             stmt.setInt(2, pais.getIdPais());
             stmt.executeUpdate();

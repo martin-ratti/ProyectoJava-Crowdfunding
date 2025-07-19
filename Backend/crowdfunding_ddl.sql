@@ -41,6 +41,7 @@ CREATE TABLE Proyecto (
 
 CREATE TABLE Comentario (
     idComentario INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(50),
     fecha DATE,
     descripcion TEXT,
     idProyecto INT,
@@ -60,21 +61,21 @@ CREATE TABLE Donacion (
     FOREIGN KEY (idProyecto) REFERENCES Proyecto(idProyecto)
 );
 
-CREATE TABLE Arrepentimiento (
+CREATE TABLE Arrepentimiento_Donacion (
     idDonacion INT PRIMARY KEY,
     motivo TEXT,
     fechaCancelacion DATE,
     FOREIGN KEY (idDonacion) REFERENCES Donacion(idDonacion)
 );
 
-CREATE TABLE CancelacionProyecto (
+CREATE TABLE Cancelacion_Proyecto (
     idProyecto INT PRIMARY KEY,
     motivo TEXT,
     fecha DATE,
     FOREIGN KEY (idProyecto) REFERENCES Proyecto(idProyecto)
 );
 
-CREATE TABLE AvancesProyecto (
+CREATE TABLE Avance_Proyecto (
     idProyecto INT,
     idAvance INT,
     descripcion TEXT,

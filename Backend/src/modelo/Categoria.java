@@ -13,7 +13,6 @@ public class Categoria {
         this.nombreCategoria = nombreCategoria;
     }
 
-    // Getters y setters
     public int getIdCategoria() {
         return idCategoria;
     }

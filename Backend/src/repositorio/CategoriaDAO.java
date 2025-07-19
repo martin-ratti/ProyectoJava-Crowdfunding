@@ -17,7 +17,7 @@ public class CategoriaDAO {
         }
     }
 
-    public Categoria leer(int idCategoria) throws SQLException {
+    public Categoria obtenerUno(int idCategoria) throws SQLException {
         String sql = "SELECT * FROM Categoria WHERE idCategoria = ?";
         try (Connection con = Conexion.obtenerConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -30,7 +30,7 @@ public class CategoriaDAO {
         return null;
     }
 
-    public List<Categoria> leerTodos() throws SQLException {
+    public List<Categoria> obtenerTodos() throws SQLException {
         List<Categoria> lista = new ArrayList<>();
         String sql = "SELECT * FROM Categoria";
         try (Connection con = Conexion.obtenerConexion();

@@ -30,7 +30,6 @@ public class Usuario {
         this.mail = mail;
     }
 
-    // Getters y setters
     public int getIdUsuario() {
         return idUsuario;
     }
