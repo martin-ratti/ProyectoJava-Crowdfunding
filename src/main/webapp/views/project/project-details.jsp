@@ -19,10 +19,6 @@
 <body>
     <%@ include file="/views/fragments/header.jspf" %>
     <main class="projects-container">
-<<<<<<< HEAD
-    
-=======
->>>>>>> 207e39f (aplicando cambios)
         <div class="project-card">
             <h1>${proyecto.nombreProyecto}</h1>
             <img src="${pageContext.request.contextPath}/uploads/${proyecto.foto}" alt="Imagen del Proyecto">

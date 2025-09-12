@@ -48,10 +48,7 @@
     <servlet>
         <servlet-name>AddAdvanceServlet</servlet-name>
         <servlet-class>servlet.AddAdvanceServlet</servlet-class>
-<<<<<<< HEAD
-=======
         <!-- Habilitar el soporte para subida de archivos (multipart) -->
->>>>>>> 207e39f (aplicando cambios)
         <multipart-config />
     </servlet>
     <servlet-mapping>

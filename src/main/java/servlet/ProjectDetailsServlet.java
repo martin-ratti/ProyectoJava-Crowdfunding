@@ -25,10 +25,6 @@ public class ProjectDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-<<<<<<< HEAD
-        try {
-            int idProyecto = Integer.parseInt(request.getParameter("id"));
-=======
         String idParam = request.getParameter("id");
         if (idParam == null || idParam.isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/activeProjects");
@@ -37,17 +33,10 @@ public class ProjectDetailsServlet extends HttpServlet {
 
         try {
             int idProyecto = Integer.parseInt(idParam);
->>>>>>> 207e39f (aplicando cambios)
 
             ProyectoDAO proyectoDAO = new ProyectoDAO();
             Proyecto proyecto = proyectoDAO.obtenerPorId(idProyecto);
 
-<<<<<<< HEAD
-            ComentarioDAO comentarioDAO = new ComentarioDAO();
-            List<Comentario> comentarios = comentarioDAO.obtenerPorIdProyecto(idProyecto);
-
-            request.setAttribute("proyecto", proyecto);
-=======
             if (proyecto == null) {
                 response.sendRedirect(request.getContextPath() + "/activeProjects");
                 return;
@@ -55,7 +44,6 @@ public class ProjectDetailsServlet extends HttpServlet {
 
             ComentarioDAO comentarioDAO = new ComentarioDAO();
             List<Comentario> comentarios = comentarioDAO.obtenerPorIdProyecto(idProyecto);
->>>>>>> 207e39f (aplicando cambios)
             request.setAttribute("comentarios", comentarios);
 
             HttpSession session = request.getSession(false);

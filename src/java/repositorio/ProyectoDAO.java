@@ -38,10 +38,7 @@ public class ProyectoDAO implements IProyectoDAO {
         p.setNombrePais(rs.getString("nombrePais"));
         proyecto.setPais(p);
 
-<<<<<<< HEAD
-=======
         // Mapeo del creador si la query lo trae
->>>>>>> 207e39f (aplicando cambios)
         try {
             String nombreCreador = rs.getString("nombreCreador");
             if (nombreCreador != null) {

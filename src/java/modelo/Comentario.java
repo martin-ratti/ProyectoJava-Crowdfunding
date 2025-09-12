@@ -11,20 +11,7 @@ public class Comentario {
     private int idProyecto;
     private int idUsuario;
     private String nombreUsuario;
-<<<<<<< HEAD
     private String estado;
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-=======
-    private String estado; // nuevo campo para control de habilitado/deshabilitado
->>>>>>> 207e39f (aplicando cambios)
-
     public int getIdComentario() {
         return idComentario;
     }
