@@ -19,7 +19,10 @@
 <body>
     <%@ include file="/views/fragments/header.jspf" %>
     <main class="projects-container">
+<<<<<<< HEAD
     
+=======
+>>>>>>> 207e39f (aplicando cambios)
         <div class="project-card">
             <h1>${proyecto.nombreProyecto}</h1>
             <img src="${pageContext.request.contextPath}/uploads/${proyecto.foto}" alt="Imagen del Proyecto">
@@ -76,65 +79,65 @@
                 </c:if>
             </div>
 
-			<!-- Sección de comentarios -->
-			<section id="comments" class="comments-section">
-			    <h2>Comentarios</h2>
-			
-			    <!-- Mensaje si el usuario es el dueño del proyecto -->
-			    <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario eq proyecto.idCreador}">
-			        <p class="owner-note" style="text-align:center; font-style:italic; color:#444; margin-bottom:15px;">
-			            Estos son los comentarios de tu proyecto
-			        </p>
-			    </c:if>
-			    
-			    <!-- Formulario para comentar (solo no dueños) -->
-			    <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
-			        <c:choose>
-			            <c:when test="${sessionScope.usuario.telefono != null and haDonado}">
-			                <div class="comment-form-container">
-			                    <h3>Deja tu comentario</h3>
-			                    <form action="${pageContext.request.contextPath}/comment" method="post">
-			                        <input type="hidden" name="idProyecto" value="${proyecto.idProyecto}">
-			                        <div class="form-group">
-			                            <textarea name="descripcion" rows="4" placeholder="Escribe tu mensaje de apoyo..." required></textarea>
-			                        </div>
-			                        <button type="submit" class="glow-btn-inverse">Publicar Comentario</button>
-			                    </form>
-			                </div>
-			            </c:when>
-			            <c:when test="${not haDonado}">
-			                <p class="comment-login-prompt" style="text-align:center; color:#a00; font-style:italic;">
-			                    ⚠️ Solo quienes han donado a este proyecto pueden comentar.
-			                </p>
-			            </c:when>
-			        </c:choose>
-			    </c:if>
-			
-			    <!-- Listado de comentarios -->
-			    <div class="comments-list">
-			        <c:if test="${empty comentarios}">
-			            <p style="text-align:center;">Aún no hay comentarios. ¡Sé el primero en dejar uno!</p>
-			        </c:if>
-			
-			        <c:forEach var="comentario" items="${comentarios}">
-			            <div class="comentario">
-			                <p><b>${comentario.nombreUsuario}</b> comentó:</p>
-			                <p>${comentario.descripcion}</p>
-			                <span class="fecha">${comentario.fechaFormateada}</span>
-			
-			                <!-- Botón de deshabilitar solo para admin -->
-			                <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.telefono == null}">
-			                    <form action="${pageContext.request.contextPath}/disableComment" method="post" style="display:inline;">
-			                        <input type="hidden" name="idComentario" value="${comentario.idComentario}" />
-			                        <input type="hidden" name="idProyecto" value="${comentario.idProyecto}" />
-			                        <button type="submit" class="little-glow-btn-danger">Deshabilitar</button>
-			                    </form>
-			                </c:if>
-			            </div>
-			        </c:forEach>
-			    </div>
-			</section>
+            <!-- Sección de comentarios -->
+            <section id="comments" class="comments-section">
+                <h2>Comentarios</h2>
 
+                <!-- Mensaje si el usuario es el dueño del proyecto -->
+                <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario eq proyecto.idCreador}">
+                    <p class="owner-note" style="text-align:center; font-style:italic; color:#444; margin-bottom:15px;">
+                        Estos son los comentarios de tu proyecto
+                    </p>
+                </c:if>
+
+                <!-- Formulario para comentar (solo no dueños) -->
+                <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
+                    <c:choose>
+                        <c:when test="${sessionScope.usuario.telefono != null and haDonado}">
+                            <div class="comment-form-container">
+                                <h3>Deja tu comentario</h3>
+                                <form action="${pageContext.request.contextPath}/comment" method="post">
+                                    <input type="hidden" name="idProyecto" value="${proyecto.idProyecto}">
+                                    <div class="form-group">
+                                        <textarea name="descripcion" rows="4" placeholder="Escribe tu mensaje de apoyo..." required></textarea>
+                                    </div>
+                                    <button type="submit" class="glow-btn-inverse">Publicar Comentario</button>
+                                </form>
+                            </div>
+                        </c:when>
+                        <c:when test="${not haDonado}">
+                            <p class="comment-login-prompt" style="text-align:center; color:#a00; font-style:italic;">
+                                ⚠️ Solo quienes han donado a este proyecto pueden comentar.
+                            </p>
+                        </c:when>
+                    </c:choose>
+                </c:if>
+
+                <!-- Listado de comentarios -->
+                <div class="comments-list">
+                    <c:if test="${empty comentarios}">
+                        <p style="text-align:center;">Aún no hay comentarios. ¡Sé el primero en dejar uno!</p>
+                    </c:if>
+
+                    <c:forEach var="comentario" items="${comentarios}">
+                        <div class="comentario">
+                            <p><b>${comentario.nombreUsuario}</b> comentó:</p>
+                            <p>${comentario.descripcion}</p>
+                            <span class="fecha">${comentario.fechaFormateada}</span>
+
+                            <!-- Botón de deshabilitar solo para admin -->
+                            <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.telefono == null}">
+                                <form action="${pageContext.request.contextPath}/disableComment" method="post" style="display:inline;">
+                                    <input type="hidden" name="idComentario" value="${comentario.idComentario}" />
+                                    <input type="hidden" name="idProyecto" value="${comentario.idProyecto}" />
+                                    <br><br>
+                                    <button type="submit" class="little-glow-btn-danger">Deshabilitar</button>
+                                </form>
+                            </c:if>
+                        </div>
+                    </c:forEach>
+                </div>
+            </section>
         </div>
     </main>
     <jsp:include page="/views/fragments/footer.jspf" />

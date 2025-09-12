@@ -18,7 +18,11 @@ public class Proyecto {
     private Categoria categoria;
     private Pais pais;
     private Cancelacion_Proyecto cancelacion;
+<<<<<<< HEAD
     private Usuario creador; // NUEVO
+=======
+    private Usuario creador; // Campo agregado para mostrar info del creador
+>>>>>>> 207e39f (aplicando cambios)
 
     public Cancelacion_Proyecto getCancelacion() {
         return cancelacion;

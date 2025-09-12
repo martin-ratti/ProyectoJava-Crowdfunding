@@ -26,7 +26,6 @@ public class ComentarioDAO implements IComentarioDAO {
             ps.setString(5, "Activo"); // siempre entra como activo
             
             ps.executeUpdate();
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,11 +72,18 @@ public class ComentarioDAO implements IComentarioDAO {
     }
 
     @Override
-    public List<Comentario> obtenerTodos() { return new ArrayList<>(); }
+    public List<Comentario> obtenerTodos() { 
+        return new ArrayList<>(); 
+    }
+
     @Override
-    public Comentario obtenerPorId(int id) { return null; }
+    public Comentario obtenerPorId(int id) { 
+        return null; 
+    }
+
     @Override
     public void actualizar(Comentario comentario) {}
+
     @Override
     public void eliminar(int id) {}
 }

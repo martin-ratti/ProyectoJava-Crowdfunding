@@ -61,10 +61,16 @@
                             </c:when>
 
                             <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne p.idCreador}">
+<<<<<<< HEAD
                                 <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${p.idProyecto}" class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
 
+=======
+                                <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${p.idProyecto}" 
+                                   class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
+>>>>>>> 207e39f (aplicando cambios)
                                 <c:if test="${donacionesMap[p.idProyecto]}">
-                                    <a href="${pageContext.request.contextPath}/projectDetails?id=${p.idProyecto}#comments" class="little-glow-btn" onclick="event.stopPropagation();">Comentar</a>
+                                    <a href="${pageContext.request.contextPath}/projectDetails?id=${p.idProyecto}#comments" 
+                                       class="little-glow-btn" onclick="event.stopPropagation();">Comentar</a>
                                 </c:if>
                             </c:when>
 
@@ -72,7 +78,8 @@
                             </c:when>
 
                             <c:otherwise>
-                                <a href="${pageContext.request.contextPath}/login" class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
+                                <a href="${pageContext.request.contextPath}/login" 
+                                   class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
                             </c:otherwise>
                         </c:choose>
                     </div>

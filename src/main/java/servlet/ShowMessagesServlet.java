@@ -12,7 +12,7 @@ import repositorio.ContactoDAO;
 
 @WebServlet(name = "ShowMessagesServlet", urlPatterns = {"/showMessages"})
 public class ShowMessagesServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,4 +31,3 @@ public class ShowMessagesServlet extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/messageDetail?id=" + id);
     }
 }
-

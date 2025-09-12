@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/globals.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/footer.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/glow-buttons.css">
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/glow-buttons.css">
 </head>
 <body>
     <jsp:include page="/views/fragments/header.jspf"/>
@@ -61,4 +60,3 @@
     <jsp:include page="/views/fragments/footer.jspf"/>
 </body>
 </html>
-

@@ -41,4 +41,3 @@
     <jsp:include page="/views/fragments/footer.jspf"/>
 </body>
 </html>
-

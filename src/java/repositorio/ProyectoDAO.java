@@ -38,6 +38,10 @@ public class ProyectoDAO implements IProyectoDAO {
         p.setNombrePais(rs.getString("nombrePais"));
         proyecto.setPais(p);
 
+<<<<<<< HEAD
+=======
+        // Mapeo del creador si la query lo trae
+>>>>>>> 207e39f (aplicando cambios)
         try {
             String nombreCreador = rs.getString("nombreCreador");
             if (nombreCreador != null) {
@@ -48,6 +52,7 @@ public class ProyectoDAO implements IProyectoDAO {
                 proyecto.setCreador(creador);
             }
         } catch (SQLException ignore) {
+            // si no hay columnas de creador, no se setea
         }
 
         return proyecto;
@@ -197,7 +202,7 @@ public class ProyectoDAO implements IProyectoDAO {
 
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql.toString())) {
-            
+
             int paramIndex = 1;
             if (query != null && !query.trim().isEmpty()) {
                 ps.setString(paramIndex++, "%" + query + "%");

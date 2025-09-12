@@ -11,6 +11,7 @@ public class Comentario {
     private int idProyecto;
     private int idUsuario;
     private String nombreUsuario;
+<<<<<<< HEAD
     private String estado;
 
     public String getEstado() {
@@ -20,6 +21,9 @@ public class Comentario {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+=======
+    private String estado; // nuevo campo para control de habilitado/deshabilitado
+>>>>>>> 207e39f (aplicando cambios)
 
     public int getIdComentario() {
         return idComentario;
@@ -68,6 +72,14 @@ public class Comentario {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
     
     public String getFechaFormateada() {
         if (fecha == null) {
@@ -77,4 +89,3 @@ public class Comentario {
         return fecha.format(formatter);
     }
 }
-
