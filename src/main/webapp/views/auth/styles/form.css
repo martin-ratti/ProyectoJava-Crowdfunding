@@ -1,0 +1,103 @@
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: calc(100vh - 150px);
+    background-color: var(--background-gray);
+}
+
+.form-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.form-card h2 {
+    margin-bottom: 25px;
+    color: var(--dark-green);
+    font-size: 1.8rem;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-group input {
+    font-size: 16px;
+    padding: 12px 10px;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background: transparent;
+    outline: none;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-bottom: 2px solid var(--primary-green);
+}
+
+.form-group label {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    color: #777;
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label {
+    top: -8px;
+    font-size: 13px;
+    color: var(--primary-green);
+    background: #fff;
+    padding: 0 5px;
+    border-radius: 4px;
+}
+
+/* Campo obligatorio → muestra un * */
+label:has(input:required)::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+}
+
+/* Campo opcional → muestra (opcional) */
+label:has(input:optional)::after {
+    content: " (opcional)";
+    color: #777;
+    font-size: 0.9em;
+}
+
+.form-footer {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+}
+
+.form-footer p {
+    margin: 10px 0;
+}
+
+.form-footer a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: bold;
+    transition: text-decoration 0.3s;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+

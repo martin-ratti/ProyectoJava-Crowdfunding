@@ -1,0 +1,45 @@
+.howitworks-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.howitworks-title {
+    font-size: 2.4rem;
+    margin-bottom: 2.5rem;
+}
+
+.howitworks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem; 
+}
+
+.howitworks-card {
+    background-color: var(--super-light-green);
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: left;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 1rem; 
+}
+
+.howitworks-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.howitworks-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+}
+
+.howitworks-card p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #333;
+}

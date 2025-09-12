@@ -1,0 +1,124 @@
+.advances-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: calc(100vh - 300px);
+}
+
+.advances-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.advances-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: 700;
+}
+
+.latest-advance, .all-advances {
+    margin-bottom: 50px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #444;
+    border-bottom: 2px solid var(--primary-green);
+    display: inline-block;
+    padding-bottom: 8px;
+    margin-bottom: 30px;
+}
+
+.latest-advance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.latest-advance .advance-card.highlighted {
+    max-width: 600px;
+    border: 2px solid var(--primary-green);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.advance-card {
+    display: inline-block;
+    width: 300px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.advance-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.advance-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.advance-info {
+    padding: 15px;
+    text-align: left;
+}
+
+.advance-info .advance-date {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 15px 5px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f1f1f1;
+}
+
+.carousel::-webkit-scrollbar {
+    height: 10px;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.carousel::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+.no-content-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    padding: 40px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e6e9;
+    border-radius: 12px;
+    margin: 40px auto;
+}
+
+.advances-actions {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+

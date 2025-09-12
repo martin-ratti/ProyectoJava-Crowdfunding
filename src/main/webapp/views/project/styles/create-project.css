@@ -1,0 +1,125 @@
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+    background-color: #f4f7f6;
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+}
+
+.form-container h2 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.form-container p {
+    color: #666;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+}
+
+.form-content {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 1.8rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.6rem;
+    color: #555;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-green); 
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.25); 
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-green);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 1rem;
+}
+
+.btn-submit:hover {
+    background-color: var(--dark-green);
+    transform: translateY(-2px);
+}
+
+.file-input-button {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #555;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.file-input-button:hover {
+    background-color: #f0f0f0;
+    border-color: var(--primary-green);
+    color: var(--dark-green);
+}
+
+.file-input input[type="file"] {
+    display: none;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+

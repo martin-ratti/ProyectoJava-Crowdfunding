@@ -1,0 +1,39 @@
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
+<div class="alert-container">
+    <%-- Muestra el mensaje de éxito si existe y luego lo elimina de la sesión --%>
+    <c:if test="${not empty sessionScope.successMessage}">
+        <div class="alert success">
+            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+            ${sessionScope.successMessage}
+        </div>
+        <c:remove var="successMessage" scope="session" />
+    </c:if>
+
+    <%-- Muestra el mensaje de error si existe y luego lo elimina de la sesión --%>
+    <c:if test="${not empty sessionScope.errorMessage}">
+        <div class="alert error">
+            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+            ${sessionScope.errorMessage}
+        </div>
+        <c:remove var="errorMessage" scope="session" />
+    </c:if>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert-container .alert');
+        alerts.forEach(function(alert) {
+            // Inicia el temporizador para el fundido de salida
+            setTimeout(function() {
+                alert.style.opacity = '0'; // Activa la transición CSS
+
+                // Espera a que termine la transición para ocultar el elemento por completo
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 500); // Debe coincidir con la duración de la transición en el CSS
+            }, 5000); // El mensaje es visible durante 5 segundos
+        });
+    });
+</script>
+

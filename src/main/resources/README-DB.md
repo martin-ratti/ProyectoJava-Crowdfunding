@@ -1,0 +1,1 @@
+En esta carpeta, crear el archivo database.properties para conectarte a la BDD.

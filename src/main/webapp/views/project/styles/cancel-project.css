@@ -1,0 +1,88 @@
+/* Estilos dedicados para el formulario de cancelación de proyecto */
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+    background-color: #f4f7f6;
+    min-height: calc(100vh - 180px); /* Ajusta según el alto de tu header/footer */
+}
+
+.form-card {
+    background-color: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+}
+
+.form-card h2 {
+    color: #333;
+    font-size: 2rem;
+    position: relative; /* Necesario para el pseudoelemento */
+    padding-bottom: 15px; /* Espacio para el subrayado */
+    margin-bottom: 20px;
+}
+
+.form-card h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-green);
+    border-radius: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.form-card p {
+    color: #666;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+}
+
+.form-content {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 1.8rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.form-group textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-green); 
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.25); 
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 2.5rem;
+}
+

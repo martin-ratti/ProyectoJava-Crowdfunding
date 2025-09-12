@@ -1,0 +1,60 @@
+.forbidden-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+    min-height: calc(100vh - 250px);
+    background-color: var(--background-gray);
+}
+
+.forbidden-card {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-top: 5px solid var(--danger-red);
+}
+
+.forbidden-icon {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.icon-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--danger-red);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-symbol {
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.forbidden-card h1 {
+    font-size: 2.2rem;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.forbidden-card p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.forbidden-card .glow-btn {
+    padding: 12px 30px;
+}
+

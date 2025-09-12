@@ -1,0 +1,272 @@
+/* --- Estilos para la página "Mis Proyectos" y "Proyectos Pendientes" --- */
+
+/* Contenedor principal y título */
+.projects-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.projects-container h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #34495e;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.projects-container h1::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-green);
+    border-radius: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.no-projects {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border: 1px dashed #d6d8db;
+    border-radius: 8px;
+}
+
+/* --- ESTILOS PARA FILTROS DE CATEGORÍA --- */
+.category-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding: 10px 0;
+}
+
+.filter-btn {
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filter-btn:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.filter-btn.active {
+    background-color: var(--primary-green);
+    color: #fff;
+    border-color: var(--primary-green);
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+}
+
+
+/* Grilla de tarjetas - CORREGIDA CON ENFOQUE MOBILE-FIRST */
+.card-grid {
+    display: grid;
+    gap: 30px;
+    align-items: start;
+    grid-template-columns: 1fr;
+}
+
+/* Tablets: 2 columnas */
+@media (min-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktops: 3 columnas */
+@media (min-width: 992px) {
+    .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+/* Tarjeta de Proyecto Individual */
+.project-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Necesario para la etiqueta de categoría */
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* ETIQUETA DE CATEGORÍA */
+.card-category {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(44, 62, 80, 0.8);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    z-index: 10;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.project-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+
+.project-details-wrapper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.project-details-wrapper h2 {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin: 0 0 15px 0;
+    cursor: pointer;
+}
+
+.project-details-wrapper p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.project-details-wrapper b {
+    color: #2c3e50;
+}
+
+/* Estilos de Estado */
+.status-label {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* Colores por estado */
+.project-card.status-pendiente {
+    border-color: #6c757d;
+}
+.project-card.status-rechazado {
+    border-color: var(--danger-red);
+}
+.project-card.status-cancelado {
+    border-color: #adb5bd;
+    background-color: #f8f9fa;
+}
+.project-card.status-activo {
+    border-color: var(--primary-green);
+}
+
+.status-rechazado .status-label { background-color: var(--danger-red); }
+.status-cancelado .status-label { background-color: #6c757d; }
+.status-pendiente .status-label { background-color: #6c757d; }
+.status-activo .status-label { background-color: var(--primary-green); }
+
+
+/* Acciones en la tarjeta (botones) */
+.card-actions {
+    padding: 15px 20px 20px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: auto;
+}
+
+/* AJUSTE PARA PROYECTOS PENDIENTES */
+.pending-actions {
+    gap: 8px;
+}
+.pending-actions .little-glow-btn,
+.pending-actions .little-glow-btn-inverse {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+}
+
+
+.card-actions a {
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.85rem;
+    padding: 10px 18px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    white-space: nowrap;
+}
+
+/* Botones para estados Pendiente y Activo */
+.project-card.status-pendiente .card-actions a:first-child,
+.project-card.status-activo .card-actions a:first-child {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: white;
+}
+.project-card.status-pendiente .card-actions a:first-child:hover,
+.project-card.status-activo .card-actions a:first-child:hover {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+}
+
+.project-card.status-pendiente .card-actions a:last-child,
+.project-card.status-activo .card-actions a:last-child {
+    background-color: transparent;
+    border-color: #6c757d;
+    color: #6c757d;
+}
+.project-card.status-pendiente .card-actions a:last-child:hover,
+.project-card.status-activo .card-actions a:last-child:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Botones para Rechazado y Cancelado */
+.project-card.status-rechazado .card-actions a,
+.project-card.status-cancelado .card-actions a {
+    background-color: transparent;
+    border-color: var(--danger-red);
+    color: var(--danger-red);
+}
+.project-card.status-rechazado .card-actions a:hover,
+.project-card.status-cancelado .card-actions a:hover {
+    background-color: var(--danger-red);
+    color: white;
+}
+

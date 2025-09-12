@@ -1,0 +1,158 @@
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.glow-btn {
+    position: relative;
+    padding: 12px 30px;
+    border: 2px solid var(--primary-green);
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--primary-green);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+    white-space: nowrap;
+}
+
+.glow-btn:hover {
+    background: var(--primary-green);
+    color: #fff;
+    box-shadow: 
+        0 0 10px var(--primary-green),
+        0 0 20px var(--primary-green),
+        0 0 40px var(--primary-green);
+}
+
+.glow-btn-inverse {
+    position: relative;
+    padding: 12px 30px;
+    border: 2px solid var(--primary-green);
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--primary-green);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.glow-btn-inverse:hover {
+    background: #fff;
+    color: var(--primary-green);
+    box-shadow: 
+        0 0 10px var(--primary-green),
+        0 0 20px var(--primary-green),
+        0 0 40px var(--primary-green);
+}
+
+.glow-btn-danger {
+    position: relative;
+    padding: 12px 30px;
+    border: 2px solid var(--danger-red);
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--danger-red);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.glow-btn-danger:hover {
+    background: #c0392b; /* Un rojo más oscuro para el hover */
+    border-color: #c0392b;
+    color: #fff;
+    box-shadow: 
+        0 0 10px var(--danger-red),
+        0 0 20px var(--danger-red),
+        0 0 40px var(--danger-red);
+}
+
+.little-glow-btn {
+    position: relative;
+    padding: 8px 20px;
+    border: 1.5px solid var(--primary-green);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--primary-green);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+}
+
+.little-glow-btn:hover {
+    background: var(--primary-green);
+    color: #fff;
+    box-shadow: 
+        0 0 8px var(--primary-green),
+        0 0 15px var(--primary-green),
+        0 0 30px var(--primary-green);
+}
+
+.little-glow-btn-inverse {
+    position: relative;
+    padding: 8px 20px;
+    border: 1.5px solid var(--primary-green);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--primary-green);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.little-glow-btn-inverse:hover {
+    background: #fff;
+    color: var(--primary-green);
+    box-shadow: 
+        0 0 8px var(--primary-green),
+        0 0 15px var(--primary-green),
+        0 0 30px var(--primary-green);
+}
+
+.little-glow-btn-danger {
+    position: relative;
+    padding: 8px 20px;
+    border: 1.5px solid var(--danger-red);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--danger-red);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+}
+
+.little-glow-btn-danger:hover {
+    background: var(--danger-red);
+    color: #fff;
+    box-shadow: 
+        0 0 8px var(--danger-red),
+        0 0 15px var(--danger-red),
+        0 0 30px var(--danger-red);
+}
+

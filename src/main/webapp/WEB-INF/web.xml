@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <jsp-file>/views/common/home.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>About</servlet-name>
+        <jsp-file>/views/common/about.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>About</servlet-name>
+        <url-pattern>/about</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Categories</servlet-name>
+        <jsp-file>/views/common/categories.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Categories</servlet-name>
+        <url-pattern>/categories</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HowItWorks</servlet-name>
+        <jsp-file>/views/common/how-it-works.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HowItWorks</servlet-name>
+        <url-pattern>/how-it-works</url-pattern>
+    </servlet-mapping>
+
+    <!-- Declaración explícita del servlet para agregar avances -->
+    <servlet>
+        <servlet-name>AddAdvanceServlet</servlet-name>
+        <servlet-class>servlet.AddAdvanceServlet</servlet-class>
+        <multipart-config />
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddAdvanceServlet</servlet-name>
+        <url-pattern>/addAdvance</url-pattern>
+    </servlet-mapping>
+    
+    
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+        <jsp-property-group>
+            <url-pattern>*.jspf</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+
+</web-app>
