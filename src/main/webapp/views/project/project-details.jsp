@@ -55,21 +55,25 @@
                 </div>
             </c:if>
 
-            <div class="project-actions">
-                <a href="${pageContext.request.contextPath}/projectAdvances?idProyecto=${proyecto.idProyecto}" class="glow-btn">
-                    Ver Avances
-                </a>
-                <c:if test="${not empty sessionScope.usuario 
-                              and sessionScope.usuario.telefono != null 
-                              and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
-                    <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${proyecto.idProyecto}" class="glow-btn-inverse">
-                        Donar a este Proyecto
-                    </a>
-                </c:if>
-                <c:if test="${empty sessionScope.usuario}">
-                    <a href="${pageContext.request.contextPath}/login" class="glow-btn-inverse">Donar a este Proyecto</a>
-                </c:if>
-            </div>
+			<div class="project-actions">
+			    <c:if test="${proyecto.estado ne 'Pendiente'}">
+			        <a href="${pageContext.request.contextPath}/projectAdvances?idProyecto=${proyecto.idProyecto}" class="glow-btn">
+			            Ver Avances
+			        </a>
+			    </c:if>
+			
+			    <c:if test="${not empty sessionScope.usuario 
+			                  and sessionScope.usuario.telefono != null 
+			                  and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
+			        <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${proyecto.idProyecto}" class="glow-btn-inverse">
+			            Donar a este Proyecto
+			        </a>
+			    </c:if>
+			    <c:if test="${empty sessionScope.usuario}">
+			        <a href="${pageContext.request.contextPath}/login" class="glow-btn-inverse">Donar a este Proyecto</a>
+			    </c:if>
+			</div>
+
 
             <section id="comments" class="comments-section">
                 <h2>Comentarios</h2>

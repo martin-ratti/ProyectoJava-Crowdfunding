@@ -16,6 +16,7 @@ import jakarta.servlet.http.Part;
 
 import modelo.Avance_Proyecto;
 import repositorio.Avance_ProyectoDAO;
+import utils.Config;
 
 @WebServlet("/addAdvance")
 @MultipartConfig
@@ -55,13 +56,11 @@ public class AddAdvanceServlet extends HttpServlet {
             }
             fileName = UUID.randomUUID().toString() + extension;
 
-
-            String uploadPath = getServletContext().getRealPath("/uploads");
-
+            String uploadPath = Config.get("upload.dir");
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdirs();
 
-            filePart.write(uploadPath + File.separator + fileName);
+            filePart.write(new File(uploadDir, fileName).getAbsolutePath());
         }
 
         Avance_Proyecto avance = new Avance_Proyecto();

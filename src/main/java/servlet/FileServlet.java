@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import utils.Config;
 
 @WebServlet("/uploads/*")
 public class FileServlet extends HttpServlet {
@@ -18,7 +20,7 @@ public class FileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String uploadPath = getServletContext().getRealPath("/uploads");
+        String uploadPath = Config.get("upload.dir");
 
         String requestedFile = request.getPathInfo();
         if (requestedFile == null || requestedFile.equals("/")) {
@@ -26,7 +28,7 @@ public class FileServlet extends HttpServlet {
             return;
         }
 
-        requestedFile = requestedFile.substring(1); 
+        requestedFile = requestedFile.substring(1);
 
         File file = new File(uploadPath, requestedFile);
         if (!file.exists() || !file.isFile()) {
@@ -51,4 +53,3 @@ public class FileServlet extends HttpServlet {
         }
     }
 }
-

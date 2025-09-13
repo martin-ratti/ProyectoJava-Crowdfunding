@@ -24,6 +24,7 @@ import modelo.Usuario;
 import repositorio.CategoriaDAO;
 import repositorio.PaisDAO;
 import repositorio.ProyectoDAO;
+import utils.Config;
 
 @WebServlet(name = "CreateProjectServlet", urlPatterns = {"/createProject"})
 @MultipartConfig
@@ -58,7 +59,6 @@ public class CreateProjectServlet extends HttpServlet {
             return;
         }
 
-        // ⬇️ Los names deben coincidir con el JSP
         String nombreProyecto = request.getParameter("nombre");
         String descripcion = request.getParameter("descripcion");
 
@@ -90,14 +90,11 @@ public class CreateProjectServlet extends HttpServlet {
             }
             fileName = UUID.randomUUID().toString() + extension;
 
-
-            
-            String uploadPath = getServletContext().getRealPath("/uploads");
-
+            String uploadPath = Config.get("upload.dir");
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdirs();
 
-            filePart.write(uploadPath + File.separator + fileName);
+            filePart.write(new File(uploadDir, fileName).getAbsolutePath());
         }
 
         CategoriaDAO categoriaDAO = new CategoriaDAO();
