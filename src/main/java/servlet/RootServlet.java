@@ -15,4 +15,3 @@ public class RootServlet extends HttpServlet {
 	    response.sendRedirect(request.getContextPath() + "/home");
 	}
 }
-

@@ -8,7 +8,6 @@
     <title>Cancelar Proyecto</title>
     <link rel="icon" href="${pageContext.request.contextPath}/assets/simbolo-dinero.png">
     
-    <!-- Enlazamos a su propia hoja de estilos para evitar conflictos -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/project/styles/cancel-project.css">
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/globals.css">
@@ -21,11 +20,11 @@
 
     <main class="main-container">
         <div class="form-card">
-            <h2>Cancelar Proyecto</h2>
+            <h2>Cancelar Proyecto: <span class="project-name">${proyecto.nombreProyecto}</span></h2>
             <p>Por favor, explícanos por qué deseas cancelar este proyecto.</p>
 
             <form action="${pageContext.request.contextPath}/cancelProject" method="post" class="form-content">
-                <input type="hidden" name="idProyecto" value="${idProyecto}">
+                <input type="hidden" name="idProyecto" value="${proyecto.idProyecto}">
 
                 <div class="form-group">
                     <label for="motivo">Motivo de Cancelación</label>
@@ -43,4 +42,3 @@
     <jsp:include page="/views/fragments/footer.jspf" />
 </body>
 </html>
-

@@ -40,16 +40,14 @@
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/showMessages" class="nav-link">Mensajes</a></li>
                         </c:when>
                         <c:otherwise>
-                            <%-- CORRECCIÓN: Apuntar al servlet en lugar de al JSP directamente --%>
-                            <li class="nav-item"><a href="${pageContext.request.contextPath}/my-donations" class="nav-link">Mis Donaciones</a></li>
-                            <li class="nav-item"><a href="${pageContext.request.contextPath}/myProjects" class="nav-link">Mis Proyectos</a></li>
+                            <li class="nav-item"><a href="${pageContext.request.contextPath}/supportedProjects" class="nav-link">Proyectos Apoyados</a></li>                            
+        					<li class="nav-item"><a href="${pageContext.request.contextPath}/myProjects" class="nav-link">Mis Proyectos</a></li>
                         </c:otherwise>
                     </c:choose>
                 </ul>
             </nav>
         </div>
 
-        <!-- Sección Derecha: Acciones de Usuario -->
         <div class="header-right">
             <div class="auth-buttons">
                 <c:choose>

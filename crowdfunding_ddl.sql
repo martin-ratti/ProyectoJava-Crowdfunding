@@ -95,3 +95,7 @@ CREATE TABLE Contacto (
     visto BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+ALTER TABLE comentario
+  ADD COLUMN estado VARCHAR(20) NOT NULL DEFAULT 'Activo',
+  DROP COLUMN titulo;
+

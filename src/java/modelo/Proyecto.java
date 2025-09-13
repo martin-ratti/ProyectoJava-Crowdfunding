@@ -18,7 +18,7 @@ public class Proyecto {
     private Categoria categoria;
     private Pais pais;
     private Cancelacion_Proyecto cancelacion;
-    private Usuario creador; // Campo agregado para mostrar info del creador
+    private Usuario creador; 
 
     public Cancelacion_Proyecto getCancelacion() {
         return cancelacion;

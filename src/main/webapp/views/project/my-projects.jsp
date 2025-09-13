@@ -30,7 +30,7 @@
         <div class="card-grid">
             <c:forEach var="p" items="${myProjects}">
 			    <c:if test="${p.estado ne 'Borrado'}">
-			        <div class="project-card status-${p.estado.toLowerCase()}">
+			        <div class="project-card status-${p.estado.toLowerCase()}">			        
 			            <img src="${pageContext.request.contextPath}/uploads/${p.foto}" alt="Imagen del Proyecto" onclick="window.location.href='${pageContext.request.contextPath}/projectDetails?id=${p.idProyecto}'">
 			            <div class="project-details-wrapper">
 			                <h2 onclick="window.location.href='${pageContext.request.contextPath}/projectDetails?id=${p.idProyecto}'">${p.nombreProyecto}</h2>

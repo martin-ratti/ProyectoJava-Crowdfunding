@@ -12,6 +12,7 @@ public class Comentario {
     private int idUsuario;
     private String nombreUsuario;
     private String estado;
+
     public int getIdComentario() {
         return idComentario;
     }
@@ -67,7 +68,7 @@ public class Comentario {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
+
     public String getFechaFormateada() {
         if (fecha == null) {
             return "";

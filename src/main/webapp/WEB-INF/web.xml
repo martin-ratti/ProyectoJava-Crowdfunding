@@ -43,18 +43,6 @@
         <servlet-name>HowItWorks</servlet-name>
         <url-pattern>/how-it-works</url-pattern>
     </servlet-mapping>
-
-    <!-- Declaración explícita del servlet para agregar avances -->
-    <servlet>
-        <servlet-name>AddAdvanceServlet</servlet-name>
-        <servlet-class>servlet.AddAdvanceServlet</servlet-class>
-        <!-- Habilitar el soporte para subida de archivos (multipart) -->
-        <multipart-config />
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddAdvanceServlet</servlet-name>
-        <url-pattern>/addAdvance</url-pattern>
-    </servlet-mapping>
     
     <jsp-config>
         <jsp-property-group>

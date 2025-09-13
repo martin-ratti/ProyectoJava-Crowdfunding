@@ -14,8 +14,8 @@ import modelo.Proyecto;
 import repositorio.Avance_ProyectoDAO;
 import repositorio.ProyectoDAO;
 
-@WebServlet("/avancesProyecto")
-public class AvancesProyectoServlet extends HttpServlet {
+@WebServlet("/projectAdvances")
+public class ProjectAdvanceServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ProyectoDAO proyectoDAO = new ProyectoDAO();
     private Avance_ProyectoDAO avanceDAO = new Avance_ProyectoDAO();
@@ -50,7 +50,7 @@ public class AvancesProyectoServlet extends HttpServlet {
             }
 
             request.setAttribute("proyecto", proyecto);
-            request.setAttribute("avances", avances); // Se mantiene por si se necesita la lista completa
+            request.setAttribute("avances", avances);
             request.setAttribute("ultimoAvance", ultimoAvance);
             request.setAttribute("historialAvances", historialAvances);
 

@@ -316,4 +316,62 @@ public class ProyectoDAO implements IProyectoDAO {
             e.printStackTrace();
         }
     }
+    
+    public List<Proyecto> obtenerProyectosDonadosPorUsuario(int idUsuario) {
+        List<Proyecto> lista = new ArrayList<>();
+        String sql = "SELECT DISTINCT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador " +
+                     "FROM donacion d " +
+                     "JOIN proyecto p ON d.idProyecto = p.idProyecto " +
+                     "JOIN categoria c ON p.idCategoria = c.idCategoria " +
+                     "JOIN pais pa ON p.idPais = pa.idPais " +
+                     "JOIN usuario u ON p.idCreador = u.idUsuario " +
+                     "WHERE d.idDonante = ?"; 
+
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Proyecto proyecto = new Proyecto();
+                    proyecto.setIdProyecto(rs.getInt("idProyecto"));
+                    proyecto.setNombreProyecto(rs.getString("nombreProyecto"));
+                    proyecto.setDescripcion(rs.getString("descripcion"));
+                    proyecto.setMontoMeta(rs.getBigDecimal("montoMeta"));
+                    proyecto.setMontoRecaudado(rs.getBigDecimal("montoRecaudado"));
+                    proyecto.setFechaIni(rs.getDate("fechaIni").toLocalDate());
+                    proyecto.setFechaFin(rs.getDate("fechaFin").toLocalDate());
+                    proyecto.setIdCreador(rs.getInt("idCreador"));
+                    proyecto.setEstado(rs.getString("estado"));
+                    proyecto.setFoto(rs.getString("foto"));
+
+                    // Categoria
+                    Categoria categoria = new Categoria();
+                    categoria.setIdCategoria(rs.getInt("idCategoria"));
+                    categoria.setNombreCategoria(rs.getString("nombreCategoria"));
+                    proyecto.setCategoria(categoria);
+
+                    // Pais
+                    Pais pais = new Pais();
+                    pais.setIdPais(rs.getInt("idPais"));
+                    pais.setNombrePais(rs.getString("nombrePais"));
+                    proyecto.setPais(pais);
+
+                    // Creador
+                    Usuario creador = new Usuario();
+                    creador.setIdUsuario(rs.getInt("idCreador"));
+                    creador.setNombre(rs.getString("nombreCreador"));
+                    creador.setApellido(rs.getString("apellidoCreador"));
+                    proyecto.setCreador(creador);
+
+                    lista.add(proyecto);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+
+
 }

@@ -23,7 +23,6 @@
     <main class="projects-container">
         <h1>Proyectos Activos</h1>
 
-        <!-- Filtros por categoría -->
         <div class="category-filters">
             <a href="${pageContext.request.contextPath}/activeProjects" 
                class="filter-btn ${empty selectedCategoryId ? 'active' : ''}">Todas</a>
@@ -35,19 +34,17 @@
             </c:forEach>
         </div>
 
-        <!-- Si no hay proyectos -->
         <c:if test="${empty activeProjects}">
             <p class="no-projects">
                 No se encontraron proyectos que coincidan con los filtros seleccionados.
             </p>
         </c:if>
 
-        <!-- Tarjetas de proyectos -->
         <div class="card-grid">
             <c:forEach var="p" items="${activeProjects}">
                 <div class="project-card" onclick="window.location.href='${pageContext.request.contextPath}/projectDetails?id=${p.idProyecto}'">
                     <span class="card-category">${p.categoria.nombreCategoria}</span>
-                    <img src="${pageContext.request.contextPath}/uploads/${p.foto}" alt="Imagen del Proyecto">
+					<img src="${pageContext.request.contextPath}/uploads/${p.foto}" alt="Imagen del Proyecto">
                     <div class="project-details-wrapper">
                         <h2>${p.nombreProyecto}</h2>
                         <p><b>Descripción:</b> ${p.descripcion}</p>
@@ -58,7 +55,6 @@
 
                     <div class="card-actions">
                         <c:choose>
-                            <!-- Admin puede borrar -->
                             <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.telefono == null}">
                                 <form action="${pageContext.request.contextPath}/deleteProject" method="post" style="display:inline;" onclick="event.stopPropagation();">
                                     <input type="hidden" name="idProyecto" value="${p.idProyecto}">
@@ -66,23 +62,19 @@
                                 </form>
                             </c:when>
 
-                            <!-- Usuario logueado, que no es creador -->
                             <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne p.idCreador}">
                                 <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${p.idProyecto}" 
                                    class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
 
-                                <!-- Si ya donó, puede comentar -->
                                 <c:if test="${donacionesMap[p.idProyecto]}">
                                     <a href="${pageContext.request.contextPath}/projectDetails?id=${p.idProyecto}#comments" 
                                        class="little-glow-btn" onclick="event.stopPropagation();">Comentar</a>
                                 </c:if>
                             </c:when>
 
-                            <!-- El creador no ve acciones extras -->
                             <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario eq p.idCreador}">
                             </c:when>
 
-                            <!-- Usuario no logueado -->
                             <c:otherwise>
                                 <a href="${pageContext.request.contextPath}/login" 
                                    class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>

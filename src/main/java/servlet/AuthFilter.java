@@ -29,7 +29,9 @@ public class AuthFilter implements Filter {
         "/my-donations",
         "/createProject",
         "/editProject",
-        "/addAdvance"
+        "/addAdvance",
+        "/supportedProjects"
+
     };
     
     private static final String[] publicPaths = {

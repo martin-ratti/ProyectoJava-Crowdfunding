@@ -42,7 +42,6 @@
             <p><strong>Categoría:</strong> ${proyecto.categoria.nombreCategoria}</p>
             <p><strong>País:</strong> ${proyecto.pais.nombrePais}</p>
 
-            <!-- Acciones de administrador -->
             <c:if test="${not empty sessionScope.usuario and empty sessionScope.usuario.telefono and proyecto.estado eq 'Pendiente'}">
                 <div class="admin-actions">
                     <form action="${pageContext.request.contextPath}/approveProject" method="post" style="display:inline;">
@@ -56,12 +55,10 @@
                 </div>
             </c:if>
 
-            <!-- Acciones de proyecto -->
             <div class="project-actions">
-                <a href="${pageContext.request.contextPath}/avancesProyecto?idProyecto=${proyecto.idProyecto}" class="glow-btn">
+                <a href="${pageContext.request.contextPath}/projectAdvances?idProyecto=${proyecto.idProyecto}" class="glow-btn">
                     Ver Avances
                 </a>
-                <!-- Botón Donar: solo usuarios logueados, no admin, no creador -->
                 <c:if test="${not empty sessionScope.usuario 
                               and sessionScope.usuario.telefono != null 
                               and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
@@ -69,24 +66,20 @@
                         Donar a este Proyecto
                     </a>
                 </c:if>
-                <!-- Usuario no logueado -->
                 <c:if test="${empty sessionScope.usuario}">
                     <a href="${pageContext.request.contextPath}/login" class="glow-btn-inverse">Donar a este Proyecto</a>
                 </c:if>
             </div>
 
-            <!-- Sección de comentarios -->
             <section id="comments" class="comments-section">
                 <h2>Comentarios</h2>
 
-                <!-- Mensaje si el usuario es el dueño del proyecto -->
                 <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario eq proyecto.idCreador}">
                     <p class="owner-note" style="text-align:center; font-style:italic; color:#444; margin-bottom:15px;">
                         Estos son los comentarios de tu proyecto
                     </p>
                 </c:if>
 
-                <!-- Formulario para comentar (solo no dueños) -->
                 <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
                     <c:choose>
                         <c:when test="${sessionScope.usuario.telefono != null and haDonado}">
@@ -101,7 +94,7 @@
                                 </form>
                             </div>
                         </c:when>
-                        <c:when test="${not haDonado}">
+                        <c:when test="${not haDonado and sessionScope.usuario.telefono != null }">
                             <p class="comment-login-prompt" style="text-align:center; color:#a00; font-style:italic;">
                                 ⚠️ Solo quienes han donado a este proyecto pueden comentar.
                             </p>
@@ -109,7 +102,6 @@
                     </c:choose>
                 </c:if>
 
-                <!-- Listado de comentarios -->
                 <div class="comments-list">
                     <c:if test="${empty comentarios}">
                         <p style="text-align:center;">Aún no hay comentarios. ¡Sé el primero en dejar uno!</p>
@@ -121,7 +113,6 @@
                             <p>${comentario.descripcion}</p>
                             <span class="fecha">${comentario.fechaFormateada}</span>
 
-                            <!-- Botón de deshabilitar solo para admin -->
                             <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.telefono == null}">
                                 <form action="${pageContext.request.contextPath}/disableComment" method="post" style="display:inline;">
                                     <input type="hidden" name="idComentario" value="${comentario.idComentario}" />
