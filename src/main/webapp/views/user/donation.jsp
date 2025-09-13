@@ -19,7 +19,7 @@
             <h1>Hacer una Donación</h1>
             <p>Estás a un paso de apoyar este proyecto.</p>
 
-            <form action="${pageContext.request.contextPath}/DonationServlet" method="post" class="donation-form">
+			<form action="${pageContext.request.contextPath}/create-checkout-session" method="post" class="donation-form">
                 
                 <input type="hidden" name="idProyecto" value="${param.idProyecto}">
 

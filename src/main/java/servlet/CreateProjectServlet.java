@@ -79,6 +79,17 @@ public class CreateProjectServlet extends HttpServlet {
         int idPais = Integer.parseInt(request.getParameter("pais"));
 
         Part filePart = request.getPart("foto");
+
+
+        if (filePart == null || filePart.getSize() == 0) {
+            // Guardamos el mensaje de error en la sesión
+            session.setAttribute("errorMessage", "❌ Debes seleccionar una imagen para el proyecto.");
+            // Redirigimos de vuelta al formulario
+            response.sendRedirect(request.getContextPath() + "/createProject");
+            return;
+        }
+
+
         String fileName = null;
 
         if (filePart != null && filePart.getSize() > 0) {

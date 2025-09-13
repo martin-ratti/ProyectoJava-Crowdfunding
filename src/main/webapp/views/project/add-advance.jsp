@@ -10,12 +10,14 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/simbolo-dinero.png">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/globals.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/messages.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/glow-buttons.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/project/styles/create-project.css">
 </head>
 <body>
     <jsp:include page="/views/fragments/header.jspf" />
+	<jsp:include page="/views/fragments/messages.jspf" />
 
     <main class="main-container">
         <div class="form-container">
@@ -31,14 +33,19 @@
 
                 <div class="form-group">
                     <label for="descripcion">Descripción del Avance</label>
-                    <textarea id="descripcion" name="descripcion" rows="5"
-                              placeholder="Describe qué has logrado, muestra los resultados o cuenta los próximos pasos..."
-                              required></textarea>
+	                <textarea id="descripcion" name="descripcion" rows="5"
+					    placeholder="Describe qué has logrado, muestra los resultados o cuenta los próximos pasos..."
+					    required>${sessionScope.descripcionTemp}</textarea>
+					<%
+					    session.removeAttribute("descripcionTemp");
+					%>
                 </div>
+
+                
 
                 <div class="form-group file-input">
                     <label for="foto" class="file-input-button">Selecciona una imagen para el avance</label>
-                    <input type="file" id="foto" name="foto" accept="image/*" required>
+                    <input type="file" id="foto" name="foto" accept="image/*">
                 </div>
 
                 <div class="form-buttons">

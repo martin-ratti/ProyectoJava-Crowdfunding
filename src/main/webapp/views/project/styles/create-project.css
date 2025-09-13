@@ -123,3 +123,20 @@ textarea {
     margin-top: 2rem;
 }
 
+.error-message {
+    display: block;
+    margin-top: 8px;
+    padding: 0.6rem 1rem;
+    background-color: #f8d7da;   
+    color: #721c24;            
+    border: 1px solid #f5c6cb; 
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+

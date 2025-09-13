@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/project/styles/create-project.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/globals.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/messages.css">
+    
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/footer.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/glow-buttons.css">
     
@@ -24,6 +26,9 @@
         <div class="form-container">
             <h2>Lanza tu Proyecto</h2>
             <p>Completa los siguientes campos para dar de alta tu campaña de crowdfunding.</p>
+            
+            <jsp:include page="/views/fragments/messages.jspf" />
+            
             
             <% 
                 Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -79,8 +84,10 @@
 			
 				<div class="form-group file-input">
 				    <label for="foto" class="file-input-button">Selecciona una imagen para tu proyecto</label>
-				    <input type="file" id="foto" name="foto" accept="image/*" required>
+				    <input type="file" id="foto" name="foto" accept="image/*">
+				
 				</div>
+
 			
 			    <button type="submit" class="btn-submit">Crear Proyecto</button>
 			</form>

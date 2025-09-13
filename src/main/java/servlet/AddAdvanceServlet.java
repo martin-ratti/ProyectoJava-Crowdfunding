@@ -12,12 +12,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 import modelo.Avance_Proyecto;
 import repositorio.Avance_ProyectoDAO;
 import utils.Config;
-
 @WebServlet("/addAdvance")
 @MultipartConfig
 public class AddAdvanceServlet extends HttpServlet {
@@ -33,6 +33,7 @@ public class AddAdvanceServlet extends HttpServlet {
             return;
         }
 
+        // Mostrar valores temporales si hay
         request.setAttribute("idProyecto", idProyectoParam);
         request.getRequestDispatcher("/views/project/add-advance.jsp").forward(request, response);
     }
@@ -41,28 +42,37 @@ public class AddAdvanceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+
         int idProyecto = Integer.parseInt(request.getParameter("idProyecto"));
         String descripcion = request.getParameter("descripcion");
-
         Part filePart = request.getPart("foto");
-        String fileName = null;
 
-        if (filePart != null && filePart.getSize() > 0) {
-            String originalFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            String extension = "";
-            int dotIndex = originalFileName.lastIndexOf(".");
-            if (dotIndex >= 0) {
-                extension = originalFileName.substring(dotIndex);
-            }
-            fileName = UUID.randomUUID().toString() + extension;
-
-            String uploadPath = Config.get("upload.dir");
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) uploadDir.mkdirs();
-
-            filePart.write(new File(uploadDir, fileName).getAbsolutePath());
+        // Validar que la imagen esté cargada
+        if (filePart == null || filePart.getSize() == 0) {
+            session.setAttribute("errorMessage", "❌ Debes seleccionar una imagen para el avance.");
+            session.setAttribute("descripcionTemp", descripcion);
+            response.sendRedirect(request.getContextPath() + "/addAdvance?idProyecto=" + idProyecto);
+            return;
         }
 
+        // Procesamiento normal si la imagen está
+        String fileName = null;
+        String originalFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String extension = "";
+        int dotIndex = originalFileName.lastIndexOf(".");
+        if (dotIndex >= 0) {
+            extension = originalFileName.substring(dotIndex);
+        }
+        fileName = UUID.randomUUID().toString() + extension;
+
+        String uploadPath = Config.get("upload.dir");
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) uploadDir.mkdirs();
+
+        filePart.write(new File(uploadDir, fileName).getAbsolutePath());
+
+        // Crear avance
         Avance_Proyecto avance = new Avance_Proyecto();
         avance.setIdProyecto(idProyecto);
         avance.setDescripcion(descripcion);
@@ -72,6 +82,8 @@ public class AddAdvanceServlet extends HttpServlet {
         Avance_ProyectoDAO avanceDAO = new Avance_ProyectoDAO();
         avanceDAO.insertar(avance);
 
-        response.sendRedirect("projectDetails?idProyecto=" + idProyecto);
+        session.setAttribute("successMessage", "✅ Avance agregado correctamente.");
+        response.sendRedirect(request.getContextPath() + "/projectDetails?idProyecto=" + idProyecto);
     }
 }
+
