@@ -8,6 +8,8 @@
 /bin/
 
 database.properties
+config.properties
+
 
 *.class
 *.jar
