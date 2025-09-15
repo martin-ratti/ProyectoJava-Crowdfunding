@@ -1,6 +1,7 @@
 package servlet;
 
 import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.servlet.ServletException;
@@ -10,9 +11,11 @@ import utils.Config;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @WebServlet("/create-checkout-session")
 public class CreateCheckoutSessionServlet extends HttpServlet {
+
     @Override
     public void init() throws ServletException {
         Stripe.apiKey = Config.get("stripe.secret.key");
@@ -28,19 +31,45 @@ public class CreateCheckoutSessionServlet extends HttpServlet {
             return;
         }
 
-        int idProyecto = Integer.parseInt(request.getParameter("idProyecto"));
-        BigDecimal monto = new BigDecimal(request.getParameter("monto"));
+        // Validar parámetros obligatorios
+        String strMonto = request.getParameter("monto");
+        String strIdProyecto = request.getParameter("idProyecto");
         String comentario = request.getParameter("comentario");
+
+        if (strMonto == null || strIdProyecto == null || strMonto.isEmpty() || strIdProyecto.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Faltan parámetros obligatorios");
+            return;
+        }
+
+        BigDecimal monto;
+        int idProyecto;
+
+        try {
+            monto = new BigDecimal(strMonto);
+            idProyecto = Integer.parseInt(strIdProyecto);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parámetros inválidos");
+            return;
+        }
+
+        // Evitar reintentos duplicados
+        String currentAttemptId = UUID.randomUUID().toString();
+        session.setAttribute("paymentAttemptId", currentAttemptId);
 
         // Guardar temporalmente en sesión
         session.setAttribute("pendingMonto", monto);
-        session.setAttribute("pendingComentario", comentario);
+        session.setAttribute("pendingComentario", comentario != null ? comentario : ""); // Valor por defecto vacío
         session.setAttribute("pendingIdProyecto", idProyecto);
+
+        // Construir URLs absolutas
+        String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
+        String successUrl = baseUrl + "/donation-success";
+        String cancelUrl = baseUrl + "/donation-cancel";
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl(request.getRequestURL().toString().replace("/create-checkout-session", "/donation-success"))
-                .setCancelUrl(request.getRequestURL().toString().replace("/create-checkout-session", "/donation-cancel"))
+                .setSuccessUrl(successUrl)
+                .setCancelUrl(cancelUrl)
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
@@ -62,10 +91,11 @@ public class CreateCheckoutSessionServlet extends HttpServlet {
 
         try {
             Session stripeSession = Session.create(params);
+            System.out.println("Stripe Session creada: " + stripeSession.getId());
             response.sendRedirect(stripeSession.getUrl());
-        } catch (com.stripe.exception.StripeException e) {
-            e.printStackTrace(); // o loguealo
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al crear sesión de pago");
+        } catch (StripeException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al crear sesión de pago: " + e.getMessage());
         }
     }
 }
