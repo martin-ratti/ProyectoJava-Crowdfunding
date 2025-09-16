@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @WebServlet("/create-checkout-session")
 public class CreateCheckoutSessionServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void init() throws ServletException {
@@ -56,6 +57,14 @@ public class CreateCheckoutSessionServlet extends HttpServlet {
         BigDecimal maxAmount = new BigDecimal("999999.99");
         if (monto.compareTo(maxAmount) > 0) {
             session.setAttribute("errorMessage", "El monto de la donación no puede superar los $999,999.99.");
+            response.sendRedirect(request.getContextPath() + "/views/user/donation.jsp?idProyecto=" + idProyecto);
+            return;
+        }
+
+        // Validación de monto mínimo
+        BigDecimal minAmount = new BigDecimal("1000.00");
+        if (monto.compareTo(minAmount) < 0) {
+            session.setAttribute("errorMessage", "El monto mínimo para donar es de $1000.00 ARS.");
             response.sendRedirect(request.getContextPath() + "/views/user/donation.jsp?idProyecto=" + idProyecto);
             return;
         }

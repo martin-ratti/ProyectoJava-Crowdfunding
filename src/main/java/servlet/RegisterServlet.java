@@ -45,10 +45,12 @@ public class RegisterServlet extends HttpServlet {
             nuevoUsuario.setFechaNacimiento(fechaNacimiento);
 
             UsuarioDAO usuarioDAO = new UsuarioDAO();
-            usuarioDAO.insertar(nuevoUsuario);
+            // La función insertar ahora devuelve el usuario con el ID asignado
+            Usuario usuarioRegistrado = usuarioDAO.insertar(nuevoUsuario);
 
             HttpSession session = request.getSession(true);
-            session.setAttribute("usuario", nuevoUsuario);
+            // Guardamos en la sesión el objeto que ya tiene el ID
+            session.setAttribute("usuario", usuarioRegistrado);
             session.setAttribute("successMessage", "¡Registro exitoso! Bienvenido, " + nombre);
             response.sendRedirect(request.getContextPath() + "/home");
 

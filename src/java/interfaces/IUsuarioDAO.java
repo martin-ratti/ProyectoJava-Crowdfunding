@@ -9,9 +9,10 @@ public interface IUsuarioDAO {
     
     public Usuario obtenerPorId(int id);
     
-    public void insertar(Usuario usuario);
+    public Usuario insertar(Usuario usuario);
     
     public void actualizar(Usuario usuario);
     
     public void eliminar(int id);
 }
+

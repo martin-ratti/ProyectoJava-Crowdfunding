@@ -15,6 +15,7 @@ import modelo.Usuario;
 
 @WebFilter("/*")
 public class AuthFilter implements Filter {
+    @SuppressWarnings("unused")
     private static final long serialVersionUID = 1L;
 
     private static final String[] adminOnlyPaths = {
@@ -109,4 +110,3 @@ public class AuthFilter implements Filter {
     @Override
     public void destroy() {}
 }
-

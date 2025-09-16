@@ -32,10 +32,10 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-    public void insertar(Usuario usuario) {
+    public Usuario insertar(Usuario usuario) {
         String sql = "INSERT INTO usuario (email, password, nombre, apellido, telefono, fechaNacimiento) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, usuario.getEmail());
             ps.setString(2, usuario.getPassword());
             ps.setString(3, usuario.getNombre());
@@ -47,9 +47,17 @@ public class UsuarioDAO implements IUsuarioDAO {
                 ps.setDate(6, null);
             }
             ps.executeUpdate();
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    usuario.setIdUsuario(generatedKeys.getInt(1));
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return usuario;
     }
 
     @Override
@@ -150,5 +158,5 @@ public class UsuarioDAO implements IUsuarioDAO {
         }
         return usuario;
     }
-
 }
+
