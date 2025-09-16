@@ -46,16 +46,20 @@ public class ProjectDetailsServlet extends HttpServlet {
             ComentarioDAO comentarioDAO = new ComentarioDAO();
             List<Comentario> comentarios = comentarioDAO.obtenerPorIdProyecto(idProyecto);
             request.setAttribute("comentarios", comentarios);
+            
+            DonacionDAO donacionDAO = new DonacionDAO();
+
+            // Obtener la donación más alta
+            Donacion donacionMasAlta = donacionDAO.obtenerDonacionMasAlta(idProyecto);
+            request.setAttribute("donacionMasAlta", donacionMasAlta);
 
             HttpSession session = request.getSession(false);
             Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
 
             if (usuario != null) {
-                DonacionDAO donacionDAO = new DonacionDAO();
                 boolean haDonado = donacionDAO.haDonado(usuario.getIdUsuario(), idProyecto);
                 request.setAttribute("haDonado", haDonado);
 
-                // Obtener las donaciones del usuario para este proyecto específico
                 List<Donacion> misDonacionesProyecto = donacionDAO.obtenerDonacionesPorUsuarioYProyecto(usuario.getIdUsuario(), idProyecto);
                 request.setAttribute("misDonacionesProyecto", misDonacionesProyecto);
 

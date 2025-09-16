@@ -20,17 +20,88 @@ body {
     padding: 40px 20px;
 }
 
+/* Nuevo layout para detalles y sidebar */
+.details-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+@media (min-width: 992px) {
+    .details-layout {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
 .project-card {
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     padding: 30px;
     text-align: left;
-    max-width: 800px;
-    width: 100%;
     border: 1px solid #e0e6e9;
     box-sizing: border-box;
+    flex: 3; /* Ocupa más espacio */
+    min-width: 0; /* Solución para el desbordamiento del carrusel */
 }
+
+.sidebar {
+    flex: 1; /* Ocupa menos espacio */
+    position: sticky;
+    top: 100px; /* Alineado debajo del header */
+}
+
+.top-donor-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #e0e6e9;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border-top: 5px solid var(--primary-green);
+}
+
+.top-donor-card h3 {
+    font-size: 1.5rem;
+    color: var(--dark-green);
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.donor-info {
+    margin-bottom: 20px;
+}
+
+.donor-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.top-donor-card .donation-amount {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin: 10px 0 0 0;
+}
+
+.donor-comment {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #555;
+    background-color: #f7f9f9;
+    padding: 12px;
+    border-left: 3px solid var(--primary-green);
+    border-radius: 0 8px 8px 0;
+    margin-top: 15px;
+}
+
+
+/* --- Estilos Anteriores --- */
 
 .project-card h1 {
     font-size: 2.8rem;
@@ -174,7 +245,6 @@ body {
     margin: 0;
 }
 
-/* Estilos para la nueva sección de donaciones del usuario */
 .user-donations-section {
     margin-top: 40px;
     padding-top: 30px;
@@ -185,7 +255,7 @@ body {
     text-align: center;
     font-size: 2rem;
     color: #333;
-    margin-bottom: 40px; /* Aumentado para dar espacio al subrayado */
+    margin-bottom: 40px;
     position: relative;
     padding-bottom: 15px;
 }
@@ -203,7 +273,6 @@ body {
     transform: translateX(-50%);
 }
 
-
 .user-donations-section .donations-grid {
     display: flex;
     overflow-x: auto;
@@ -215,7 +284,6 @@ body {
     scrollbar-color: #ccc #f1f1f1;
     -webkit-overflow-scrolling: touch; 
 }
-
 
 .user-donations-section .donations-grid::-webkit-scrollbar {
     height: 8px;

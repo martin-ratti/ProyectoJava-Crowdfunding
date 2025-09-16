@@ -11,6 +11,7 @@ public class Donacion {
     private int idDonante;
     private int idProyecto;
     private String nombreProyecto;
+    private String nombreDonante; // Campo nuevo
 
     public int getIdDonacion() {
         return idDonacion;
@@ -66,5 +67,13 @@ public class Donacion {
 
     public void setNombreProyecto(String nombreProyecto) {
         this.nombreProyecto = nombreProyecto;
+    }
+
+    public String getNombreDonante() {
+        return nombreDonante;
+    }
+
+    public void setNombreDonante(String nombreDonante) {
+        this.nombreDonante = nombreDonante;
     }
 }

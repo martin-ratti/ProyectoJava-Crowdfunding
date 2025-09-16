@@ -119,6 +119,34 @@ public class DonacionDAO implements IDonacionDAO {
 
         return resultado;
     }
+    
+    public Donacion obtenerDonacionMasAlta(int idProyecto) {
+        Donacion donacion = null;
+        String sql = "SELECT d.*, u.nombre, u.apellido FROM donacion d " +
+                     "JOIN usuario u ON d.idDonante = u.idUsuario " +
+                     "WHERE d.idProyecto = ? ORDER BY d.monto DESC LIMIT 1";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setInt(1, idProyecto);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    donacion = new Donacion();
+                    donacion.setIdDonacion(rs.getInt("idDonacion"));
+                    donacion.setMonto(rs.getBigDecimal("monto"));
+                    donacion.setComentario(rs.getString("comentario"));
+                    donacion.setFecha(rs.getDate("fecha").toLocalDate());
+                    donacion.setIdDonante(rs.getInt("idDonante"));
+                    donacion.setIdProyecto(rs.getInt("idProyecto"));
+                    donacion.setNombreDonante(rs.getString("nombre") + " " + rs.getString("apellido"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return donacion;
+    }
 
     @Override
     public List<Donacion> obtenerTodos() {
@@ -226,6 +254,4 @@ public class DonacionDAO implements IDonacionDAO {
         }
         return donaciones;
     }
-    
-
 }
