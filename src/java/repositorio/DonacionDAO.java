@@ -195,7 +195,37 @@ public class DonacionDAO implements IDonacionDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<Donacion> obtenerDonacionesPorUsuarioYProyecto(int idDonante, int idProyecto) {
+        List<Donacion> donaciones = new ArrayList<>();
+        String sql = "SELECT d.*, p.nombreProyecto FROM donacion d " +
+                     "JOIN proyecto p ON d.idProyecto = p.idProyecto " +
+                     "WHERE d.idDonante = ? AND d.idProyecto = ? ORDER BY d.fecha DESC";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idDonante);
+            ps.setInt(2, idProyecto);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Donacion donacion = new Donacion();
+                    donacion.setIdDonacion(rs.getInt("idDonacion"));
+                    donacion.setMonto(rs.getBigDecimal("monto"));
+                    donacion.setComentario(rs.getString("comentario"));
+                    donacion.setFecha(rs.getDate("fecha").toLocalDate());
+                    donacion.setIdDonante(rs.getInt("idDonante"));
+                    donacion.setIdProyecto(rs.getInt("idProyecto"));
+                    donacion.setNombreProyecto(rs.getString("nombreProyecto")); 
+                    donaciones.add(donacion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return donaciones;
+    }
     
 
 }
-

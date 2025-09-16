@@ -11,6 +11,7 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/simbolo-dinero.png">
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/project/styles/project-details.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/styles/my-donations.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/globals.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/footer.css">
@@ -129,8 +130,36 @@
                     </c:forEach>
                 </div>
             </section>
+            
+            <!-- SECCIÓN DE DONACIONES DEL USUARIO LOGUEADO -->
+            <c:if test="${not empty misDonacionesProyecto}">
+                <section id="user-donations" class="user-donations-section">
+                    <h2>Tus Donaciones a este Proyecto</h2>
+                    <div class="donations-grid">
+                        <c:forEach var="donacion" items="${misDonacionesProyecto}">
+                            <div class="donation-card">
+                                <p class="donation-amount">
+                                    <fmt:setLocale value="es_AR" />
+                                    <fmt:formatNumber value="${donacion.monto}" type="currency" currencySymbol="$ " />
+                                </p>
+    
+                                <c:if test="${not empty donacion.comentario}">
+                                    <p class="donation-comment">"${donacion.comentario}"</p>
+                                </c:if>
+    
+                                <div class="donation-details">
+                                    <span>ID Donación: #${donacion.idDonacion}</span>
+                                    <span>${donacion.fecha}</span>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </section>
+            </c:if>
+
         </div>
     </main>
     <jsp:include page="/views/fragments/footer.jspf" />
 </body>
 </html>
+

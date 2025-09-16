@@ -174,3 +174,69 @@ body {
     margin: 0;
 }
 
+/* Estilos para la nueva sección de donaciones del usuario */
+.user-donations-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.user-donations-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 40px; /* Aumentado para dar espacio al subrayado */
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.user-donations-section h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-green);
+    border-radius: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+.user-donations-section .donations-grid {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    margin: 0 -30px; 
+    padding-left: 30px; 
+    padding-right: 10px; 
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f1f1f1;
+    -webkit-overflow-scrolling: touch; 
+}
+
+
+.user-donations-section .donations-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.user-donations-section .donations-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.user-donations-section .donations-grid::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.user-donations-section .donations-grid::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+.user-donations-section .donations-grid .donation-card {
+    flex: 0 0 320px; 
+    margin-right: 20px; 
+}
+

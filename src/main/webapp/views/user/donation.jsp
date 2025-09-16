@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/glow-buttons.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/styles/donation.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/messages.css">
 </head>
 <body>
     <jsp:include page="/views/fragments/header.jspf"/>
@@ -18,6 +19,8 @@
         <div class="donation-card">
             <h1>Hacer una Donación</h1>
             <p>Estás a un paso de apoyar este proyecto.</p>
+
+            <jsp:include page="/views/fragments/messages.jspf" />
 
 			<form action="${pageContext.request.contextPath}/create-checkout-session" method="post" class="donation-form">
                 

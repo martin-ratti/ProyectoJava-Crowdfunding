@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import modelo.Comentario;
+import modelo.Donacion;
 import modelo.Proyecto;
 import modelo.Usuario;
 import repositorio.ComentarioDAO;
@@ -53,6 +54,11 @@ public class ProjectDetailsServlet extends HttpServlet {
                 DonacionDAO donacionDAO = new DonacionDAO();
                 boolean haDonado = donacionDAO.haDonado(usuario.getIdUsuario(), idProyecto);
                 request.setAttribute("haDonado", haDonado);
+
+                // Obtener las donaciones del usuario para este proyecto específico
+                List<Donacion> misDonacionesProyecto = donacionDAO.obtenerDonacionesPorUsuarioYProyecto(usuario.getIdUsuario(), idProyecto);
+                request.setAttribute("misDonacionesProyecto", misDonacionesProyecto);
+
             } else {
                 request.setAttribute("haDonado", false);
             }

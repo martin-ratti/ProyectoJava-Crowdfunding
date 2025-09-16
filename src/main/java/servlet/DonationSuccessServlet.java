@@ -60,6 +60,7 @@ public class DonationSuccessServlet extends HttpServlet {
         session.removeAttribute("pendingComentario");
         session.removeAttribute("pendingIdProyecto");
 
-        response.sendRedirect(request.getContextPath() + "/my-donations");
+        session.setAttribute("successMessage", "¡Gracias por tu donación!");
+        response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto + "#user-donations");
     }
 }

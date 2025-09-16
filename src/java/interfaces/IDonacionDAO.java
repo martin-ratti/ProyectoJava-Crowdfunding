@@ -18,4 +18,6 @@ public interface IDonacionDAO {
     List<Donacion> obtenerPorIdDonante(int idDonante);
 
     boolean haDonado(int idUsuario, int idProyecto);
+    
+    List<Donacion> obtenerDonacionesPorUsuarioYProyecto(int idDonante, int idProyecto);
 }
