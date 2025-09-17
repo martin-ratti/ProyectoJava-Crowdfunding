@@ -53,15 +53,12 @@
 					        </c:when>
 					
 					        <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne p.idCreador}">
-					            <!-- Botón Donar -->
 					            <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${p.idProyecto}" 
 					               class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
 					
-					            <!-- 🔥 Nuevo botón Ver Avances -->
 					            <a href="${pageContext.request.contextPath}/projectAdvances?idProyecto=${p.idProyecto}" 
 					               class="little-glow-btn" onclick="event.stopPropagation();">Ver Avances</a>
 					
-					            <!-- Botón Comentar -->
 					            <c:if test="${donacionesMap[p.idProyecto]}">
 					                <a href="${pageContext.request.contextPath}/projectDetails?id=${p.idProyecto}#comments" 
 					                   class="little-glow-btn" onclick="event.stopPropagation();">Comentar</a>
@@ -75,7 +72,6 @@
 					            <a href="${pageContext.request.contextPath}/login" 
 					               class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
 					
-					            <!-- 🔥 También permitir ver avances aun sin login -->
 					            <a href="${pageContext.request.contextPath}/avancesProyecto?idProyecto=${p.idProyecto}" 
 					               class="little-glow-btn" onclick="event.stopPropagation();">Ver Avances</a>
 					        </c:otherwise>
