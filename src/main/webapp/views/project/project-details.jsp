@@ -161,7 +161,7 @@
             <aside class="sidebar">
                 <c:if test="${not empty donacionMasAlta}">
                     <div class="top-donor-card">
-                        <h3>🏆 Mayor Donante</h3>
+                        <h3>🏆 Mayor Donación</h3>
                         <div class="donor-info">
                             <p class="donor-name">${donacionMasAlta.nombreDonante}</p>
                             <p class="donation-amount">
