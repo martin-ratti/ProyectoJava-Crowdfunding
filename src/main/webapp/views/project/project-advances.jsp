@@ -43,7 +43,7 @@
                         <div class="carousel">
                             <c:forEach var="avance" items="${historialAvances}">
                                 <div class="advance-card">
-                                    <img src="${pageContext.request.contextPath}/${avance.foto}" alt="Foto del avance">
+                                    <img src="${pageContext.request.contextPath}/uploads/${avance.foto}" alt="Foto del avance">
                                     <div class="advance-info">
                                         <p class="advance-date">${avance.fecha}</p>
                                         <p>${avance.descripcion}</p>

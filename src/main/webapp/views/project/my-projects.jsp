@@ -57,7 +57,8 @@
                                     </c:when>
                                     <c:when test="${p.estado eq 'Activo'}">
                                         <a href="${pageContext.request.contextPath}/addAdvance?idProyecto=${p.idProyecto}" class="little-glow-btn-inverse">Añadir Avance</a>
-                                        <a href="${pageContext.request.contextPath}/avancesProyecto?idProyecto=${p.idProyecto}" class="little-glow-btn">Ver Avances</a>
+                                        <%-- CORRECCIÓN: Se cambió "avancesProyecto" a "projectAdvances" para que coincida con el servlet --%>
+                                        <a href="${pageContext.request.contextPath}/projectAdvances?idProyecto=${p.idProyecto}" class="little-glow-btn">Ver Avances</a>
                                     </c:when>
                                     <c:otherwise>
                                         <a href="${pageContext.request.contextPath}/editProject?idProyecto=${p.idProyecto}" class="little-glow-btn-inverse">Editar</a>                     
@@ -75,4 +76,3 @@
     <jsp:include page="/views/fragments/footer.jspf"/>
 </body>
 </html>
-

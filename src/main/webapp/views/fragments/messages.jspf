@@ -26,12 +26,12 @@
         alerts.forEach(function(alert) {
             // Inicia el temporizador para el fundido de salida
             setTimeout(function() {
-                alert.style.opacity = '0'; // Activa la transición CSS
+                alert.style.opacity = '0';
 
                 // Espera a que termine la transición para ocultar el elemento por completo
                 setTimeout(function() {
                     alert.style.display = 'none';
-                }, 500); // Debe coincidir con la duración de la transición en el CSS
+                }, 500); 
             }, 5000); // El mensaje es visible durante 5 segundos
         });
     });
