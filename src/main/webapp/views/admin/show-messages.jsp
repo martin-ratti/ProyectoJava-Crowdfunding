@@ -16,7 +16,7 @@
 </head>
 <body>
     <main class="messages-container">
-        <h1>Mensajes recibidos</h1>
+        <h1 class="title-underline">Mensajes recibidos</h1>
 
         <c:choose>
             <c:when test="${empty mensajes}">
@@ -51,4 +51,3 @@
     <%@ include file="/views/fragments/footer.jspf" %>
 </body>
 </html>
-

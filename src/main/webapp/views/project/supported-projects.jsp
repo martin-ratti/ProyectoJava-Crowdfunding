@@ -21,7 +21,7 @@
     <%@ include file="/views/fragments/messages.jspf" %>
 
     <main class="projects-container">
-        <h1>Proyectos que Apoyaste</h1>
+        <h1 class="title-underline">Proyectos que Apoyaste</h1>
 
         <c:if test="${empty proyectosApoyados}">
             <p class="no-projects">

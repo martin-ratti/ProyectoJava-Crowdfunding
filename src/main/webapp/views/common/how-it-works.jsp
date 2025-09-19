@@ -19,7 +19,7 @@
 </head>
 <body>
     <main class="howitworks-container">
-        <h1 class="howitworks-title">Cómo funciona ImpulsaMe</h1>
+        <h1 class="howitworks-title title-underline">Cómo funciona ImpulsaMe</h1>
 
         <div class="howitworks-grid">
 

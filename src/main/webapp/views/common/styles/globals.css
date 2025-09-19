@@ -6,3 +6,23 @@
     --background-gray: #F2F2F2;
     --danger-red: #e74c3c; 
 }
+
+.title-underline {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.title-underline::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-green);
+    border-radius: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}

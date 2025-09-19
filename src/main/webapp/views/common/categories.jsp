@@ -19,7 +19,7 @@
 </head>
 <body>
     <main class="categories-container">
-        <h1 class="categories-title">Explora nuestras categorías</h1>
+        <h1 class="categories-title title-underline">Explora nuestras categorías</h1>
 
         <div class="categories-grid">
             <div class="category-card">

@@ -17,7 +17,7 @@
 
     <main class="donation-container">
         <div class="donation-card">
-            <h1>Hacer una Donación</h1>
+            <h1 class="title-underline">Hacer una Donación</h1>
             <p>Estás a un paso de apoyar este proyecto.</p>
 
             <jsp:include page="/views/fragments/messages.jspf" />

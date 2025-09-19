@@ -25,7 +25,6 @@ public class AuthFilter implements Filter {
 
     private static final String[] userOnlyPaths = {
         "/myProjects",
-        "/my-donations",
         "/createProject",
         "/editProject",
         "/addAdvance",

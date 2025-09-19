@@ -19,7 +19,7 @@
 </head>
 <body>
     <main class="contact-container">
-        <h1 class="contact-title">Contáctanos</h1>
+        <h1 class="contact-title title-underline">Contáctanos</h1>
         <p class="contact-intro">Si tienes preguntas, comentarios o sugerencias, completa el siguiente formulario y nos pondremos en contacto contigo lo antes posible.</p>
 
         <c:if test="${not empty successMessage}">
