@@ -172,15 +172,15 @@ public class ProyectoDAO implements IProyectoDAO {
 
     @Override
     public List<Proyecto> obtenerActivos() throws SQLException {
-        return buscarProyectos(null, null);
+        return buscarProyectos(null, null, null);
     }
 
     @Override
     public List<Proyecto> buscarProyectos(String query) throws SQLException {
-        return buscarProyectos(query, null);
+        return buscarProyectos(query, null, null);
     }
 
-    public List<Proyecto> buscarProyectos(String query, Integer idCategoria) throws SQLException {
+    public List<Proyecto> buscarProyectos(String query, Integer idCategoria, Integer idPais) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
             "SELECT p.*, c.nombreCategoria, pa.nombrePais " +
@@ -196,6 +196,9 @@ public class ProyectoDAO implements IProyectoDAO {
         if (idCategoria != null && idCategoria > 0) {
             sql.append(" AND p.idCategoria = ?");
         }
+        if (idPais != null && idPais > 0) {
+            sql.append(" AND p.idPais = ?");
+        }
 
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql.toString())) {
@@ -206,7 +209,10 @@ public class ProyectoDAO implements IProyectoDAO {
                 ps.setString(paramIndex++, "%" + query + "%");
             }
             if (idCategoria != null && idCategoria > 0) {
-                ps.setInt(paramIndex, idCategoria);
+                ps.setInt(paramIndex++, idCategoria);
+            }
+            if (idPais != null && idPais > 0) {
+                ps.setInt(paramIndex, idPais);
             }
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -372,6 +378,24 @@ public class ProyectoDAO implements IProyectoDAO {
         return lista;
     }
 
-
-
+    public List<Pais> obtenerPaisesConProyectosActivos() throws SQLException {
+        List<Pais> lista = new ArrayList<>();
+        String sql = "SELECT DISTINCT pa.idPais, pa.nombrePais " +
+                     "FROM pais pa " +
+                     "JOIN proyecto p ON pa.idPais = p.idPais " +
+                     "WHERE p.estado = 'Activo' ORDER BY pa.nombrePais";
+        try (Connection con = Conexion.getConexion();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                Pais pais = new Pais();
+                pais.setIdPais(rs.getInt("idPais"));
+                pais.setNombrePais(rs.getString("nombrePais"));
+                lista.add(pais);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error al obtener países con proyectos activos.", e);
+        }
+        return lista;
+    }
 }

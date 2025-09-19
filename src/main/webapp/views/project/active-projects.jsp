@@ -23,13 +23,30 @@
     <main class="projects-container">
         <h1>Proyectos Activos</h1>
 
-        <div class="category-filters">
+        <div class="filter-controls">
+            <span>Filtrar por:</span>
+            <button id="btn-filter-category" class="filter-toggle-btn ${empty selectedPaisId ? 'active' : ''}">Categoría</button>
+            <button id="btn-filter-country" class="filter-toggle-btn ${not empty selectedPaisId ? 'active' : ''}">País</button>
+        </div>
+
+        <div id="category-filters-container" class="category-filters" style="${not empty selectedPaisId ? 'display: none;' : ''}">
             <a href="${pageContext.request.contextPath}/activeProjects" 
-               class="filter-btn ${empty selectedCategoryId ? 'active' : ''}">Todas</a>
+               class="filter-btn ${empty selectedCategoryId and empty selectedPaisId ? 'active' : ''}">Todas</a>
             <c:forEach var="cat" items="${categories}">
                 <a href="${pageContext.request.contextPath}/activeProjects?idCategoria=${cat.idCategoria}" 
                    class="filter-btn ${selectedCategoryId == cat.idCategoria ? 'active' : ''}">
                    ${cat.nombreCategoria}
+                </a>
+            </c:forEach>
+        </div>
+
+        <div id="country-filters-container" class="category-filters" style="${empty selectedPaisId ? 'display: none;' : 'display: flex;'}">
+             <a href="${pageContext.request.contextPath}/activeProjects" 
+               class="filter-btn ${empty selectedCategoryId and empty selectedPaisId ? 'active' : ''}">Todos</a>
+            <c:forEach var="pais" items="${paises}">
+                <a href="${pageContext.request.contextPath}/activeProjects?idPais=${pais.idPais}" 
+                   class="filter-btn ${selectedPaisId == pais.idPais ? 'active' : ''}">
+                   ${pais.nombrePais}
                 </a>
             </c:forEach>
         </div>
@@ -91,6 +108,27 @@
     </main>
 
     <jsp:include page="/views/fragments/footer.jspf"/>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnCategory = document.getElementById('btn-filter-category');
+            const btnCountry = document.getElementById('btn-filter-country');
+            const categoryFilters = document.getElementById('category-filters-container');
+            const countryFilters = document.getElementById('country-filters-container');
+
+            btnCategory.addEventListener('click', function() {
+                categoryFilters.style.display = 'flex';
+                countryFilters.style.display = 'none';
+                btnCategory.classList.add('active');
+                btnCountry.classList.remove('active');
+            });
+
+            btnCountry.addEventListener('click', function() {
+                countryFilters.style.display = 'flex';
+                categoryFilters.style.display = 'none';
+                btnCountry.classList.add('active');
+                btnCategory.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
-

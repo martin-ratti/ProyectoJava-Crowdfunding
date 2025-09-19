@@ -1,6 +1,5 @@
 /* --- Estilos para la página "Mis Proyectos" y "Proyectos Pendientes" --- */
 
-/* Contenedor principal y título */
 .projects-container {
     max-width: 1200px;
     margin: 40px auto;
@@ -40,7 +39,39 @@
     border-radius: 8px;
 }
 
-/* --- ESTILOS PARA FILTROS DE CATEGORÍA --- */
+/* --- ESTILOS PARA FILTROS DE CATEGORÍA Y PAÍS --- */
+.filter-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.filter-controls span {
+    font-weight: bold;
+    color: #333;
+    font-size: 1rem;
+}
+
+.filter-toggle-btn {
+    padding: 8px 18px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.filter-toggle-btn.active {
+    background-color: var(--dark-green);
+    color: white;
+    border-color: var(--dark-green);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
 .category-filters {
     display: flex;
     justify-content: center;
@@ -78,7 +109,7 @@
 }
 
 
-/* Grilla de tarjetas - CORREGIDA CON ENFOQUE MOBILE-FIRST */
+/* Grilla de tarjetas */
 .card-grid {
     display: grid;
     gap: 30px;
@@ -86,14 +117,6 @@
     grid-template-columns: 1fr;
 }
 
-/* Tablets: 2 columnas */
-@media (min-width: 768px) {
-    .card-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Desktops: 3 columnas */
 @media (min-width: 992px) {
     .card-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -111,7 +134,7 @@
     border: 2px solid transparent;
     display: flex;
     flex-direction: column;
-    position: relative; /* Necesario para la etiqueta de categoría */
+    position: relative; 
 }
 
 .project-card:hover {
@@ -209,7 +232,6 @@
     margin-top: auto;
 }
 
-/* AJUSTE PARA PROYECTOS PENDIENTES */
 .pending-actions {
     gap: 8px;
 }
@@ -269,4 +291,3 @@
     background-color: var(--danger-red);
     color: white;
 }
-

@@ -10,10 +10,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import modelo.Categoria;
+import modelo.Pais;
 import modelo.Proyecto;
 import modelo.Usuario;
 import repositorio.CategoriaDAO;
 import repositorio.DonacionDAO;
+import repositorio.PaisDAO;
 import repositorio.ProyectoDAO;
 
 @WebServlet("/activeProjects")
@@ -29,7 +31,9 @@ public class ActiveProjectsServlet extends HttpServlet {
 
             String query = request.getParameter("query");
             String categoriaParam = request.getParameter("idCategoria");
+            String paisParam = request.getParameter("idPais");
             Integer idCategoria = null;
+            Integer idPais = null;
 
             if (categoriaParam != null && !categoriaParam.trim().isEmpty()) {
                 try {
@@ -40,9 +44,20 @@ public class ActiveProjectsServlet extends HttpServlet {
                     return;
                 }
             }
+            
+            if (paisParam != null && !paisParam.trim().isEmpty()) {
+                try {
+                    idPais = Integer.parseInt(paisParam);
+                } catch (NumberFormatException e) {
+                    request.getSession().setAttribute("errorMessage", "País no válido.");
+                    response.sendRedirect(request.getContextPath() + "/activeProjects");
+                    return;
+                }
+            }
 
-            List<Proyecto> proyectos = proyectoDAO.buscarProyectos(query, idCategoria);
+            List<Proyecto> proyectos = proyectoDAO.buscarProyectos(query, idCategoria, idPais);
             List<Categoria> categorias = categoriaDAO.obtenerTodos();
+            List<Pais> paises = proyectoDAO.obtenerPaisesConProyectosActivos();
 
             HttpSession session = request.getSession(false);
             Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
@@ -57,7 +72,10 @@ public class ActiveProjectsServlet extends HttpServlet {
 
             request.setAttribute("activeProjects", proyectos);
             request.setAttribute("categories", categorias);
+            request.setAttribute("paises", paises);
             request.setAttribute("selectedCategoryId", idCategoria);
+            request.setAttribute("selectedPaisId", idPais);
+
 
             if (query != null && !query.trim().isEmpty()) {
                 request.setAttribute("searchQuery", query);
@@ -71,4 +89,3 @@ public class ActiveProjectsServlet extends HttpServlet {
         }
     }
 }
-
