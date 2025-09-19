@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import modelo.Usuario;
 import repositorio.UsuarioDAO;
+import utils.ConfiguracionNoEncontradaException;
 import utils.PasswordUtils;
 
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
@@ -57,8 +58,11 @@ public class RegisterServlet extends HttpServlet {
         } catch (DateTimeParseException e) {
             request.setAttribute("errorMessage", "El formato de la fecha de nacimiento no es válido.");
             request.getRequestDispatcher("/views/auth/register.jsp").forward(request, response);
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) {            e.printStackTrace();
             // Verificar si es un error de email duplicado
             if (e.getMessage().contains("Duplicate entry")) {
                 request.setAttribute("errorMessage", "El correo electrónico ya está en uso.");

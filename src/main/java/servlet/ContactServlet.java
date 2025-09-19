@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import modelo.Contacto;
 import repositorio.ContactoDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet(name = "ContactServlet", urlPatterns = {"/contact"})
 public class ContactServlet extends HttpServlet {
@@ -45,8 +46,12 @@ public class ContactServlet extends HttpServlet {
             session.setAttribute("successMessage", "¡Tu mensaje fue enviado con éxito!");
             response.sendRedirect(request.getContextPath() + "/home");
             
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Hubo un error de base de datos al enviar el mensaje.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

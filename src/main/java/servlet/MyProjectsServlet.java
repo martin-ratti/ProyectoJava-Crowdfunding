@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import modelo.Usuario;
 import repositorio.ProyectoDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet("/myProjects")
 public class MyProjectsServlet extends HttpServlet {
@@ -25,8 +26,12 @@ public class MyProjectsServlet extends HttpServlet {
             ProyectoDAO dao = new ProyectoDAO();
             request.setAttribute("myProjects", dao.obtenerPorUsuario(usuario.getIdUsuario()));
             request.getRequestDispatcher("/views/project/my-projects.jsp").forward(request, response);
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al cargar tus proyectos.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

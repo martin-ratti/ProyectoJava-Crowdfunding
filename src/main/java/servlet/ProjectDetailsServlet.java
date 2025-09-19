@@ -18,6 +18,7 @@ import modelo.Usuario;
 import repositorio.ComentarioDAO;
 import repositorio.DonacionDAO;
 import repositorio.ProyectoDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet("/projectDetails")
 public class ProjectDetailsServlet extends HttpServlet {
@@ -73,8 +74,12 @@ public class ProjectDetailsServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "El ID del proyecto proporcionado no es válido.");
             response.sendRedirect(request.getContextPath() + "/activeProjects");
-        } catch (SQLException e) {
-            e.printStackTrace(); 
+        } catch (ConfiguracionNoEncontradaException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace(); 
             request.setAttribute("errorMessage", "Error al conectar con la base de datos para cargar el proyecto.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         } catch (Exception e) {

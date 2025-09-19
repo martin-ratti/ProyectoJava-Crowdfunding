@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import modelo.Contacto;
 import repositorio.ContactoDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet(name = "ShowMessagesServlet", urlPatterns = {"/showMessages"})
 public class ShowMessagesServlet extends HttpServlet {
@@ -23,8 +24,12 @@ public class ShowMessagesServlet extends HttpServlet {
             List<Contacto> mensajes = dao.obtenerTodos();
             request.setAttribute("mensajes", mensajes);
             request.getRequestDispatcher("/views/admin/show-messages.jsp").forward(request, response);
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al cargar los mensajes.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

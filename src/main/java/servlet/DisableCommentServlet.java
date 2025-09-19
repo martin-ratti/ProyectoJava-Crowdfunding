@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import modelo.Usuario;
 import repositorio.ComentarioDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet("/disableComment")
 public class DisableCommentServlet extends HttpServlet {
@@ -46,8 +47,12 @@ public class DisableCommentServlet extends HttpServlet {
 
         } catch (NumberFormatException e) {
             session.setAttribute("errorMessage", "Error: El ID del comentario no es válido.");
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
             return;
         }

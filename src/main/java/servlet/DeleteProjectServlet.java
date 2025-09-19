@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import modelo.Usuario;
 import repositorio.ProyectoDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet(name = "DeleteProjectServlet", urlPatterns = {"/deleteProject"})
 public class DeleteProjectServlet extends HttpServlet {
@@ -40,8 +41,12 @@ public class DeleteProjectServlet extends HttpServlet {
         
         } catch (NumberFormatException e) {
             session.setAttribute("errorMessage", "Error: ID de proyecto inválido.");
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             // En caso de error de BD, redirige a la página de warning
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
             return;

@@ -19,6 +19,7 @@ import jakarta.servlet.http.Part;
 import modelo.Avance_Proyecto;
 import repositorio.Avance_ProyectoDAO;
 import utils.Config;
+import utils.ConfiguracionNoEncontradaException;
 @WebServlet("/addAdvance")
 @MultipartConfig
 public class AddAdvanceServlet extends HttpServlet {
@@ -80,8 +81,12 @@ public class AddAdvanceServlet extends HttpServlet {
             session.setAttribute("successMessage", "✅ Avance agregado correctamente.");
             response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto);
 
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al guardar el avance.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         } catch (Exception e) {

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import modelo.Proyecto;
 import repositorio.ProyectoDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet("/editProject")
 public class EditProjectServlet extends HttpServlet {
@@ -36,8 +37,12 @@ public class EditProjectServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "ID de proyecto inválido.");
             response.sendRedirect(request.getContextPath() + "/myProjects");
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al cargar el proyecto para editar.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
@@ -75,8 +80,12 @@ public class EditProjectServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "Error en el formato de los datos para editar el proyecto.");
             response.sendRedirect(request.getContextPath() + "/myProjects");
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al guardar los cambios del proyecto.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import modelo.Contacto;
 import repositorio.ContactoDAO;
+import utils.ConfiguracionNoEncontradaException;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -32,8 +34,12 @@ public class MessageDetailServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "ID de mensaje no válido.");
             response.sendRedirect(request.getContextPath() + "/showMessages");
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al cargar el mensaje.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

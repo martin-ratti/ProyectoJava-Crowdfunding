@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import modelo.*;
 import repositorio.*;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet("/supportedProjects")
 public class SupportedProjectServlet extends HttpServlet {
@@ -36,8 +37,12 @@ public class SupportedProjectServlet extends HttpServlet {
 
             request.setAttribute("proyectosApoyados", proyectosApoyados);
             request.getRequestDispatcher("/views/project/supported-projects.jsp").forward(request, response);
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al cargar los proyectos que apoyas.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

@@ -26,6 +26,7 @@ import repositorio.CategoriaDAO;
 import repositorio.PaisDAO;
 import repositorio.ProyectoDAO;
 import utils.Config;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet(name = "CreateProjectServlet", urlPatterns = {"/createProject"})
 @MultipartConfig
@@ -129,8 +130,12 @@ public class CreateProjectServlet extends HttpServlet {
             session.setAttribute("successMessage", "¡Proyecto creado! Ahora está pendiente de revisión.");
             response.sendRedirect("myProjects");
             
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al crear el proyecto.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         } catch (Exception e) {

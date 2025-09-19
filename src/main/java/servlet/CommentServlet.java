@@ -15,6 +15,7 @@ import modelo.Comentario;
 import modelo.Usuario;
 import repositorio.ComentarioDAO;
 import repositorio.DonacionDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet("/comment")
 public class CommentServlet extends HttpServlet {
@@ -58,8 +59,12 @@ public class CommentServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             session.setAttribute("errorMessage", "ID de proyecto inválido.");
             response.sendRedirect(request.getContextPath() + "/activeProjects");
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al publicar el comentario.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

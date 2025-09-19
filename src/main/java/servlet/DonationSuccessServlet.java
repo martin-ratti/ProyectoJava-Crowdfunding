@@ -8,6 +8,7 @@ import modelo.Proyecto;
 import modelo.Usuario;
 import repositorio.DonacionDAO;
 import repositorio.ProyectoDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -68,8 +69,12 @@ public class DonationSuccessServlet extends HttpServlet {
             session.setAttribute("successMessage", "¡Gracias por tu donación!");
             response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto + "#user-donations");
 
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Hubo un error al procesar tu donación en la base de datos.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         } catch (Exception e) {

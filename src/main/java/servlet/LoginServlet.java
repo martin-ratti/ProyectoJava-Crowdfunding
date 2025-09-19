@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import modelo.Usuario;
 import repositorio.UsuarioDAO;
+import utils.ConfiguracionNoEncontradaException;
 import utils.PasswordUtils;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
@@ -46,8 +47,11 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "Email o contraseña incorrectos");
                 request.getRequestDispatcher("/views/auth/login.jsp").forward(request, response);
             }
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) {            e.printStackTrace();
             request.setAttribute("errorMessage", "Error de conexión. No se pudo verificar tu cuenta.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import repositorio.ProyectoDAO;
+import utils.ConfiguracionNoEncontradaException;
 import modelo.Proyecto;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,8 +34,12 @@ public class RejectProjectServlet extends HttpServlet {
             }
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "ID de proyecto inválido.");
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al rechazar el proyecto.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
             return;

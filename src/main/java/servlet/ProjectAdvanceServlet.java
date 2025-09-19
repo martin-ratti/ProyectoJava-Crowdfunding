@@ -14,6 +14,7 @@ import modelo.Avance_Proyecto;
 import modelo.Proyecto;
 import repositorio.Avance_ProyectoDAO;
 import repositorio.ProyectoDAO;
+import utils.ConfiguracionNoEncontradaException;
 
 @WebServlet("/projectAdvances")
 public class ProjectAdvanceServlet extends HttpServlet {
@@ -60,8 +61,12 @@ public class ProjectAdvanceServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "ID de proyecto inválido.");
             response.sendRedirect(request.getContextPath() + "/activeProjects");
-        } catch (SQLException e) {
+        } catch (ConfiguracionNoEncontradaException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de configuración en la base de datos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }catch (SQLException e) { 
+        	e.printStackTrace();
             request.setAttribute("errorMessage", "Error de base de datos al cargar los avances del proyecto.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

@@ -1,5 +1,7 @@
 package db;
 
+import utils.ConfiguracionNoEncontradaException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -12,41 +14,51 @@ public class Conexion {
     private static Connection conexion;
     private static final Properties props = new Properties();
     private static final String PROPERTIES_FILE = "database.properties";
+    private static boolean initialized = false;
 
-    static {
-        try (InputStream input = Conexion.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
-            if (input == null) {
-                throw new RuntimeException("ERROR: No se pudo encontrar el archivo '" + PROPERTIES_FILE + "'. Asegúrate de que esté en 'src/main/resources'.");
+    private static synchronized void init() {
+        if (!initialized) {
+            try (InputStream input = Conexion.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+                if (input == null) {
+                    throw new ConfiguracionNoEncontradaException(
+                        "❌ Archivo de configuración no encontrado: '" + PROPERTIES_FILE + "'.\n" +
+                        "Asegúrate de que esté ubicado en 'src/main/resources'."
+                    );
+                }
+                props.load(input);
+                initialized = true;
+            } catch (IOException ex) {
+                throw new ConfiguracionNoEncontradaException(
+                    "⚠️ Error al cargar el archivo de configuración: '" + PROPERTIES_FILE + "'", ex
+                );
             }
-            props.load(input);
-        } catch (IOException ex) {
-            throw new RuntimeException("Error al cargar el archivo de propiedades de la base de datos.", ex);
         }
     }
 
     private Conexion() {
     }
+
     public static Connection getConexion() throws SQLException {
         synchronized (Conexion.class) {
+            if (!initialized) {
+                init();
+            }
+
             if (conexion == null || conexion.isClosed()) {
                 try {
-                    Class.forName(props.getProperty("db.driver"));                    
-                    String url = props.getProperty("db.url") + "?useUnicode=true&characterEncoding=UTF-8";                    
+                    Class.forName(props.getProperty("db.driver"));
+                    String url = props.getProperty("db.url") + "?useUnicode=true&characterEncoding=UTF-8";
                     conexion = DriverManager.getConnection(url, props.getProperty("db.user"), props.getProperty("db.password"));
-                    
                 } catch (ClassNotFoundException e) {
-                    System.err.println("Error: Driver de la base de datos no encontrado.");
-                    throw new SQLException("Driver de la base de datos no encontrado. Asegúrate de que la dependencia de MySQL esté en el pom.xml.", e);
+                    throw new SQLException("❗ Driver JDBC no encontrado. Verifica la dependencia en el pom.xml.", e);
                 } catch (SQLException e) {
-                    System.err.println("Error al establecer la conexión con la base de datos.");
-                    throw new SQLException("No se pudo conectar a la base de datos. Verifica la URL, usuario y contraseña en '" + PROPERTIES_FILE + "'.", e);
+                    throw new SQLException("❗ No se pudo conectar a la base de datos. Verifica URL, usuario y contraseña.", e);
                 }
             }
+            return conexion;
         }
-        return conexion;
     }
 
-    /* Cierra la conexión a la base de datos si está abierta. */
     public static void cerrarConexion() {
         synchronized (Conexion.class) {
             if (conexion != null) {
@@ -55,10 +67,9 @@ public class Conexion {
                         conexion.close();
                     }
                 } catch (SQLException e) {
-                    System.err.println("Error al cerrar la conexión a la base de datos.");
                     e.printStackTrace();
                 } finally {
-                    conexion = null; 
+                    conexion = null;
                 }
             }
         }
