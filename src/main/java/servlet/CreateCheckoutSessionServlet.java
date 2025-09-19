@@ -53,7 +53,6 @@ public class CreateCheckoutSessionServlet extends HttpServlet {
             return;
         }
 
-        // Validación del monto máximo permitido por Stripe
         BigDecimal maxAmount = new BigDecimal("999999.99");
         if (monto.compareTo(maxAmount) > 0) {
             session.setAttribute("errorMessage", "El monto de la donación no puede superar los $999,999.99.");
@@ -61,7 +60,6 @@ public class CreateCheckoutSessionServlet extends HttpServlet {
             return;
         }
 
-        // Validación de monto mínimo
         BigDecimal minAmount = new BigDecimal("1000.00");
         if (monto.compareTo(minAmount) < 0) {
             session.setAttribute("errorMessage", "El monto mínimo para donar es de $1000.00 ARS.");
@@ -79,7 +77,6 @@ public class CreateCheckoutSessionServlet extends HttpServlet {
         session.setAttribute("pendingComentario", comentario != null ? comentario : ""); 
         session.setAttribute("pendingIdProyecto", idProyecto);
 
-        // Construir URLs absolutas
         String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
         String successUrl = baseUrl + "/donation-success";
         String cancelUrl = baseUrl + "/donation-cancel";
