@@ -47,7 +47,7 @@ public class ActiveProjectsServlet extends HttpServlet {
             HttpSession session = request.getSession(false);
             Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
 
-            if (usuario != null && usuario.getTelefono() != null) {
+            if (usuario != null && !usuario.esAdmin()) {
                 List<Integer> idsProyectos = proyectos.stream().map(Proyecto::getIdProyecto).collect(Collectors.toList());
                 if (!idsProyectos.isEmpty()) {
                     Map<Integer, Boolean> donacionesMap = donacionDAO.haDonadoEnMultiples(usuario.getIdUsuario(), idsProyectos);
@@ -71,3 +71,4 @@ public class ActiveProjectsServlet extends HttpServlet {
         }
     }
 }
+

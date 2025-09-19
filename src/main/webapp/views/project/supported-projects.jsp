@@ -44,38 +44,13 @@
                     </div>
 
 					 <div class="card-actions">
-					    <c:choose>
-					        <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.telefono == null}">
-					            <form action="${pageContext.request.contextPath}/deleteProject" method="post" style="display:inline;" onclick="event.stopPropagation();">
-					                <input type="hidden" name="idProyecto" value="${p.idProyecto}">
-					                <button type="submit" class="little-glow-btn-danger">Borrar</button>
-					            </form>
-					        </c:when>
+					    <c:if test="${not empty sessionScope.usuario and not sessionScope.usuario.esAdmin()}">
+					        <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${p.idProyecto}" 
+					           class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar de Nuevo</a>
 					
-					        <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne p.idCreador}">
-					            <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${p.idProyecto}" 
-					               class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
-					
-					            <a href="${pageContext.request.contextPath}/projectAdvances?idProyecto=${p.idProyecto}" 
-					               class="little-glow-btn" onclick="event.stopPropagation();">Ver Avances</a>
-					
-					            <c:if test="${donacionesMap[p.idProyecto]}">
-					                <a href="${pageContext.request.contextPath}/projectDetails?id=${p.idProyecto}#comments" 
-					                   class="little-glow-btn" onclick="event.stopPropagation();">Comentar</a>
-					            </c:if>
-					        </c:when>
-					
-					        <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario eq p.idCreador}">
-					        </c:when>
-					
-					        <c:otherwise>
-					            <a href="${pageContext.request.contextPath}/login" 
-					               class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
-					
-					            <a href="${pageContext.request.contextPath}/avancesProyecto?idProyecto=${p.idProyecto}" 
-					               class="little-glow-btn" onclick="event.stopPropagation();">Ver Avances</a>
-					        </c:otherwise>
-					    </c:choose>
+					        <a href="${pageContext.request.contextPath}/projectAdvances?idProyecto=${p.idProyecto}" 
+					           class="little-glow-btn" onclick="event.stopPropagation();">Ver Avances</a>
+					    </c:if>
 					</div>
 
                 </div>

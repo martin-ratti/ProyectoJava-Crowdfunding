@@ -15,9 +15,7 @@ import modelo.Usuario;
 
 @WebFilter("/*")
 public class AuthFilter implements Filter {
-    @SuppressWarnings("unused")
-    private static final long serialVersionUID = 1L;
-
+    
     private static final String[] adminOnlyPaths = {
         "/approveProject",
         "/rejectProject",
@@ -32,7 +30,6 @@ public class AuthFilter implements Filter {
         "/editProject",
         "/addAdvance",
         "/supportedProjects"
-
     };
     
     private static final String[] publicPaths = {
@@ -67,7 +64,7 @@ public class AuthFilter implements Filter {
         }
 
         for (String pub : publicPaths) {
-            if (path.equals(pub) || path.equals("/avancesProyecto")) { // Avances es público
+            if (path.equals(pub) || path.equals("/projectAdvances") || path.equals("/warning")) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -79,9 +76,8 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        boolean esAdmin = (usuario.getTelefono() == null);
+        boolean esAdmin = usuario.esAdmin();
 
-        // Bloquear a usuarios normales de las páginas de administrador
         if (!esAdmin) {
             for (String adminPath : adminOnlyPaths) {
                 if (path.equals(adminPath)) {
@@ -91,7 +87,6 @@ public class AuthFilter implements Filter {
             }
         }
 
-        // Bloquear a administradores de las páginas de usuario
         if (esAdmin) {
             for (String userPath : userOnlyPaths) {
                 if (path.equals(userPath)) {
@@ -110,3 +105,4 @@ public class AuthFilter implements Filter {
     @Override
     public void destroy() {}
 }
+

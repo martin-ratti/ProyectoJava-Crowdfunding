@@ -67,4 +67,8 @@ public class Usuario {
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+    
+    public boolean esAdmin() {
+        return this.telefono == null;
+    }
 }

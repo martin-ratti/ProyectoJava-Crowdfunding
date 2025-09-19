@@ -74,11 +74,11 @@ public class ProjectDetailsServlet extends HttpServlet {
             request.getSession().setAttribute("errorMessage", "El ID del proyecto proporcionado no es válido.");
             response.sendRedirect(request.getContextPath() + "/activeProjects");
         } catch (SQLException e) {
-            e.printStackTrace(); // Log del error en el servidor
+            e.printStackTrace(); 
             request.setAttribute("errorMessage", "Error al conectar con la base de datos para cargar el proyecto.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         } catch (Exception e) {
-            e.printStackTrace(); // Log del error en el servidor
+            e.printStackTrace(); 
             request.setAttribute("errorMessage", "Ocurrió un error inesperado al cargar los detalles del proyecto.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }

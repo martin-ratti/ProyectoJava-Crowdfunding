@@ -76,7 +76,7 @@ public class CreateCheckoutSessionServlet extends HttpServlet {
 
         // Guardar temporalmente en sesión
         session.setAttribute("pendingMonto", monto);
-        session.setAttribute("pendingComentario", comentario != null ? comentario : ""); // Valor por defecto vacío
+        session.setAttribute("pendingComentario", comentario != null ? comentario : ""); 
         session.setAttribute("pendingIdProyecto", idProyecto);
 
         // Construir URLs absolutas
@@ -95,7 +95,7 @@ public class CreateCheckoutSessionServlet extends HttpServlet {
                                 .setPriceData(
                                         SessionCreateParams.LineItem.PriceData.builder()
                                                 .setCurrency("ars")
-                                                .setUnitAmount(monto.multiply(new BigDecimal("100")).longValue()) // centavos
+                                                .setUnitAmount(monto.multiply(new BigDecimal("100")).longValue()) 
                                                 .setProductData(
                                                         SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                 .setName("Donación al proyecto")

@@ -1,7 +1,6 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <div class="alert-container">
-    <%-- Muestra el mensaje de éxito si existe y luego lo elimina de la sesión --%>
     <c:if test="${not empty sessionScope.successMessage}">
         <div class="alert success">
             <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -9,8 +8,6 @@
         </div>
         <c:remove var="successMessage" scope="session" />
     </c:if>
-
-    <%-- Muestra el mensaje de error si existe y luego lo elimina de la sesión --%>
     <c:if test="${not empty sessionScope.errorMessage}">
         <div class="alert error">
             <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>

@@ -23,28 +23,31 @@ public class DeleteProjectServlet extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
-        String redirectPage = "/myProjects"; 
-
-        if (usuario != null && usuario.getTelefono() == null) {
-            redirectPage = "/activeProjects";
+        
+        if (usuario == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
         }
+
+        // La redirección depende de si es admin o usuario
+        String redirectPage = usuario.esAdmin() ? "/activeProjects" : "/myProjects";
 
         try {
             int idProyecto = Integer.parseInt(request.getParameter("idProyecto"));
-
             ProyectoDAO dao = new ProyectoDAO();
             dao.borrarDefinitivamente(idProyecto);
-
-            request.getSession().setAttribute("successMessage", "Proyecto borrado correctamente.");
-            response.sendRedirect(request.getContextPath() + redirectPage);
-
+            session.setAttribute("successMessage", "Proyecto borrado correctamente.");
+        
         } catch (NumberFormatException e) {
-            request.getSession().setAttribute("errorMessage", "ID de proyecto inválido.");
-            response.sendRedirect(request.getContextPath() + redirectPage);
+            session.setAttribute("errorMessage", "Error: ID de proyecto inválido.");
         } catch (SQLException e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Error de base de datos al borrar el proyecto.");
+            // En caso de error de BD, redirige a la página de warning
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+            return;
         }
+        
+        response.sendRedirect(request.getContextPath() + redirectPage);
     }
 }
+

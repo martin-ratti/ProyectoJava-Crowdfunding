@@ -22,7 +22,6 @@
         <h1 class="contact-title">Contáctanos</h1>
         <p class="contact-intro">Si tienes preguntas, comentarios o sugerencias, completa el siguiente formulario y nos pondremos en contacto contigo lo antes posible.</p>
 
-        <!-- Mensaje de éxito -->
         <c:if test="${not empty successMessage}">
             <p class="success-message">${successMessage}</p>
         </c:if>

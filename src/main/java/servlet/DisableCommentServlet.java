@@ -28,31 +28,31 @@ public class DisableCommentServlet extends HttpServlet {
         }
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        
-        if (usuario.getTelefono() != null) {
+
+        // Solo los administradores pueden deshabilitar comentarios
+        if (!usuario.esAdmin()) {
             response.sendRedirect(request.getContextPath() + "/home");
             return;
         }
-
-        String idProyectoParam = request.getParameter("idProyecto");
+        
+        String idProyectoStr = request.getParameter("idProyecto");
+        String redirectUrl = request.getContextPath() + "/projectDetails?id=" + idProyectoStr + "#comments";
 
         try {
             int idComentario = Integer.parseInt(request.getParameter("idComentario"));
-            int idProyecto = Integer.parseInt(idProyectoParam);
-
             ComentarioDAO dao = new ComentarioDAO();
             dao.deshabilitarComentario(idComentario);
-            
-            session.setAttribute("successMessage", "Comentario deshabilitado.");
-            response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto + "#comments");
-            
+            session.setAttribute("successMessage", "Comentario deshabilitado correctamente.");
+
         } catch (NumberFormatException e) {
-            session.setAttribute("errorMessage", "ID de comentario o proyecto inválido.");
-            response.sendRedirect(request.getContextPath() + (idProyectoParam != null ? "/projectDetails?id=" + idProyectoParam : "/activeProjects"));
+            session.setAttribute("errorMessage", "Error: El ID del comentario no es válido.");
         } catch (SQLException e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Error de base de datos al deshabilitar el comentario.");
             request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+            return;
         }
+        
+        response.sendRedirect(redirectUrl);
     }
 }
+

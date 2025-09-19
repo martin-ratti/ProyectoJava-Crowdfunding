@@ -55,13 +55,15 @@
 
                     <div class="card-actions">
                         <c:choose>
-                            <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.telefono == null}">
+                            <%-- Un admin puede borrar proyectos activos --%>
+                            <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.esAdmin()}">
                                 <form action="${pageContext.request.contextPath}/deleteProject" method="post" style="display:inline;" onclick="event.stopPropagation();">
                                     <input type="hidden" name="idProyecto" value="${p.idProyecto}">
                                     <button type="submit" class="little-glow-btn-danger">Borrar</button>
                                 </form>
                             </c:when>
 
+                            <%-- Un usuario normal puede donar o comentar si ya donó --%>
                             <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne p.idCreador}">
                                 <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${p.idProyecto}" 
                                    class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
@@ -72,9 +74,11 @@
                                 </c:if>
                             </c:when>
 
+                            <%-- El creador no ve acciones en esta vista --%>
                             <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario eq p.idCreador}">
                             </c:when>
-
+                            
+                            <%-- Un visitante solo ve la opción de donar (que lo llevará al login) --%>
                             <c:otherwise>
                                 <a href="${pageContext.request.contextPath}/login" 
                                    class="little-glow-btn-inverse" onclick="event.stopPropagation();">Donar</a>
@@ -89,3 +93,4 @@
     <jsp:include page="/views/fragments/footer.jspf"/>
 </body>
 </html>
+

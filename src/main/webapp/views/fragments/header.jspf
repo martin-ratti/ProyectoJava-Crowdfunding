@@ -14,7 +14,8 @@
 
         <!-- Sección Central: Búsqueda y Navegación -->
         <div class="header-center">
-            <c:if test="${not empty sessionScope.usuario && sessionScope.usuario.telefono != null}">
+            <%-- La barra de búsqueda solo aparece para usuarios NO administradores --%>
+            <c:if test="${not empty sessionScope.usuario and not sessionScope.usuario.esAdmin()}">
                 <div class="search-container">
                     <form action="${pageContext.request.contextPath}/activeProjects" method="get" class="search-form">
                         <input type="search" id="searchInput" name="query" class="search-input" placeholder="Buscar proyectos..." autocomplete="off">
@@ -35,7 +36,7 @@
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/home" class="nav-link">Inicio</a></li>
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/about" class="nav-link">Nosotros</a></li>
                         </c:when>
-                        <c:when test="${sessionScope.usuario.telefono == null}">
+                        <c:when test="${sessionScope.usuario.esAdmin()}">
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/pendingProjects" class="nav-link">Proyectos Pendientes</a></li>
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/showMessages" class="nav-link">Mensajes</a></li>
                         </c:when>
@@ -55,7 +56,7 @@
                         <a href="${pageContext.request.contextPath}/login" class="little-glow-btn">Iniciar Sesión</a>
                         <a href="${pageContext.request.contextPath}/register" class="little-glow-btn-inverse">Registrarse</a>
                     </c:when>
-                    <c:when test="${sessionScope.usuario.telefono == null}">
+                    <c:when test="${sessionScope.usuario.esAdmin()}">
                         <span class="welcome-message">Hola Administrador</span>
                         <a href="${pageContext.request.contextPath}/logout" class="btn btn-logout">Cerrar Sesión</a>
                     </c:when>
@@ -86,7 +87,7 @@
                     return;
                 }
 
-                fetch('${pageContext.request.contextPath}/autocomplete?query=' + query)
+                fetch('${pageContext.request.contextPath}/autocomplete?query=' + encodeURIComponent(query))
                     .then(response => response.json())
                     .then(data => {
                         resultsContainer.innerHTML = '';
@@ -117,3 +118,4 @@
         }
     });
 </script>
+

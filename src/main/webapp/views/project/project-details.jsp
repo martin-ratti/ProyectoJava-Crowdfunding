@@ -25,8 +25,8 @@
                 <h1>${proyecto.nombreProyecto}</h1>
                 <img src="${pageContext.request.contextPath}/uploads/${proyecto.foto}" alt="Imagen del Proyecto">
                 <p><strong>Descripción:</strong> ${proyecto.descripcion}</p>
-                <p><strong>Monto Meta:</strong> $${proyecto.montoMeta}</p>
-                <p><strong>Monto Recaudado:</strong> $${proyecto.montoRecaudado}</p>
+                <p><strong>Monto Meta:</strong> <fmt:formatNumber value="${proyecto.montoMeta}" type="currency" currencySymbol="$ "/></p>
+                <p><strong>Monto Recaudado:</strong> <fmt:formatNumber value="${proyecto.montoRecaudado}" type="currency" currencySymbol="$ "/></p>
                 
                 <c:if test="${proyecto.montoMeta > 0}">
                     <c:set var="porcentaje" value="${(proyecto.montoRecaudado * 100) / proyecto.montoMeta}" />
@@ -44,7 +44,8 @@
                 <p><strong>Categoría:</strong> ${proyecto.categoria.nombreCategoria}</p>
                 <p><strong>País:</strong> ${proyecto.pais.nombrePais}</p>
 
-                <c:if test="${not empty sessionScope.usuario and empty sessionScope.usuario.telefono and proyecto.estado eq 'Pendiente'}">
+                <%-- Acciones para el Administrador en proyectos pendientes --%>
+                <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.esAdmin() and proyecto.estado eq 'Pendiente'}">
                     <div class="admin-actions">
                         <form action="${pageContext.request.contextPath}/approveProject" method="post" style="display:inline;">
                             <input type="hidden" name="idProyecto" value="${proyecto.idProyecto}">
@@ -64,9 +65,8 @@
                         </a>
                     </c:if>
                 
-                    <c:if test="${not empty sessionScope.usuario 
-                                and sessionScope.usuario.telefono != null 
-                                and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
+                    <%-- Botón de Donar para usuarios normales que no son dueños del proyecto --%>
+                    <c:if test="${not empty sessionScope.usuario and not sessionScope.usuario.esAdmin() and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
                         <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${proyecto.idProyecto}" class="glow-btn-inverse">
                             Donar a este Proyecto
                         </a>
@@ -84,10 +84,11 @@
                             Estos son los comentarios de tu proyecto
                         </p>
                     </c:if>
-
-                    <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne proyecto.idCreador}">
+                    
+                    <%-- Formulario para comentar (solo para usuarios que han donado) --%>
+                    <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne proyecto.idCreador and not sessionScope.usuario.esAdmin()}">
                         <c:choose>
-                            <c:when test="${sessionScope.usuario.telefono != null and haDonado}">
+                            <c:when test="${haDonado}">
                                 <div class="comment-form-container">
                                     <h3>Deja tu comentario</h3>
                                     <form action="${pageContext.request.contextPath}/comment" method="post">
@@ -99,11 +100,11 @@
                                     </form>
                                 </div>
                             </c:when>
-                            <c:when test="${not haDonado and sessionScope.usuario.telefono != null }">
+                            <c:otherwise>
                                 <p class="comment-login-prompt" style="text-align:center; color:#a00; font-style:italic;">
                                     ⚠️ Solo quienes han donado a este proyecto pueden comentar.
                                 </p>
-                            </c:when>
+                            </c:otherwise>
                         </c:choose>
                     </c:if>
 
@@ -118,7 +119,8 @@
                                 <p class="comment-body">${comentario.descripcion}</p>
                                 <p class="comment-date">${comentario.fechaFormateada}</p>
 
-                                <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.telefono == null}">
+                                <%-- Botón para deshabilitar comentario (solo para admin) --%>
+                                <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.esAdmin()}">
                                     <form action="${pageContext.request.contextPath}/disableComment" method="post" style="display:inline;">
                                         <input type="hidden" name="idComentario" value="${comentario.idComentario}" />
                                         <input type="hidden" name="idProyecto" value="${comentario.idProyecto}" />
@@ -131,6 +133,7 @@
                     </div>
                 </section>
                 
+                <%-- Sección de "Mis Donaciones" (solo para el usuario logueado) --%>
                 <c:if test="${not empty misDonacionesProyecto}">
                     <section id="user-donations" class="user-donations-section">
                         <h2>Tus Donaciones a este Proyecto</h2>
@@ -180,3 +183,4 @@
     <jsp:include page="/views/fragments/footer.jspf" />
 </body>
 </html>
+

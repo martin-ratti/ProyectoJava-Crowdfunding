@@ -70,7 +70,7 @@ public class CreateProjectServlet extends HttpServlet {
             BigDecimal montoMeta = new BigDecimal(request.getParameter("monto_objetivo"));
             
             // --- NUEVA VALIDACIÓN ---
-            BigDecimal maximoPermitido = new BigDecimal("99999999999.99"); // Límite de DECIMAL(13,2)
+            BigDecimal maximoPermitido = new BigDecimal("99999999999.99"); 
             if(montoMeta.compareTo(maximoPermitido) > 0) {
                 session.setAttribute("errorMessage", "El monto meta no puede ser tan alto.");
                 response.sendRedirect(request.getContextPath() + "/createProject");

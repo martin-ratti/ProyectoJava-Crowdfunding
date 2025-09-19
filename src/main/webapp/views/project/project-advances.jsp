@@ -62,7 +62,7 @@
         </c:choose>
 
         <div class="advances-actions">
-            <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.telefono != null and sessionScope.usuario.idUsuario != proyecto.idCreador}">
+            <c:if test="${not empty sessionScope.usuario and not sessionScope.usuario.esAdmin() and sessionScope.usuario.idUsuario != proyecto.idCreador}">
                 <a href="${pageContext.request.contextPath}/views/user/donation.jsp?idProyecto=${proyecto.idProyecto}" class="glow-btn-inverse">Apoyar este Proyecto</a>
             </c:if>
             <a href="${pageContext.request.contextPath}/projectDetails?id=${proyecto.idProyecto}" class="glow-btn">Volver al Proyecto</a>
@@ -73,4 +73,3 @@
 
 </body>
 </html>
-

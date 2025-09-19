@@ -21,8 +21,6 @@
     <main class="main-container">
         <div class="form-card">
             <h2>Iniciar Sesión</h2>
-
-            <%-- Lógica para mostrar solo el mensaje de error de login --%>
             <c:if test="${not empty errorMessage}">
                 <div class="alert error">
                     ${errorMessage}

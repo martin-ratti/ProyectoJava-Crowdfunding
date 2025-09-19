@@ -52,7 +52,7 @@ CREATE TABLE Comentario (
 
 CREATE TABLE Donacion (
     idDonacion INT PRIMARY KEY AUTO_INCREMENT,
-    monto DECIMAL(13,2), -- CAMBIADO DE (10,2) A (13,2)
+    monto DECIMAL(13,2),
     comentario TEXT,
     fecha DATE,
     idDonante INT,
