@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import modelo.Contacto;
 import repositorio.ContactoDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/messageDetail")
 public class MessageDetailServlet extends HttpServlet {
@@ -25,10 +26,16 @@ public class MessageDetailServlet extends HttpServlet {
                 request.setAttribute("mensaje", mensaje);
                 request.getRequestDispatcher("/views/admin/message-detail.jsp").forward(request, response);
             } else {
+                request.getSession().setAttribute("errorMessage", "El mensaje que buscas no existe.");
                 response.sendRedirect(request.getContextPath() + "/showMessages");
             }
         } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "ID de mensaje no válido.");
             response.sendRedirect(request.getContextPath() + "/showMessages");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al cargar el mensaje.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
     }
 
@@ -42,10 +49,16 @@ public class MessageDetailServlet extends HttpServlet {
             if ("visto".equals(action)) {
                 ContactoDAO dao = new ContactoDAO();
                 dao.marcarComoVisto(id);
+                request.getSession().setAttribute("successMessage", "Mensaje marcado como visto.");
             }
         } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "ID de mensaje no válido.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al actualizar el mensaje.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+            return;
         }
         response.sendRedirect(request.getContextPath() + "/showMessages");
     }
 }
-

@@ -42,6 +42,14 @@
     <servlet-mapping>
         <servlet-name>HowItWorks</servlet-name>
         <url-pattern>/how-it-works</url-pattern>
+    </servlet-mapping>    
+    <servlet>
+        <servlet-name>WarningPage</servlet-name>
+        <jsp-file>/views/common/warning.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WarningPage</servlet-name>
+        <url-pattern>/warning</url-pattern>
     </servlet-mapping>
     
     <jsp-config>

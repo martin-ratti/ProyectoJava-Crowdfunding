@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,9 +23,8 @@ public class DeleteProjectServlet extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
-        String redirectPage = "/myProjects"; // Redirección por defecto para usuarios
+        String redirectPage = "/myProjects"; 
 
-        // Si el usuario es un administrador, cambia la página de redirección
         if (usuario != null && usuario.getTelefono() == null) {
             redirectPage = "/activeProjects";
         }
@@ -38,11 +38,13 @@ public class DeleteProjectServlet extends HttpServlet {
             request.getSession().setAttribute("successMessage", "Proyecto borrado correctamente.");
             response.sendRedirect(request.getContextPath() + redirectPage);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.getSession().setAttribute("errorMessage", "Error al borrar el proyecto.");
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "ID de proyecto inválido.");
             response.sendRedirect(request.getContextPath() + redirectPage);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al borrar el proyecto.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
     }
 }
-

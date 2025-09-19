@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,21 +28,28 @@ public class LoginServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         String passwordIngresada = request.getParameter("password");
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario usuario = usuarioDAO.obtenerPorEmail(email);
 
-        if (usuario != null && PasswordUtils.checkPassword(passwordIngresada, usuario.getPassword())) {
-            HttpSession oldSession = request.getSession(false);
-            if (oldSession != null) {
-                oldSession.invalidate();
+        try {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            Usuario usuario = usuarioDAO.obtenerPorEmail(email);
+
+            if (usuario != null && PasswordUtils.checkPassword(passwordIngresada, usuario.getPassword())) {
+                HttpSession oldSession = request.getSession(false);
+                if (oldSession != null) {
+                    oldSession.invalidate();
+                }
+                HttpSession newSession = request.getSession(true);
+                newSession.setAttribute("usuario", usuario);
+                newSession.setAttribute("successMessage", "¡Bienvenido, " + usuario.getNombre() + "!");
+                response.sendRedirect(request.getContextPath() + "/activeProjects");
+            } else {
+                request.setAttribute("errorMessage", "Email o contraseña incorrectos");
+                request.getRequestDispatcher("/views/auth/login.jsp").forward(request, response);
             }
-            HttpSession newSession = request.getSession(true);
-            newSession.setAttribute("usuario", usuario);
-            newSession.setAttribute("successMessage", "¡Bienvenido, " + usuario.getNombre() + "!");
-            response.sendRedirect(request.getContextPath() + "/activeProjects");
-        } else {
-            request.setAttribute("errorMessage", "Email o contraseña incorrectos");
-            request.getRequestDispatcher("/views/auth/login.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de conexión. No se pudo verificar tu cuenta.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
     }
 }

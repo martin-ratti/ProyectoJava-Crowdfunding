@@ -1,20 +1,21 @@
 package interfaces;
 
+import java.sql.SQLException;
 import java.util.List;
 import modelo.Avance_Proyecto;
 
 public interface IAvance_ProyectoDAO {
     
-    public List<Avance_Proyecto> obtenerTodos();
+    public List<Avance_Proyecto> obtenerTodos() throws SQLException;
     
     // La clave primaria es compuesta, así que buscamos por ambos IDs
-    public Avance_Proyecto obtenerPorId(int idProyecto, int idAvance);
+    public Avance_Proyecto obtenerPorId(int idProyecto, int idAvance) throws SQLException;
     
-    public void insertar(Avance_Proyecto avance);
+    public void insertar(Avance_Proyecto avance) throws SQLException;
     
-    public void actualizar(Avance_Proyecto avance);
+    public void actualizar(Avance_Proyecto avance) throws SQLException;
     
-    public void eliminar(int idProyecto, int idAvance);
+    public void eliminar(int idProyecto, int idAvance) throws SQLException;
 
-	List<Avance_Proyecto> obtenerPorProyecto(int idProyecto);
+	List<Avance_Proyecto> obtenerPorProyecto(int idProyecto) throws SQLException;
 }

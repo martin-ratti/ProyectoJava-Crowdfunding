@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import jakarta.servlet.ServletException;
@@ -29,13 +30,15 @@ public class CommentServlet extends HttpServlet {
             return;
         }
 
+        int idProyecto = 0;
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuario");
-            int idProyecto = Integer.parseInt(request.getParameter("idProyecto"));
+            idProyecto = Integer.parseInt(request.getParameter("idProyecto"));
             String descripcion = request.getParameter("descripcion");
             
             DonacionDAO donacionDAO = new DonacionDAO();
             if (!donacionDAO.haDonado(usuario.getIdUsuario(), idProyecto)) {
+                session.setAttribute("errorMessage", "Debes donar a este proyecto para poder comentar.");
                 response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto);
                 return;
             }
@@ -48,13 +51,17 @@ public class CommentServlet extends HttpServlet {
             
             ComentarioDAO comentarioDAO = new ComentarioDAO();
             comentarioDAO.insertar(comentario);
-
+            
+            session.setAttribute("successMessage", "Comentario publicado con éxito.");
             response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto + "#comments");
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            session.setAttribute("errorMessage", "ID de proyecto inválido.");
             response.sendRedirect(request.getContextPath() + "/activeProjects");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al publicar el comentario.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
     }
 }
-

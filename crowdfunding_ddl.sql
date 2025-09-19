@@ -25,12 +25,12 @@ CREATE TABLE Proyecto (
     idProyecto INT PRIMARY KEY AUTO_INCREMENT,
     nombreProyecto VARCHAR(100) NOT NULL,
     descripcion TEXT NOT NULL,
-    montoMeta DECIMAL(10,2) NOT NULL,
+    montoMeta DECIMAL(13,2) NOT NULL, 
     fechaIni DATE NOT NULL,
     fechaFin DATE NOT NULL,
     foto TEXT NOT NULL,
     estado VARCHAR(20) NOT NULL,
-    montoRecaudado DECIMAL(10,2) NOT NULL,
+    montoRecaudado DECIMAL(13,2) NOT NULL, 
     idPais INT NOT NULL,
     idCreador INT NOT NULL,
     idCategoria INT NOT NULL,
@@ -41,18 +41,18 @@ CREATE TABLE Proyecto (
 
 CREATE TABLE Comentario (
     idComentario INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(50),
     fecha DATETIME,
     descripcion TEXT,
     idProyecto INT,
     idUsuario INT,
+    estado VARCHAR(20) NOT NULL DEFAULT 'Activo',
     FOREIGN KEY (idProyecto) REFERENCES Proyecto(idProyecto),
     FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
 
 CREATE TABLE Donacion (
     idDonacion INT PRIMARY KEY AUTO_INCREMENT,
-    monto DECIMAL(10,2),
+    monto DECIMAL(13,2), -- CAMBIADO DE (10,2) A (13,2)
     comentario TEXT,
     fecha DATE,
     idDonante INT,
@@ -94,8 +94,3 @@ CREATE TABLE Contacto (
     fecha DATETIME NOT NULL,
     visto BOOLEAN NOT NULL DEFAULT FALSE
 );
-
-ALTER TABLE comentario
-  ADD COLUMN estado VARCHAR(20) NOT NULL DEFAULT 'Activo',
-  DROP COLUMN titulo;
-

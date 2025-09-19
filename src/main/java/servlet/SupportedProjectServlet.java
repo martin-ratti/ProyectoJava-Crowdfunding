@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -29,10 +30,16 @@ public class SupportedProjectServlet extends HttpServlet {
             return;
         }
 
-        ProyectoDAO proyectoDAO = new ProyectoDAO();
-        List<Proyecto> proyectosApoyados = proyectoDAO.obtenerProyectosDonadosPorUsuario(usuario.getIdUsuario());
+        try {
+            ProyectoDAO proyectoDAO = new ProyectoDAO();
+            List<Proyecto> proyectosApoyados = proyectoDAO.obtenerProyectosDonadosPorUsuario(usuario.getIdUsuario());
 
-        request.setAttribute("proyectosApoyados", proyectosApoyados);
-        request.getRequestDispatcher("/views/project/supported-projects.jsp").forward(request, response);
+            request.setAttribute("proyectosApoyados", proyectosApoyados);
+            request.getRequestDispatcher("/views/project/supported-projects.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al cargar los proyectos que apoyas.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }
     }
 }

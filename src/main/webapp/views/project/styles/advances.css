@@ -21,6 +21,10 @@
     margin-bottom: 50px;
 }
 
+.all-advances {
+    text-align: center; 
+}
+
 h2 {
     font-size: 1.8rem;
     color: #444;
@@ -53,7 +57,9 @@ h2 {
     transition: transform 0.3s, box-shadow 0.3s;
     overflow: hidden;
     vertical-align: top;
+    flex-shrink: 0; 
 }
+
 
 .advance-card:hover {
     transform: translateY(-5px);
@@ -68,7 +74,7 @@ h2 {
 
 .advance-info {
     padding: 15px;
-    text-align: left;
+    text-align: center; 
 }
 
 .advance-info .advance-date {
@@ -85,7 +91,13 @@ h2 {
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: #ccc #f1f1f1;
+    justify-content: flex-start; 
 }
+
+.carousel:has(.advance-card:only-child) {
+    justify-content: center;
+}
+
 
 .carousel::-webkit-scrollbar {
     height: 10px;

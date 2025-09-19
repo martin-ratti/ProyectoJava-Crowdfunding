@@ -14,19 +14,19 @@ import modelo.Categoria;
 public class CategoriaDAO implements ICategoriaDAO {
 
     @Override
-    public void insertar(Categoria categoria) {
+    public void insertar(Categoria categoria) throws SQLException {
         String sql = "INSERT INTO categoria (nombreCategoria) VALUES (?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, categoria.getNombreCategoria());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al insertar categoría.", e);
         }
     }
 
     @Override
-    public List<Categoria> obtenerTodos() {
+    public List<Categoria> obtenerTodos() throws SQLException {
         List<Categoria> categorias = new ArrayList<>();
         String sql = "SELECT * FROM categoria";
         try (Connection con = Conexion.getConexion();
@@ -39,13 +39,13 @@ public class CategoriaDAO implements ICategoriaDAO {
                 categorias.add(categoria);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener todas las categorías.", e);
         }
         return categorias;
     }
 
     @Override
-    public Categoria obtenerPorId(int id) {
+    public Categoria obtenerPorId(int id) throws SQLException {
         Categoria categoria = null;
         String sql = "SELECT * FROM categoria WHERE idCategoria = ?";
         try (Connection con = Conexion.getConexion();
@@ -59,13 +59,13 @@ public class CategoriaDAO implements ICategoriaDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener categoría por ID.", e);
         }
         return categoria;
     }
 
     @Override
-    public void actualizar(Categoria categoria) {
+    public void actualizar(Categoria categoria) throws SQLException {
         String sql = "UPDATE categoria SET nombreCategoria = ? WHERE idCategoria = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -73,20 +73,19 @@ public class CategoriaDAO implements ICategoriaDAO {
             ps.setInt(2, categoria.getIdCategoria());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar categoría.", e);
         }
     }
 
     @Override
-    public void eliminar(int id) {
+    public void eliminar(int id) throws SQLException {
         String sql = "DELETE FROM categoria WHERE idCategoria = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al eliminar categoría.", e);
         }
     }
 }
-

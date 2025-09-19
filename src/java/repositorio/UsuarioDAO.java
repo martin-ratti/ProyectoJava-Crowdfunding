@@ -13,7 +13,7 @@ import modelo.Usuario;
 
 public class UsuarioDAO implements IUsuarioDAO {
 
-    public Usuario validarUsuario(String email, String password) {
+    public Usuario validarUsuario(String email, String password) throws SQLException {
         Usuario usuario = null;
         String sql = "SELECT * FROM usuario WHERE email = ? AND password = ?";
         try (Connection con = Conexion.getConexion();
@@ -26,13 +26,14 @@ public class UsuarioDAO implements IUsuarioDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Re-lanzamos la excepción para que el Servlet la maneje
+            throw new SQLException("Error al validar el usuario en la base de datos.", e);
         }
         return usuario;
     }
 
     @Override
-    public Usuario insertar(Usuario usuario) {
+    public Usuario insertar(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO usuario (email, password, nombre, apellido, telefono, fechaNacimiento) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -55,13 +56,13 @@ public class UsuarioDAO implements IUsuarioDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al insertar el usuario en la base de datos.", e);
         }
         return usuario;
     }
 
     @Override
-    public List<Usuario> obtenerTodos() {
+    public List<Usuario> obtenerTodos() throws SQLException {
         List<Usuario> usuarios = new ArrayList<>();
         String sql = "SELECT * FROM usuario";
         try (Connection con = Conexion.getConexion();
@@ -71,13 +72,13 @@ public class UsuarioDAO implements IUsuarioDAO {
                 usuarios.add(mapearUsuario(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener todos los usuarios.", e);
         }
         return usuarios;
     }
 
     @Override
-    public Usuario obtenerPorId(int id) {
+    public Usuario obtenerPorId(int id) throws SQLException {
         Usuario usuario = null;
         String sql = "SELECT * FROM usuario WHERE idUsuario = ?";
         try (Connection con = Conexion.getConexion();
@@ -89,13 +90,13 @@ public class UsuarioDAO implements IUsuarioDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener el usuario por ID.", e);
         }
         return usuario;
     }
 
     @Override
-    public void actualizar(Usuario usuario) {
+    public void actualizar(Usuario usuario) throws SQLException {
         String sql = "UPDATE usuario SET email = ?, password = ?, nombre = ?, apellido = ?, telefono = ?, fechaNacimiento = ? WHERE idUsuario = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -112,19 +113,19 @@ public class UsuarioDAO implements IUsuarioDAO {
             ps.setInt(7, usuario.getIdUsuario());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar el usuario.", e);
         }
     }
 
     @Override
-    public void eliminar(int id) {
+    public void eliminar(int id) throws SQLException {
         String sql = "DELETE FROM usuario WHERE idUsuario = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al eliminar el usuario.", e);
         }
     }
 
@@ -142,7 +143,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         return usuario;
     }
     
-    public Usuario obtenerPorEmail(String email) {
+    public Usuario obtenerPorEmail(String email) throws SQLException {
         Usuario usuario = null;
         String sql = "SELECT * FROM usuario WHERE email = ?";
         try (Connection con = Conexion.getConexion();
@@ -154,9 +155,8 @@ public class UsuarioDAO implements IUsuarioDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener usuario por email.", e);
         }
         return usuario;
     }
 }
-

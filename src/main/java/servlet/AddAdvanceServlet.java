@@ -3,6 +3,7 @@ package servlet;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.UUID;
 import java.time.LocalDate;
 
@@ -26,14 +27,11 @@ public class AddAdvanceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String idProyectoParam = request.getParameter("idProyecto");
         if (idProyectoParam == null || idProyectoParam.isEmpty()) {
             response.sendRedirect("myProjects");
             return;
         }
-
-        // Mostrar valores temporales si hay
         request.setAttribute("idProyecto", idProyectoParam);
         request.getRequestDispatcher("/views/project/add-advance.jsp").forward(request, response);
     }
@@ -41,49 +39,55 @@ public class AddAdvanceServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         HttpSession session = request.getSession();
+        int idProyecto = 0;
 
-        int idProyecto = Integer.parseInt(request.getParameter("idProyecto"));
-        String descripcion = request.getParameter("descripcion");
-        Part filePart = request.getPart("foto");
+        try {
+            idProyecto = Integer.parseInt(request.getParameter("idProyecto"));
+            String descripcion = request.getParameter("descripcion");
+            Part filePart = request.getPart("foto");
 
-        // Validar que la imagen esté cargada
-        if (filePart == null || filePart.getSize() == 0) {
-            session.setAttribute("errorMessage", "❌ Debes seleccionar una imagen para el avance.");
-            session.setAttribute("descripcionTemp", descripcion);
-            response.sendRedirect(request.getContextPath() + "/addAdvance?idProyecto=" + idProyecto);
-            return;
+            if (filePart == null || filePart.getSize() == 0) {
+                session.setAttribute("errorMessage", "❌ Debes seleccionar una imagen para el avance.");
+                session.setAttribute("descripcionTemp", descripcion);
+                response.sendRedirect(request.getContextPath() + "/addAdvance?idProyecto=" + idProyecto);
+                return;
+            }
+
+            String fileName = null;
+            String originalFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String extension = "";
+            int dotIndex = originalFileName.lastIndexOf(".");
+            if (dotIndex >= 0) {
+                extension = originalFileName.substring(dotIndex);
+            }
+            fileName = UUID.randomUUID().toString() + extension;
+
+            String uploadPath = Config.get("upload.dir");
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdirs();
+            filePart.write(new File(uploadDir, fileName).getAbsolutePath());
+
+            Avance_Proyecto avance = new Avance_Proyecto();
+            avance.setIdProyecto(idProyecto);
+            avance.setDescripcion(descripcion);
+            avance.setFecha(LocalDate.now());
+            avance.setFoto(fileName);
+
+            Avance_ProyectoDAO avanceDAO = new Avance_ProyectoDAO();
+            avanceDAO.insertar(avance);
+
+            session.setAttribute("successMessage", "✅ Avance agregado correctamente.");
+            response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al guardar el avance.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("errorMessage", "Ocurrió un error inesperado al agregar el avance.");
+            response.sendRedirect(request.getContextPath() + "/myProjects");
         }
-
-        // Procesamiento normal si la imagen está
-        String fileName = null;
-        String originalFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String extension = "";
-        int dotIndex = originalFileName.lastIndexOf(".");
-        if (dotIndex >= 0) {
-            extension = originalFileName.substring(dotIndex);
-        }
-        fileName = UUID.randomUUID().toString() + extension;
-
-        String uploadPath = Config.get("upload.dir");
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdirs();
-
-        filePart.write(new File(uploadDir, fileName).getAbsolutePath());
-
-        // Crear avance
-        Avance_Proyecto avance = new Avance_Proyecto();
-        avance.setIdProyecto(idProyecto);
-        avance.setDescripcion(descripcion);
-        avance.setFecha(LocalDate.now());
-        avance.setFoto(fileName);
-
-        Avance_ProyectoDAO avanceDAO = new Avance_ProyectoDAO();
-        avanceDAO.insertar(avance);
-
-        session.setAttribute("successMessage", "✅ Avance agregado correctamente.");
-        response.sendRedirect(request.getContextPath() + "/projectDetails?idProyecto=" + idProyecto);
     }
 }
-

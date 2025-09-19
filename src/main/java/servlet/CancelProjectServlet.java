@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import modelo.Cancelacion_Proyecto;
@@ -28,11 +29,16 @@ public class CancelProjectServlet extends HttpServlet {
                 request.setAttribute("proyecto", proyecto);
                 request.getRequestDispatcher("/views/project/cancel-project.jsp").forward(request, response);
             } else {
+                request.getSession().setAttribute("errorMessage", "Proyecto no encontrado.");
                 response.sendRedirect(request.getContextPath() + "/myProjects");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "ID de proyecto inválido.");
             response.sendRedirect(request.getContextPath() + "/myProjects");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al cargar el proyecto para cancelar.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
     }
 
@@ -57,14 +63,18 @@ public class CancelProjectServlet extends HttpServlet {
                 dao.cancelarProyecto(proyecto, cancelacion);
 
                 request.getSession().setAttribute("successMessage", "Proyecto cancelado con éxito.");
+            } else {
+                request.getSession().setAttribute("errorMessage", "El proyecto que intentas cancelar no fue encontrado.");
             }
-
             response.sendRedirect(request.getContextPath() + "/myProjects");
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "ID de proyecto inválido.");
+            response.sendRedirect(request.getContextPath() + "/myProjects");
+        } catch (SQLException e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Error al cancelar el proyecto.");
-            request.getRequestDispatcher("/views/project/cancel-project.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Error de base de datos al cancelar el proyecto.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
     }
 }

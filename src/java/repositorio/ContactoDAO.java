@@ -11,7 +11,7 @@ import java.util.List;
 public class ContactoDAO implements IContactoDAO {
 
     @Override
-    public void insertar(Contacto contacto) {
+    public void insertar(Contacto contacto) throws SQLException {
         String sql = "INSERT INTO contacto (nombre, email, asunto, mensaje, fecha) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -24,12 +24,12 @@ public class ContactoDAO implements IContactoDAO {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al insertar contacto.", e);
         }
     }
 
     @Override
-    public List<Contacto> obtenerTodos() {
+    public List<Contacto> obtenerTodos() throws SQLException {
         List<Contacto> lista = new ArrayList<>();
         String sql = "SELECT * FROM contacto WHERE visto = FALSE ORDER BY fecha DESC";
         try (Connection con = Conexion.getConexion();
@@ -47,14 +47,14 @@ public class ContactoDAO implements IContactoDAO {
                 lista.add(c);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener todos los contactos.", e);
         }
         return lista;
     }
 
 
     @Override
-    public Contacto obtenerPorId(int id) {
+    public Contacto obtenerPorId(int id) throws SQLException {
         Contacto c = null;
         String sql = "SELECT * FROM contacto WHERE idContacto = ?";
         try (Connection con = Conexion.getConexion();
@@ -72,32 +72,32 @@ public class ContactoDAO implements IContactoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener contacto por ID.", e);
         }
         return c;
     }
 
     @Override
-    public void eliminar(int id) {
+    public void eliminar(int id) throws SQLException {
         String sql = "DELETE FROM contacto WHERE idContacto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al eliminar contacto.", e);
         }
     }
     
     @Override
-    public void marcarComoVisto(int id) {
+    public void marcarComoVisto(int id) throws SQLException {
         String sql = "UPDATE contacto SET visto = TRUE WHERE idContacto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al marcar contacto como visto.", e);
         }
     }
 

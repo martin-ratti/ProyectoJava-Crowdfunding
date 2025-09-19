@@ -56,7 +56,7 @@ public class ProyectoDAO implements IProyectoDAO {
     }
 
     @Override
-    public void insertar(Proyecto proyecto) {
+    public void insertar(Proyecto proyecto) throws SQLException {
         String sql = "INSERT INTO proyecto (nombreProyecto, descripcion, montoMeta, montoRecaudado, fechaIni, fechaFin, idCreador, idCategoria, idPais, estado, foto) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
@@ -74,12 +74,12 @@ public class ProyectoDAO implements IProyectoDAO {
             ps.setString(11, proyecto.getFoto());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al insertar proyecto.", e);
         }
     }
 
     @Override
-    public void actualizar(Proyecto proyecto) {
+    public void actualizar(Proyecto proyecto) throws SQLException {
         String sql = "UPDATE proyecto SET nombreProyecto = ?, descripcion = ?, montoMeta = ?, fechaFin = ? WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -90,11 +90,11 @@ public class ProyectoDAO implements IProyectoDAO {
             ps.setInt(5, proyecto.getIdProyecto());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar proyecto.", e);
         }
     }
 
-    public void actualizarMontoRecaudado(int idProyecto, BigDecimal nuevoMontoRecaudado) {
+    public void actualizarMontoRecaudado(int idProyecto, BigDecimal nuevoMontoRecaudado) throws SQLException {
         String sql = "UPDATE proyecto SET montoRecaudado = ? WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -102,17 +102,17 @@ public class ProyectoDAO implements IProyectoDAO {
             ps.setInt(2, idProyecto);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar monto recaudado.", e);
         }
     }
 
     @Override
-    public void eliminar(int id) {
+    public void eliminar(int id) throws SQLException {
         borrarDefinitivamente(id);
     }
 
     @Override
-    public Proyecto obtenerPorId(int id) {
+    public Proyecto obtenerPorId(int id) throws SQLException {
         Proyecto proyecto = null;
         String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador " +
                      "FROM proyecto p " +
@@ -133,12 +133,12 @@ public class ProyectoDAO implements IProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener proyecto por ID.", e);
         }
         return proyecto;
     }
 
-    public void actualizarEstado(int idProyecto, String nuevoEstado) {
+    public void actualizarEstado(int idProyecto, String nuevoEstado) throws SQLException {
         String sql = "UPDATE proyecto SET estado = ? WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -146,11 +146,11 @@ public class ProyectoDAO implements IProyectoDAO {
             ps.setInt(2, idProyecto);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar estado del proyecto.", e);
         }
     }
 
-    private Cancelacion_Proyecto obtenerCancelacionPorProyecto(int idProyecto) {
+    private Cancelacion_Proyecto obtenerCancelacionPorProyecto(int idProyecto) throws SQLException {
         String sql = "SELECT * FROM cancelacion_proyecto WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -165,22 +165,22 @@ public class ProyectoDAO implements IProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener datos de cancelación.", e);
         }
         return null;
     }
 
     @Override
-    public List<Proyecto> obtenerActivos() {
+    public List<Proyecto> obtenerActivos() throws SQLException {
         return buscarProyectos(null, null);
     }
 
     @Override
-    public List<Proyecto> buscarProyectos(String query) {
+    public List<Proyecto> buscarProyectos(String query) throws SQLException {
         return buscarProyectos(query, null);
     }
 
-    public List<Proyecto> buscarProyectos(String query, Integer idCategoria) {
+    public List<Proyecto> buscarProyectos(String query, Integer idCategoria) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
             "SELECT p.*, c.nombreCategoria, pa.nombrePais " +
@@ -215,13 +215,13 @@ public class ProyectoDAO implements IProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al buscar proyectos.", e);
         }
         return lista;
     }
 
     @Override
-    public List<String> buscarSugerencias(String query) {
+    public List<String> buscarSugerencias(String query) throws SQLException {
         List<String> sugerencias = new ArrayList<>();
         String sql = "SELECT nombreProyecto FROM proyecto WHERE nombreProyecto LIKE ? AND estado = 'Activo' LIMIT 5";
         try (Connection con = Conexion.getConexion();
@@ -233,13 +233,13 @@ public class ProyectoDAO implements IProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al buscar sugerencias de proyectos.", e);
         }
         return sugerencias;
     }
 
     @Override
-    public List<Proyecto> obtenerPendientes() {
+    public List<Proyecto> obtenerPendientes() throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
         String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais " +
                "FROM proyecto p " +
@@ -253,13 +253,13 @@ public class ProyectoDAO implements IProyectoDAO {
                 lista.add(mapResultSetToProyecto(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener proyectos pendientes.", e);
         }
         return lista;
     }
 
     @Override
-    public List<Proyecto> obtenerPorUsuario(int idUsuario) {
+    public List<Proyecto> obtenerPorUsuario(int idUsuario) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
         String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais " +
                "FROM proyecto p " +
@@ -281,12 +281,12 @@ public class ProyectoDAO implements IProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener proyectos por usuario.", e);
         }
         return lista;
     }
 
-    public void cancelarProyecto(Proyecto proyecto, Cancelacion_Proyecto cancelacion) {
+    public void cancelarProyecto(Proyecto proyecto, Cancelacion_Proyecto cancelacion) throws SQLException {
         String updateProyecto = "UPDATE proyecto SET estado = ? WHERE idProyecto = ?";
         String insertCancelacion = "INSERT INTO cancelacion_proyecto (idProyecto, motivo, fecha) VALUES (?, ?, ?)";
         try (Connection con = Conexion.getConexion()) {
@@ -302,22 +302,22 @@ public class ProyectoDAO implements IProyectoDAO {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al cancelar el proyecto.", e);
         }
     }
 
-    public void borrarDefinitivamente(int idProyecto) {
+    public void borrarDefinitivamente(int idProyecto) throws SQLException {
         String sql = "UPDATE proyecto SET estado = 'Borrado' WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idProyecto);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al borrar el proyecto.", e);
         }
     }
     
-    public List<Proyecto> obtenerProyectosDonadosPorUsuario(int idUsuario) {
+    public List<Proyecto> obtenerProyectosDonadosPorUsuario(int idUsuario) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
         String sql = "SELECT DISTINCT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador " +
                      "FROM donacion d " +
@@ -367,7 +367,7 @@ public class ProyectoDAO implements IProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener proyectos donados por el usuario.", e);
         }
         return lista;
     }

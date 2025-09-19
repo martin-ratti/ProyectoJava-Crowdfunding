@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,18 +28,31 @@ public class DisableCommentServlet extends HttpServlet {
         }
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-
+        
         if (usuario.getTelefono() != null) {
             response.sendRedirect(request.getContextPath() + "/home");
             return;
         }
 
-        int idComentario = Integer.parseInt(request.getParameter("idComentario"));
-        int idProyecto = Integer.parseInt(request.getParameter("idProyecto"));
+        String idProyectoParam = request.getParameter("idProyecto");
 
-        ComentarioDAO dao = new ComentarioDAO();
-        dao.deshabilitarComentario(idComentario);
+        try {
+            int idComentario = Integer.parseInt(request.getParameter("idComentario"));
+            int idProyecto = Integer.parseInt(idProyectoParam);
 
-        response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto + "#comments");
+            ComentarioDAO dao = new ComentarioDAO();
+            dao.deshabilitarComentario(idComentario);
+            
+            session.setAttribute("successMessage", "Comentario deshabilitado.");
+            response.sendRedirect(request.getContextPath() + "/projectDetails?id=" + idProyecto + "#comments");
+            
+        } catch (NumberFormatException e) {
+            session.setAttribute("errorMessage", "ID de comentario o proyecto inválido.");
+            response.sendRedirect(request.getContextPath() + (idProyectoParam != null ? "/projectDetails?id=" + idProyectoParam : "/activeProjects"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al deshabilitar el comentario.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }
     }
 }

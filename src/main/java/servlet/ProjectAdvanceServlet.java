@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,10 +60,10 @@ public class ProjectAdvanceServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("errorMessage", "ID de proyecto inválido.");
             response.sendRedirect(request.getContextPath() + "/activeProjects");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al cargar avances del proyecto.");
+            request.setAttribute("errorMessage", "Error de base de datos al cargar los avances del proyecto.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
     }
 }
-

@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,45 +22,52 @@ public class ActiveProjectsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ProyectoDAO proyectoDAO = new ProyectoDAO();
-        CategoriaDAO categoriaDAO = new CategoriaDAO();
-        DonacionDAO donacionDAO = new DonacionDAO();
+        try {
+            ProyectoDAO proyectoDAO = new ProyectoDAO();
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+            DonacionDAO donacionDAO = new DonacionDAO();
 
-        String query = request.getParameter("query");
-        String categoriaParam = request.getParameter("idCategoria");
-        Integer idCategoria = null;
+            String query = request.getParameter("query");
+            String categoriaParam = request.getParameter("idCategoria");
+            Integer idCategoria = null;
 
-        if (categoriaParam != null && !categoriaParam.trim().isEmpty()) {
-            try {
-                idCategoria = Integer.parseInt(categoriaParam);
-            } catch (NumberFormatException e) {
-                System.err.println("Parámetro idCategoria inválido: " + categoriaParam);
+            if (categoriaParam != null && !categoriaParam.trim().isEmpty()) {
+                try {
+                    idCategoria = Integer.parseInt(categoriaParam);
+                } catch (NumberFormatException e) {
+                    request.getSession().setAttribute("errorMessage", "Categoría no válida.");
+                    response.sendRedirect(request.getContextPath() + "/activeProjects");
+                    return;
+                }
             }
-        }
 
-        List<Proyecto> proyectos = proyectoDAO.buscarProyectos(query, idCategoria);
-        List<Categoria> categorias = categoriaDAO.obtenerTodos();
+            List<Proyecto> proyectos = proyectoDAO.buscarProyectos(query, idCategoria);
+            List<Categoria> categorias = categoriaDAO.obtenerTodos();
 
-        HttpSession session = request.getSession(false);
-        Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
+            HttpSession session = request.getSession(false);
+            Usuario usuario = (session != null) ? (Usuario) session.getAttribute("usuario") : null;
 
-        if (usuario != null && usuario.getTelefono() != null) {
-            List<Integer> idsProyectos = proyectos.stream().map(Proyecto::getIdProyecto).collect(Collectors.toList());
-            if (!idsProyectos.isEmpty()) {
-                Map<Integer, Boolean> donacionesMap = donacionDAO.haDonadoEnMultiples(usuario.getIdUsuario(), idsProyectos);
-                request.setAttribute("donacionesMap", donacionesMap);
+            if (usuario != null && usuario.getTelefono() != null) {
+                List<Integer> idsProyectos = proyectos.stream().map(Proyecto::getIdProyecto).collect(Collectors.toList());
+                if (!idsProyectos.isEmpty()) {
+                    Map<Integer, Boolean> donacionesMap = donacionDAO.haDonadoEnMultiples(usuario.getIdUsuario(), idsProyectos);
+                    request.setAttribute("donacionesMap", donacionesMap);
+                }
             }
+
+            request.setAttribute("activeProjects", proyectos);
+            request.setAttribute("categories", categorias);
+            request.setAttribute("selectedCategoryId", idCategoria);
+
+            if (query != null && !query.trim().isEmpty()) {
+                request.setAttribute("searchQuery", query);
+            }
+
+            request.getRequestDispatcher("/views/project/active-projects.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al cargar los proyectos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
-
-        request.setAttribute("activeProjects", proyectos);
-        request.setAttribute("categories", categorias);
-        request.setAttribute("selectedCategoryId", idCategoria);
-
-        if (query != null && !query.trim().isEmpty()) {
-            request.setAttribute("searchQuery", query);
-        }
-
-        request.getRequestDispatcher("/views/project/active-projects.jsp").forward(request, response);
     }
 }
-

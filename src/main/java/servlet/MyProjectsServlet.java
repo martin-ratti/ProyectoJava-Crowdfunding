@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import modelo.Usuario;
 import repositorio.ProyectoDAO;
 
@@ -19,10 +20,15 @@ public class MyProjectsServlet extends HttpServlet {
             return;
         }
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        ProyectoDAO dao = new ProyectoDAO();
-        request.setAttribute("myProjects", dao.obtenerPorUsuario(usuario.getIdUsuario()));
-        request.getRequestDispatcher("/views/project/my-projects.jsp").forward(request, response);
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            ProyectoDAO dao = new ProyectoDAO();
+            request.setAttribute("myProjects", dao.obtenerPorUsuario(usuario.getIdUsuario()));
+            request.getRequestDispatcher("/views/project/my-projects.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al cargar tus proyectos.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }
     }
 }
-

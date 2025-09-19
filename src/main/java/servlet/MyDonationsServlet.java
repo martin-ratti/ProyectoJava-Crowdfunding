@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,17 +23,24 @@ public class MyDonationsServlet extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("usuario") == null) {
-            response.sendRedirect(request.getContextPath() + "/views/auth/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        int idUsuario = usuario.getIdUsuario();
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            int idUsuario = usuario.getIdUsuario();
 
-        DonacionDAO donacionDAO = new DonacionDAO();
-        List<Donacion> misDonaciones = donacionDAO.obtenerPorIdDonante(idUsuario);
+            DonacionDAO donacionDAO = new DonacionDAO();
+            List<Donacion> misDonaciones = donacionDAO.obtenerPorIdDonante(idUsuario);
 
-        request.setAttribute("misDonaciones", misDonaciones);
-        request.getRequestDispatcher("/views/user/my-donations.jsp").forward(request, response);
+            request.setAttribute("misDonaciones", misDonaciones);
+            request.getRequestDispatcher("/views/user/my-donations.jsp").forward(request, response);
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error de base de datos al cargar tus donaciones.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+        }
     }
 }

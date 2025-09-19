@@ -14,7 +14,7 @@ import modelo.Cancelacion_Proyecto;
 public class Cancelacion_ProyectoDAO implements ICancelacion_ProyectoDAO {
 
     @Override
-    public void insertar(Cancelacion_Proyecto cancelacion) {
+    public void insertar(Cancelacion_Proyecto cancelacion) throws SQLException {
         String sql = "INSERT INTO cancelacion_proyecto (idProyecto, motivo, fecha) VALUES (?, ?, ?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -23,13 +23,13 @@ public class Cancelacion_ProyectoDAO implements ICancelacion_ProyectoDAO {
             ps.setDate(3, java.sql.Date.valueOf(cancelacion.getFecha()));
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al insertar cancelación de proyecto.", e);
         }
     }
     
 
     @Override
-    public List<Cancelacion_Proyecto> obtenerTodos() {
+    public List<Cancelacion_Proyecto> obtenerTodos() throws SQLException {
         List<Cancelacion_Proyecto> lista = new ArrayList<>();
         String sql = "SELECT * FROM cancelacion_proyecto";
         try (Connection con = Conexion.getConexion();
@@ -43,13 +43,13 @@ public class Cancelacion_ProyectoDAO implements ICancelacion_ProyectoDAO {
                 lista.add(item);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener todas las cancelaciones.", e);
         }
         return lista;
     }
 
     @Override
-    public Cancelacion_Proyecto obtenerPorId(int id) {
+    public Cancelacion_Proyecto obtenerPorId(int id) throws SQLException {
         Cancelacion_Proyecto item = null;
         String sql = "SELECT * FROM cancelacion_proyecto WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
@@ -64,13 +64,13 @@ public class Cancelacion_ProyectoDAO implements ICancelacion_ProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener cancelación por ID.", e);
         }
         return item;
     }
 
     @Override
-    public void actualizar(Cancelacion_Proyecto cancelacion) {
+    public void actualizar(Cancelacion_Proyecto cancelacion) throws SQLException {
         String sql = "UPDATE cancelacion_proyecto SET motivo = ?, fecha = ? WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -79,19 +79,19 @@ public class Cancelacion_ProyectoDAO implements ICancelacion_ProyectoDAO {
             ps.setInt(3, cancelacion.getIdProyecto());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar cancelación.", e);
         }
     }
 
     @Override
-    public void eliminar(int id) {
+    public void eliminar(int id) throws SQLException {
         String sql = "DELETE FROM cancelacion_proyecto WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al eliminar cancelación.", e);
         }
     }
 }

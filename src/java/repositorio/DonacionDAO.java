@@ -17,7 +17,7 @@ import modelo.Donacion;
 public class DonacionDAO implements IDonacionDAO {
 
     @Override
-    public void insertar(Donacion donacion) {
+    public void insertar(Donacion donacion) throws SQLException {
         String sql = "INSERT INTO donacion (monto, comentario, fecha, idDonante, idProyecto) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -31,12 +31,12 @@ public class DonacionDAO implements IDonacionDAO {
             ps.executeUpdate();
             
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al insertar donación.", e);
         }
     }
     
     @Override
-    public List<Donacion> obtenerPorIdDonante(int idDonante) {
+    public List<Donacion> obtenerPorIdDonante(int idDonante) throws SQLException {
         List<Donacion> donaciones = new ArrayList<>();
         String sql = "SELECT d.*, p.nombreProyecto FROM donacion d " +
                      "JOIN proyecto p ON d.idProyecto = p.idProyecto " +
@@ -60,13 +60,13 @@ public class DonacionDAO implements IDonacionDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener donaciones por donante.", e);
         }
         return donaciones;
     }
 
     @Override
-    public boolean haDonado(int idUsuario, int idProyecto) {
+    public boolean haDonado(int idUsuario, int idProyecto) throws SQLException {
         String sql = "SELECT COUNT(*) FROM donacion WHERE idDonante = ? AND idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -78,12 +78,12 @@ public class DonacionDAO implements IDonacionDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al verificar si el usuario ha donado.", e);
         }
         return false;
     }
 
-    public Map<Integer, Boolean> haDonadoEnMultiples(int idUsuario, List<Integer> idsProyectos) {
+    public Map<Integer, Boolean> haDonadoEnMultiples(int idUsuario, List<Integer> idsProyectos) throws SQLException {
         Map<Integer, Boolean> resultado = new HashMap<>();
         if (idsProyectos == null || idsProyectos.isEmpty()) {
             return resultado;
@@ -110,7 +110,7 @@ public class DonacionDAO implements IDonacionDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al verificar múltiples donaciones.", e);
         }
         
         for (Integer idProyecto : idsProyectos) {
@@ -120,7 +120,7 @@ public class DonacionDAO implements IDonacionDAO {
         return resultado;
     }
     
-    public Donacion obtenerDonacionMasAlta(int idProyecto) {
+    public Donacion obtenerDonacionMasAlta(int idProyecto) throws SQLException {
         Donacion donacion = null;
         String sql = "SELECT d.*, u.nombre, u.apellido FROM donacion d " +
                      "JOIN usuario u ON d.idDonante = u.idUsuario " +
@@ -143,13 +143,13 @@ public class DonacionDAO implements IDonacionDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener la donación más alta.", e);
         }
         return donacion;
     }
 
     @Override
-    public List<Donacion> obtenerTodos() {
+    public List<Donacion> obtenerTodos() throws SQLException {
         List<Donacion> donaciones = new ArrayList<>();
         String sql = "SELECT * FROM donacion";
         try (Connection con = Conexion.getConexion();
@@ -166,13 +166,13 @@ public class DonacionDAO implements IDonacionDAO {
                 donaciones.add(donacion);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener todas las donaciones.", e);
         }
         return donaciones;
     }
 
     @Override
-    public Donacion obtenerPorId(int id) {
+    public Donacion obtenerPorId(int id) throws SQLException {
         Donacion donacion = null;
         String sql = "SELECT * FROM donacion WHERE idDonacion = ?";
         try (Connection con = Conexion.getConexion();
@@ -190,13 +190,13 @@ public class DonacionDAO implements IDonacionDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener donación por ID.", e);
         }
         return donacion;
     }
 
     @Override
-    public void actualizar(Donacion donacion) {
+    public void actualizar(Donacion donacion) throws SQLException {
         String sql = "UPDATE donacion SET monto = ?, comentario = ?, fecha = ?, idDonante = ?, idProyecto = ? WHERE idDonacion = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -208,24 +208,24 @@ public class DonacionDAO implements IDonacionDAO {
             ps.setInt(6, donacion.getIdDonacion());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar la donación.", e);
         }
     }
 
     @Override
-    public void eliminar(int id) {
+    public void eliminar(int id) throws SQLException {
         String sql = "DELETE FROM donacion WHERE idDonacion = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al eliminar la donación.", e);
         }
     }
 
     @Override
-    public List<Donacion> obtenerDonacionesPorUsuarioYProyecto(int idDonante, int idProyecto) {
+    public List<Donacion> obtenerDonacionesPorUsuarioYProyecto(int idDonante, int idProyecto) throws SQLException {
         List<Donacion> donaciones = new ArrayList<>();
         String sql = "SELECT d.*, p.nombreProyecto FROM donacion d " +
                      "JOIN proyecto p ON d.idProyecto = p.idProyecto " +
@@ -250,7 +250,7 @@ public class DonacionDAO implements IDonacionDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener donaciones por usuario y proyecto.", e);
         }
         return donaciones;
     }

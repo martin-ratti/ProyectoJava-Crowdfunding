@@ -1,7 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -45,18 +47,29 @@ public class RegisterServlet extends HttpServlet {
             nuevoUsuario.setFechaNacimiento(fechaNacimiento);
 
             UsuarioDAO usuarioDAO = new UsuarioDAO();
-            // La función insertar ahora devuelve el usuario con el ID asignado
             Usuario usuarioRegistrado = usuarioDAO.insertar(nuevoUsuario);
 
             HttpSession session = request.getSession(true);
-            // Guardamos en la sesión el objeto que ya tiene el ID
             session.setAttribute("usuario", usuarioRegistrado);
             session.setAttribute("successMessage", "¡Registro exitoso! Bienvenido, " + nombre);
             response.sendRedirect(request.getContextPath() + "/home");
 
+        } catch (DateTimeParseException e) {
+            request.setAttribute("errorMessage", "El formato de la fecha de nacimiento no es válido.");
+            request.getRequestDispatcher("/views/auth/register.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Verificar si es un error de email duplicado
+            if (e.getMessage().contains("Duplicate entry")) {
+                request.setAttribute("errorMessage", "El correo electrónico ya está en uso.");
+                request.getRequestDispatcher("/views/auth/register.jsp").forward(request, response);
+            } else {
+                request.setAttribute("errorMessage", "Error de base de datos durante el registro.");
+                request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Hubo un error en el registro. Inténtalo de nuevo.");
+            request.setAttribute("errorMessage", "Hubo un error inesperado en el registro. Inténtalo de nuevo.");
             request.getRequestDispatcher("/views/auth/register.jsp").forward(request, response);
         }
     }

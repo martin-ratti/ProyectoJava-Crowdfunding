@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -26,19 +27,20 @@ public class ProjectDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String idParam = request.getParameter("id");
-        if (idParam == null || idParam.isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/activeProjects");
-            return;
-        }
-
         try {
+            String idParam = request.getParameter("id");
+            if (idParam == null || idParam.isEmpty()) {
+                response.sendRedirect(request.getContextPath() + "/activeProjects");
+                return;
+            }
+
             int idProyecto = Integer.parseInt(idParam);
 
             ProyectoDAO proyectoDAO = new ProyectoDAO();
             Proyecto proyecto = proyectoDAO.obtenerPorId(idProyecto);
 
             if (proyecto == null) {
+                request.getSession().setAttribute("errorMessage", "El proyecto que buscas no existe.");
                 response.sendRedirect(request.getContextPath() + "/activeProjects");
                 return;
             }
@@ -48,8 +50,6 @@ public class ProjectDetailsServlet extends HttpServlet {
             request.setAttribute("comentarios", comentarios);
             
             DonacionDAO donacionDAO = new DonacionDAO();
-
-            // Obtener la donación más alta
             Donacion donacionMasAlta = donacionDAO.obtenerDonacionMasAlta(idProyecto);
             request.setAttribute("donacionMasAlta", donacionMasAlta);
 
@@ -71,10 +71,16 @@ public class ProjectDetailsServlet extends HttpServlet {
             request.getRequestDispatcher("/views/project/project-details.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
+            request.getSession().setAttribute("errorMessage", "El ID del proyecto proporcionado no es válido.");
             response.sendRedirect(request.getContextPath() + "/activeProjects");
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log del error en el servidor
+            request.setAttribute("errorMessage", "Error al conectar con la base de datos para cargar el proyecto.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/activeProjects");
+            e.printStackTrace(); // Log del error en el servidor
+            request.setAttribute("errorMessage", "Ocurrió un error inesperado al cargar los detalles del proyecto.");
+            request.getRequestDispatcher("/views/common/warning.jsp").forward(request, response);
         }
     }
 }

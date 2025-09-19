@@ -14,19 +14,19 @@ import modelo.Pais;
 public class PaisDAO implements IPaisDAO {
 
     @Override
-    public void insertar(Pais pais) {
+    public void insertar(Pais pais) throws SQLException {
         String sql = "INSERT INTO pais (nombrePais) VALUES (?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, pais.getNombrePais());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al insertar país.", e);
         }
     }
 
     @Override
-    public List<Pais> obtenerTodos() {
+    public List<Pais> obtenerTodos() throws SQLException {
         List<Pais> paises = new ArrayList<>();
         String sql = "SELECT * FROM pais";
         try (Connection con = Conexion.getConexion();
@@ -39,13 +39,13 @@ public class PaisDAO implements IPaisDAO {
                 paises.add(pais);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener todos los países.", e);
         }
         return paises;
     }
 
     @Override
-    public Pais obtenerPorId(int id) {
+    public Pais obtenerPorId(int id) throws SQLException {
         Pais pais = null;
         String sql = "SELECT * FROM pais WHERE idPais = ?";
         try (Connection con = Conexion.getConexion();
@@ -59,13 +59,13 @@ public class PaisDAO implements IPaisDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener país por ID.", e);
         }
         return pais;
     }
 
     @Override
-    public void actualizar(Pais pais) {
+    public void actualizar(Pais pais) throws SQLException {
         String sql = "UPDATE pais SET nombrePais = ? WHERE idPais = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -73,19 +73,19 @@ public class PaisDAO implements IPaisDAO {
             ps.setInt(2, pais.getIdPais());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar país.", e);
         }
     }
 
     @Override
-    public void eliminar(int id) {
+    public void eliminar(int id) throws SQLException {
         String sql = "DELETE FROM pais WHERE idPais = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al eliminar país.", e);
         }
     }
 }

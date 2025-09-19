@@ -1,23 +1,24 @@
 package interfaces;
 
+import java.sql.SQLException;
 import java.util.List;
 import modelo.Donacion;
 
 public interface IDonacionDAO {
     
-    List<Donacion> obtenerTodos();
+    List<Donacion> obtenerTodos() throws SQLException;
     
-    Donacion obtenerPorId(int id);
+    Donacion obtenerPorId(int id) throws SQLException;
     
-    void insertar(Donacion donacion);
+    void insertar(Donacion donacion) throws SQLException;
     
-    void actualizar(Donacion donacion);
+    void actualizar(Donacion donacion) throws SQLException;
     
-    void eliminar(int id);
+    void eliminar(int id) throws SQLException;
     
-    List<Donacion> obtenerPorIdDonante(int idDonante);
+    List<Donacion> obtenerPorIdDonante(int idDonante) throws SQLException;
 
-    boolean haDonado(int idUsuario, int idProyecto);
+    boolean haDonado(int idUsuario, int idProyecto) throws SQLException;
     
-    List<Donacion> obtenerDonacionesPorUsuarioYProyecto(int idDonante, int idProyecto);
+    List<Donacion> obtenerDonacionesPorUsuarioYProyecto(int idDonante, int idProyecto) throws SQLException;
 }

@@ -14,7 +14,7 @@ import modelo.Avance_Proyecto;
 public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
 
     @Override
-    public void insertar(Avance_Proyecto avance) {
+    public void insertar(Avance_Proyecto avance) throws SQLException {
         String sql = "INSERT INTO avance_proyecto (idProyecto, idAvance, descripcion, foto, fecha) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -29,7 +29,7 @@ public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
             ps.executeUpdate();
             
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al insertar avance de proyecto.", e);
         }
     }
     
@@ -48,7 +48,7 @@ public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
     }
 
     @Override
-    public List<Avance_Proyecto> obtenerTodos() {
+    public List<Avance_Proyecto> obtenerTodos() throws SQLException {
         List<Avance_Proyecto> lista = new ArrayList<>();
         String sql = "SELECT * FROM avance_proyecto";
         try (Connection con = Conexion.getConexion();
@@ -58,13 +58,13 @@ public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
                 lista.add(mapearResultSetAAvance(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener todos los avances.", e);
         }
         return lista;
     }
     
     @Override
-    public List<Avance_Proyecto> obtenerPorProyecto(int idProyecto) {
+    public List<Avance_Proyecto> obtenerPorProyecto(int idProyecto) throws SQLException {
         List<Avance_Proyecto> lista = new ArrayList<>();
         String sql = "SELECT * FROM avance_proyecto WHERE idProyecto = ? ORDER BY fecha DESC, idAvance DESC";
         try (Connection con = Conexion.getConexion();
@@ -76,13 +76,13 @@ public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener avances por proyecto.", e);
         }
         return lista;
     }
 
     @Override
-    public Avance_Proyecto obtenerPorId(int idProyecto, int idAvance) {
+    public Avance_Proyecto obtenerPorId(int idProyecto, int idAvance) throws SQLException {
         Avance_Proyecto item = null;
         String sql = "SELECT * FROM avance_proyecto WHERE idProyecto = ? AND idAvance = ?";
         try (Connection con = Conexion.getConexion();
@@ -95,13 +95,13 @@ public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al obtener avance por ID.", e);
         }
         return item;
     }
 
     @Override
-    public void actualizar(Avance_Proyecto avance) {
+    public void actualizar(Avance_Proyecto avance) throws SQLException {
         String sql = "UPDATE avance_proyecto SET descripcion = ?, foto = ?, fecha = ? WHERE idProyecto = ? AND idAvance = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -112,12 +112,12 @@ public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
             ps.setInt(5, avance.getIdAvance());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al actualizar avance.", e);
         }
     }
 
     @Override
-    public void eliminar(int idProyecto, int idAvance) {
+    public void eliminar(int idProyecto, int idAvance) throws SQLException {
         String sql = "DELETE FROM avance_proyecto WHERE idProyecto = ? AND idAvance = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -125,7 +125,7 @@ public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
             ps.setInt(2, idAvance);
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Error al eliminar avance.", e);
         }
     }
 
@@ -139,4 +139,3 @@ public class Avance_ProyectoDAO implements IAvance_ProyectoDAO {
         return item;
     }
 }
-
