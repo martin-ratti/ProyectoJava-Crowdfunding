@@ -69,14 +69,12 @@ public class CreateProjectServlet extends HttpServlet {
             String descripcion = request.getParameter("descripcion");
             BigDecimal montoMeta = new BigDecimal(request.getParameter("monto_objetivo"));
             
-            // --- NUEVA VALIDACIÓN ---
             BigDecimal maximoPermitido = new BigDecimal("99999999999.99"); 
             if(montoMeta.compareTo(maximoPermitido) > 0) {
                 session.setAttribute("errorMessage", "El monto meta no puede ser tan alto.");
                 response.sendRedirect(request.getContextPath() + "/createProject");
                 return;
             }
-            // --- FIN DE LA VALIDACIÓN ---
 
             LocalDate fechaFin = LocalDate.parse(request.getParameter("fecha_limite"));
             LocalDate fechaIni = LocalDate.now();
@@ -142,4 +140,3 @@ public class CreateProjectServlet extends HttpServlet {
         }
     }
 }
-
