@@ -57,7 +57,6 @@
                                     </c:when>
                                     <c:when test="${p.estado eq 'Activo'}">
                                         <a href="${pageContext.request.contextPath}/addAdvance?idProyecto=${p.idProyecto}" class="little-glow-btn-inverse">Añadir Avance</a>
-                                        <%-- CORRECCIÓN: Se cambió "avancesProyecto" a "projectAdvances" para que coincida con el servlet --%>
                                         <a href="${pageContext.request.contextPath}/projectAdvances?idProyecto=${p.idProyecto}" class="little-glow-btn">Ver Avances</a>
                                     </c:when>
                                     <c:otherwise>

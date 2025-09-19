@@ -72,7 +72,7 @@
 }
 
 .glow-btn-danger:hover {
-    background: #c0392b; /* Un rojo más oscuro para el hover */
+    background: #c0392b; 
     border-color: #c0392b;
     color: #fff;
     box-shadow: 

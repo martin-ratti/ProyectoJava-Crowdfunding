@@ -2,6 +2,7 @@ package interfaces;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import modelo.Donacion;
 
 public interface IDonacionDAO {
@@ -21,4 +22,8 @@ public interface IDonacionDAO {
     boolean haDonado(int idUsuario, int idProyecto) throws SQLException;
     
     List<Donacion> obtenerDonacionesPorUsuarioYProyecto(int idDonante, int idProyecto) throws SQLException;
+    
+    Donacion obtenerDonacionMasAlta(int idProyecto) throws SQLException;
+    
+    Map<Integer, Boolean> haDonadoEnMultiples(int idUsuario, List<Integer> idsProyectos) throws SQLException;
 }

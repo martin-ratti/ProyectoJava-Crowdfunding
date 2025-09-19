@@ -11,7 +11,7 @@
     <link rel="icon" href="${pageContext.request.contextPath}/assets/simbolo-dinero.png">
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/project/styles/project-details.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/styles/my-donations.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/user/styles/donation.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/globals.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/fragments/styles/footer.css">
@@ -71,8 +71,6 @@
                             Donar a este Proyecto
                         </a>
                     </c:if>
-
-                    <%-- NUEVO BOTÓN: Añadir Avance para el creador del proyecto si está activo --%>
                     <c:if test="${not empty sessionScope.usuario and not sessionScope.usuario.esAdmin() and sessionScope.usuario.idUsuario eq proyecto.idCreador and proyecto.estado eq 'Activo'}">
                         <a href="${pageContext.request.contextPath}/addAdvance?idProyecto=${proyecto.idProyecto}" class="glow-btn-inverse">
                             Añadir Avance
@@ -93,7 +91,7 @@
                         </p>
                     </c:if>
                     
-                    <%-- Formulario para comentar (solo para usuarios que han donado) --%>
+                    <%-- Formulario para comentar --%>
                     <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.idUsuario ne proyecto.idCreador and not sessionScope.usuario.esAdmin()}">
                         <c:choose>
                             <c:when test="${haDonado}">
@@ -127,7 +125,7 @@
                                 <p class="comment-body">${comentario.descripcion}</p>
                                 <p class="comment-date">${comentario.fechaFormateada}</p>
 
-                                <%-- Botón para deshabilitar comentario (solo para admin) --%>
+                                <%-- Botón para deshabilitar comentario --%>
                                 <c:if test="${not empty sessionScope.usuario and sessionScope.usuario.esAdmin()}">
                                     <form action="${pageContext.request.contextPath}/disableComment" method="post" style="display:inline;">
                                         <input type="hidden" name="idComentario" value="${comentario.idComentario}" />
@@ -141,7 +139,7 @@
                     </div>
                 </section>
                 
-                <%-- Sección de "Mis Donaciones" (solo para el usuario logueado) --%>
+                <%-- Sección de "Mis Donaciones" --%>
                 <c:if test="${not empty misDonacionesProyecto}">
                     <section id="user-donations" class="user-donations-section">
                         <h2>Tus Donaciones a este Proyecto</h2>

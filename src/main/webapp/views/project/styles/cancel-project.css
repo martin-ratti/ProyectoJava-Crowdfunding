@@ -1,12 +1,10 @@
-/* Estilos dedicados para el formulario de cancelación de proyecto */
-
 .main-container {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 4rem 2rem;
     background-color: #f4f7f6;
-    min-height: calc(100vh - 180px); /* Ajusta según el alto de tu header/footer */
+    min-height: calc(100vh - 180px);
 }
 
 .form-card {
@@ -22,8 +20,8 @@
 .form-card h2 {
     color: #333;
     font-size: 2rem;
-    position: relative; /* Necesario para el pseudoelemento */
-    padding-bottom: 15px; /* Espacio para el subrayado */
+    position: relative;
+    padding-bottom: 15px; 
     margin-bottom: 20px;
 }
 

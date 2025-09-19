@@ -38,7 +38,6 @@ public class ProyectoDAO implements IProyectoDAO {
         p.setNombrePais(rs.getString("nombrePais"));
         proyecto.setPais(p);
 
-        // Mapeo del creador si la query lo trae
         try {
             String nombreCreador = rs.getString("nombreCreador");
             if (nombreCreador != null) {
@@ -49,7 +48,6 @@ public class ProyectoDAO implements IProyectoDAO {
                 proyecto.setCreador(creador);
             }
         } catch (SQLException ignore) {
-            // si no hay columnas de creador, no se setea
         }
 
         return proyecto;
@@ -94,6 +92,7 @@ public class ProyectoDAO implements IProyectoDAO {
         }
     }
 
+    @Override
     public void actualizarMontoRecaudado(int idProyecto, BigDecimal nuevoMontoRecaudado) throws SQLException {
         String sql = "UPDATE proyecto SET montoRecaudado = ? WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
@@ -138,6 +137,7 @@ public class ProyectoDAO implements IProyectoDAO {
         return proyecto;
     }
 
+    @Override
     public void actualizarEstado(int idProyecto, String nuevoEstado) throws SQLException {
         String sql = "UPDATE proyecto SET estado = ? WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
@@ -175,11 +175,11 @@ public class ProyectoDAO implements IProyectoDAO {
         return buscarProyectos(null, null, null);
     }
 
-    @Override
     public List<Proyecto> buscarProyectos(String query) throws SQLException {
         return buscarProyectos(query, null, null);
     }
 
+    @Override
     public List<Proyecto> buscarProyectos(String query, Integer idCategoria, Integer idPais) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
@@ -247,10 +247,11 @@ public class ProyectoDAO implements IProyectoDAO {
     @Override
     public List<Proyecto> obtenerPendientes() throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
-        String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais " +
+        String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador " +
                "FROM proyecto p " +
                "JOIN categoria c ON p.idCategoria = c.idCategoria " +
                "JOIN pais pa ON p.idPais = pa.idPais " +
+               "JOIN usuario u ON p.idCreador = u.idUsuario " +
                "WHERE p.estado='Pendiente'";
         try (Connection con = Conexion.getConexion();
              Statement st = con.createStatement();
@@ -267,10 +268,11 @@ public class ProyectoDAO implements IProyectoDAO {
     @Override
     public List<Proyecto> obtenerPorUsuario(int idUsuario) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
-        String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais " +
+        String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador " +
                "FROM proyecto p " +
                "JOIN categoria c ON p.idCategoria = c.idCategoria " +
                "JOIN pais pa ON p.idPais = pa.idPais " +
+               "JOIN usuario u ON p.idCreador = u.idUsuario " +
                "WHERE p.idCreador=? AND p.estado <> 'Borrado'";
 
         try (Connection con = Conexion.getConexion();
@@ -292,26 +294,53 @@ public class ProyectoDAO implements IProyectoDAO {
         return lista;
     }
 
+    @Override
     public void cancelarProyecto(Proyecto proyecto, Cancelacion_Proyecto cancelacion) throws SQLException {
-        String updateProyecto = "UPDATE proyecto SET estado = ? WHERE idProyecto = ?";
-        String insertCancelacion = "INSERT INTO cancelacion_proyecto (idProyecto, motivo, fecha) VALUES (?, ?, ?)";
-        try (Connection con = Conexion.getConexion()) {
-            try (PreparedStatement ps = con.prepareStatement(updateProyecto)) {
-                ps.setString(1, proyecto.getEstado());
-                ps.setInt(2, proyecto.getIdProyecto());
-                ps.executeUpdate();
+        String updateProyectoSql = "UPDATE proyecto SET estado = ? WHERE idProyecto = ?";
+        String insertCancelacionSql = "INSERT INTO cancelacion_proyecto (idProyecto, motivo, fecha) VALUES (?, ?, ?)";
+        Connection con = null;
+        try {
+            con = Conexion.getConexion();
+            // Iniciar transacción
+            con.setAutoCommit(false);
+            try (PreparedStatement psUpdate = con.prepareStatement(updateProyectoSql)) {
+                psUpdate.setString(1, proyecto.getEstado());
+                psUpdate.setInt(2, proyecto.getIdProyecto());
+                psUpdate.executeUpdate();
             }
-            try (PreparedStatement ps = con.prepareStatement(insertCancelacion)) {
-                ps.setInt(1, cancelacion.getIdProyecto());
-                ps.setString(2, cancelacion.getMotivo());
-                ps.setDate(3, java.sql.Date.valueOf(cancelacion.getFecha()));
-                ps.executeUpdate();
+
+            try (PreparedStatement psInsert = con.prepareStatement(insertCancelacionSql)) {
+                psInsert.setInt(1, cancelacion.getIdProyecto());
+                psInsert.setString(2, cancelacion.getMotivo());
+                psInsert.setDate(3, java.sql.Date.valueOf(cancelacion.getFecha()));
+                psInsert.executeUpdate();
             }
+            // Si todo fue bien, confirmar la transacción
+            con.commit();
+
         } catch (SQLException e) {
-            throw new SQLException("Error al cancelar el proyecto.", e);
+            // Si algo falla, revertir todos los cambios
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException ex) {
+                    throw new SQLException("Error al revertir la transacción de cancelación.", ex);
+                }
+            }
+            throw new SQLException("Error al cancelar el proyecto. La transacción fue revertida.", e);
+        } finally {
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                    con.close();
+                } catch (SQLException e) {
+                     e.printStackTrace();
+                }
+            }
         }
     }
 
+    @Override
     public void borrarDefinitivamente(int idProyecto) throws SQLException {
         String sql = "UPDATE proyecto SET estado = 'Borrado' WHERE idProyecto = ?";
         try (Connection con = Conexion.getConexion();
@@ -323,6 +352,7 @@ public class ProyectoDAO implements IProyectoDAO {
         }
     }
     
+    @Override
     public List<Proyecto> obtenerProyectosDonadosPorUsuario(int idUsuario) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
         String sql = "SELECT DISTINCT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador " +
@@ -378,6 +408,7 @@ public class ProyectoDAO implements IProyectoDAO {
         return lista;
     }
 
+    @Override
     public List<Pais> obtenerPaisesConProyectosActivos() throws SQLException {
         List<Pais> lista = new ArrayList<>();
         String sql = "SELECT DISTINCT pa.idPais, pa.nombrePais " +
@@ -399,3 +430,4 @@ public class ProyectoDAO implements IProyectoDAO {
         return lista;
     }
 }
+

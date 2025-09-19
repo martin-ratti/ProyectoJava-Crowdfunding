@@ -15,7 +15,6 @@ import modelo.Proyecto;
 import modelo.Usuario;
 import repositorio.CategoriaDAO;
 import repositorio.DonacionDAO;
-import repositorio.PaisDAO;
 import repositorio.ProyectoDAO;
 
 @WebServlet("/activeProjects")
@@ -89,3 +88,4 @@ public class ActiveProjectsServlet extends HttpServlet {
         }
     }
 }
+

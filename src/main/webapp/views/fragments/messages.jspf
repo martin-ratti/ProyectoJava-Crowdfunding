@@ -21,15 +21,12 @@
     document.addEventListener('DOMContentLoaded', function() {
         const alerts = document.querySelectorAll('.alert-container .alert');
         alerts.forEach(function(alert) {
-            // Inicia el temporizador para el fundido de salida
             setTimeout(function() {
                 alert.style.opacity = '0';
-
-                // Espera a que termine la transición para ocultar el elemento por completo
                 setTimeout(function() {
                     alert.style.display = 'none';
                 }, 500); 
-            }, 5000); // El mensaje es visible durante 5 segundos
+            }, 5000); 
         });
     });
 </script>

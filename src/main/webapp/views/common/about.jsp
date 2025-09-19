@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acerca de Nosotros</title>
+    <title>Acerca de Nosotros - ImpulsaMe</title>
 
     <link rel="icon" href="${pageContext.request.contextPath}/assets/simbolo-dinero.png">
     

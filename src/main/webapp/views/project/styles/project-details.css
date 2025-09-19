@@ -20,7 +20,6 @@ body {
     padding: 40px 20px;
 }
 
-/* Nuevo layout para detalles y sidebar */
 .details-layout {
     display: flex;
     flex-direction: column;
@@ -44,14 +43,14 @@ body {
     text-align: left;
     border: 1px solid #e0e6e9;
     box-sizing: border-box;
-    flex: 3; /* Ocupa más espacio */
-    min-width: 0; /* Solución para el desbordamiento del carrusel */
+    flex: 3; 
+    min-width: 0; 
 }
 
 .sidebar {
-    flex: 1; /* Ocupa menos espacio */
+    flex: 1; 
     position: sticky;
-    top: 100px; /* Alineado debajo del header */
+    top: 100px; 
 }
 
 .top-donor-card {
@@ -100,8 +99,6 @@ body {
     margin-top: 15px;
 }
 
-
-/* --- Estilos Anteriores --- */
 
 .project-card h1 {
     font-size: 2.8rem;

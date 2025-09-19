@@ -6,7 +6,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Detalle del Mensaje</title>
+    <title>Detalle del Mensaje - ImpulsaMe</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/admin/styles/message-detail.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/globals.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/common/styles/glow-buttons.css">

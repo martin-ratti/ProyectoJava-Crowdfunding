@@ -1,25 +1,22 @@
-/* Estilo del contenedor principal, alineado con el estilo del login */
 .donation-container {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 60px 20px;
     min-height: calc(100vh - 180px);
-    background-color: var(--background-gray, #f9fafb); /* Usa la variable global o un color de respaldo */
+    background-color: var(--background-gray, #f9fafb);
 }
 
-/* Tarjeta principal con el estilo del formulario de login */
 .donation-card {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     padding: 40px;
     width: 100%;
-    max-width: 450px; /* Un poco más ancha para el contenido de donación */
+    max-width: 450px;
     text-align: center;
 }
 
-/* Títulos y textos dentro de la tarjeta */
 .donation-card h1 {
     margin-bottom: 10px;
     color: var(--dark-green, #2c3e50);
@@ -32,18 +29,15 @@
     margin-bottom: 30px;
 }
 
-/* Estructura del formulario */
 .donation-form {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Reducimos el gap para que el form-group lo maneje */
+    gap: 10px;
 }
-
-/* --- ESTILOS DE ETIQUETA FLOTANTE --- */
 
 .form-group {
     position: relative;
-    margin-bottom: 30px; /* Espacio entre campos */
+    margin-bottom: 30px;
     text-align: left;
 }
 
@@ -58,7 +52,7 @@
     outline: none;
     color: #333;
     transition: border-color 0.3s ease;
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+    box-sizing: border-box;
 }
 
 .form-group textarea {
@@ -81,7 +75,6 @@
     transition: all 0.3s ease;
 }
 
-/* Lógica para que la etiqueta "flote" */
 .form-group input:focus ~ label,
 .form-group input:not(:placeholder-shown) ~ label,
 .form-group textarea:focus ~ label,
@@ -94,17 +87,13 @@
     border-radius: 4px;
 }
 
-/* --- FIN DE ESTILOS DE ETIQUETA FLOTANTE --- */
-
-/* Botón de envío del formulario */
 .donation-form .glow-btn-inverse {
     width: 100%;
     margin-top: 15px;
-    padding: 14px 30px; /* Ligeramente ajustado para consistencia */
+    padding: 14px 30px;
     font-size: 1.1rem;
 }
 
-/* Ajustes para dispositivos móviles */
 @media (max-width: 576px) {
     .donation-container {
         padding: 30px 15px;
@@ -119,3 +108,116 @@
     }
 }
 
+.donations-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 30px;
+    min-height: calc(100vh - 200px);
+}
+
+.donations-container h1 {
+    font-size: 2.5rem;
+    color: var(--dark-green);
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+    font-weight: bold;
+}
+
+.no-donations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 40px;
+    padding: 40px;
+    border: 2px dashed #dce1e6;
+    border-radius: 16px;
+    background-color: #fdfdfd;
+}
+
+.no-donations-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    color: var(--primary-green);
+}
+
+.no-donations p {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 25px;
+    margin-top: 0;
+}
+
+.donations-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+@media (min-width: 768px) {
+    .donations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.donation-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+    border: 1px solid #e0e6e9;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.donation-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+.donation-card .project-title {
+    font-size: 1.4rem;
+    color: var(--dark-green);
+    font-weight: 600;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.donation-card .donation-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin: 0;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.donation-card .donation-comment {
+    font-size: 1rem;
+    color: #444;
+    font-style: italic;
+    background-color: #f7f9f9;
+    padding: 15px;
+    border-left: 4px solid var(--primary-green);
+    border-radius: 0 8px 8px 0;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.donation-card .donation-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #667;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: auto;
+}

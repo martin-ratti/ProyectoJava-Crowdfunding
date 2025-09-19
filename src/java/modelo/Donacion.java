@@ -11,7 +11,7 @@ public class Donacion {
     private int idDonante;
     private int idProyecto;
     private String nombreProyecto;
-    private String nombreDonante; // Campo nuevo
+    private String nombreDonante; 
 
     public int getIdDonacion() {
         return idDonacion;

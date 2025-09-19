@@ -17,4 +17,6 @@ public interface IComentarioDAO {
     public void eliminar(int id) throws SQLException;
     
     public List<Comentario> obtenerPorIdProyecto(int idProyecto) throws SQLException;
+    
+    public void deshabilitarComentario(int idComentario) throws SQLException;
 }

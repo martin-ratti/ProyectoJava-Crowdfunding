@@ -15,4 +15,8 @@ public interface IUsuarioDAO {
     public void actualizar(Usuario usuario) throws SQLException;
     
     public void eliminar(int id) throws SQLException;
+    
+    public Usuario validarUsuario(String email, String password) throws SQLException;
+
+    public Usuario obtenerPorEmail(String email) throws SQLException;
 }

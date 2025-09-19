@@ -65,14 +65,12 @@
     border-radius: 4px;
 }
 
-/* Campo obligatorio → muestra un * */
 label:has(input:required)::after {
     content: " *";
     color: red;
     font-weight: bold;
 }
 
-/* Campo opcional → muestra (opcional) */
 label:has(input:optional)::after {
     content: " (opcional)";
     color: #777;

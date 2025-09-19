@@ -25,7 +25,7 @@
     padding-bottom: 15px; 
 }
 
-/* Subrayado característico para los títulos */
+/* Subrayado para los títulos */
 .form-container h2::after {
     content: '';
     display: block;

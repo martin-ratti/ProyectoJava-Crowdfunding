@@ -6,7 +6,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Contacto</title>
+    <title>Contacto - ImpulsaMe</title>
     
     <link rel="icon" href="${pageContext.request.contextPath}/assets/simbolo-dinero.png">
     

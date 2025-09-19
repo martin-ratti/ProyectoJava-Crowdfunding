@@ -5,7 +5,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Categorías</title>
+    <title>Categorías - ImpulsaMe</title>
     
     <link rel="icon" href="${pageContext.request.contextPath}/assets/simbolo-dinero.png">
     

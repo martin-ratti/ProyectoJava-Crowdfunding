@@ -1,4 +1,3 @@
-/* --- Estructura Principal del Header --- */
 .header { 
     background-color: #fff;
     padding: 1rem 2rem; 
@@ -15,25 +14,24 @@
     gap: 2rem;
 } 
 
-/* --- Secciones Izquierda, Centro y Derecha --- */
 .header-left {
-    flex-shrink: 0; /* Evita que el logo se encoja */
+    flex-shrink: 0; 
 }
 
 .header-center {
-    flex-grow: 1; /* Ocupa el espacio central sobrante */
+    flex-grow: 1; 
     display: flex;
     align-items: center;
-    justify-content: center; /* Centra los elementos internos */
+    justify-content: center; 
     gap: 2rem;
 }
 
 .header-right {
-    flex-shrink: 0; /* Evita que los botones de usuario se encojan */
+    flex-shrink: 0; 
 }
 
 
-/* --- Logo --- */
+/* -- Logo -- */
 .logo-link { 
     display: flex; 
     align-items: center; 
@@ -75,9 +73,9 @@
 .search-container {
     position: relative;
     display: flex;
-    justify-content: flex-start; /* Alinea la barra a la izquierda dentro del contenedor central */
+    justify-content: flex-start; 
     width: 100%;
-    max-width: 400px; /* Ajusta el ancho máximo de la barra */
+    max-width: 400px; 
 }
 
 .search-form {
@@ -123,7 +121,6 @@
 }
 
 
-/* --- Estilos para Autocompletado --- */
 #autocomplete-results {
     position: absolute;
     top: 100%;
@@ -148,7 +145,6 @@
 }
 
 
-/* --- Botones de Usuario --- */
 .auth-buttons {
     display: flex;
     gap: 1.5rem; 
@@ -184,13 +180,13 @@
         gap: 1rem;
     }
     .logo-text {
-        display: none; /* Oculta el texto del logo en pantallas más pequeñas */
+        display: none; 
     }
 }
 
 @media (max-width: 900px) {
     .nav {
-        display: none; /* Oculta la navegación principal en pantallas muy pequeñas */
+        display: none; 
     }
     .search-container {
         max-width: 250px;

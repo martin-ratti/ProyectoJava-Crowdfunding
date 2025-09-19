@@ -5,7 +5,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cómo Funciona</title>
+    <title>Cómo Funciona - ImpulsaMe</title>
     
     <link rel="icon" href="${pageContext.request.contextPath}/assets/simbolo-dinero.png">
     

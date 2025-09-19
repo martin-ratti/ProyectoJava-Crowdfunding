@@ -1,4 +1,4 @@
-/* --- Estilos para la página "Mis Proyectos" y "Proyectos Pendientes" --- */
+/*Estilos para la página "Mis Proyectos" y "Proyectos Pendientes"*/
 
 .projects-container {
     max-width: 1200px;
@@ -109,7 +109,6 @@
 }
 
 
-/* Grilla de tarjetas */
 .card-grid {
     display: grid;
     gap: 30px;
@@ -124,7 +123,6 @@
 }
 
 
-/* Tarjeta de Proyecto Individual */
 .project-card {
     background: #fff;
     border-radius: 16px;
@@ -222,7 +220,6 @@
 .status-activo .status-label { background-color: var(--primary-green); }
 
 
-/* Acciones en la tarjeta (botones) */
 .card-actions {
     padding: 15px 20px 20px;
     border-top: 1px solid #e9ecef;
@@ -254,7 +251,6 @@
     white-space: nowrap;
 }
 
-/* Botones para estados Pendiente y Activo */
 .project-card.status-pendiente .card-actions a:first-child,
 .project-card.status-activo .card-actions a:first-child {
     background-color: var(--primary-green);
@@ -279,7 +275,6 @@
     color: white;
 }
 
-/* Botones para Rechazado y Cancelado */
 .project-card.status-rechazado .card-actions a,
 .project-card.status-cancelado .card-actions a {
     background-color: transparent;
