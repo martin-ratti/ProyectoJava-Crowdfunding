@@ -71,6 +71,14 @@
                             Donar a este Proyecto
                         </a>
                     </c:if>
+
+                    <%-- NUEVO BOTÓN: Añadir Avance para el creador del proyecto si está activo --%>
+                    <c:if test="${not empty sessionScope.usuario and not sessionScope.usuario.esAdmin() and sessionScope.usuario.idUsuario eq proyecto.idCreador and proyecto.estado eq 'Activo'}">
+                        <a href="${pageContext.request.contextPath}/addAdvance?idProyecto=${proyecto.idProyecto}" class="glow-btn-inverse">
+                            Añadir Avance
+                        </a>
+                    </c:if>
+
                     <c:if test="${empty sessionScope.usuario}">
                         <a href="${pageContext.request.contextPath}/login" class="glow-btn-inverse">Donar a este Proyecto</a>
                     </c:if>

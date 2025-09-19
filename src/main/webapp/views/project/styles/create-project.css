@@ -18,9 +18,25 @@
 
 .form-container h2 {
     color: #333;
-    margin-bottom: 0.5rem;
+    margin-bottom: 2.5rem;
     font-size: 2rem;
     font-weight: 700;
+    position: relative; 
+    padding-bottom: 15px; 
+}
+
+/* Subrayado característico para los títulos */
+.form-container h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-green);
+    border-radius: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .form-container p {
@@ -104,6 +120,9 @@ textarea {
     transition: all 0.3s ease;
     text-align: center;
     box-sizing: border-box;
+    overflow: hidden;     
+    text-overflow: ellipsis; 
+    white-space: nowrap;    
 }
 
 .file-input-button:hover {
@@ -116,27 +135,21 @@ textarea {
     display: none;
 }
 
+.file-input-button.file-selected {
+    background-color: #e9f7ea; 
+    border-color: var(--primary-green);
+    color: var(--dark-green);
+    font-weight: bold;
+}
+
+.file-input-button.file-selected::before {
+    content: '✔ '; 
+    margin-right: 8px;
+}
+
 .form-buttons {
     display: flex;
     justify-content: center;
     gap: 1.5rem;
     margin-top: 2rem;
 }
-
-.error-message {
-    display: block;
-    margin-top: 8px;
-    padding: 0.6rem 1rem;
-    background-color: #f8d7da;   
-    color: #721c24;            
-    border: 1px solid #f5c6cb; 
-    border-radius: 6px;
-    font-size: 0.9rem;
-    text-align: center;
-    animation: fadeIn 0.3s ease-in;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-

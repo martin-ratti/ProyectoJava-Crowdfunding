@@ -41,10 +41,8 @@
 					%>
                 </div>
 
-                
-
                 <div class="form-group file-input">
-                    <label for="foto" class="file-input-button">Selecciona una imagen para el avance</label>
+                    <label for="foto" class="file-input-button" id="file-label-advance">Selecciona una imagen para el avance</label>
                     <input type="file" id="foto" name="foto" accept="image/*">
                 </div>
 
@@ -57,6 +55,23 @@
     </main>
 
     <jsp:include page="/views/fragments/footer.jspf" />
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('foto');
+            const fileLabel = document.getElementById('file-label-advance');
+            const originalLabelText = fileLabel.textContent;
+    
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    fileLabel.textContent = this.files[0].name;
+                    fileLabel.classList.add('file-selected');
+                } else {
+                    fileLabel.textContent = originalLabelText;
+                    fileLabel.classList.remove('file-selected');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-
