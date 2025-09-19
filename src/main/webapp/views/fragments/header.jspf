@@ -1,10 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
 
 <header class="header">
     <div class="header-container">
 
-        <!-- Sección Izquierda: Logo -->
         <div class="header-left">
             <a href="${pageContext.request.contextPath}/${not empty sessionScope.usuario ? 'activeProjects' : 'home'}" class="logo-link">
                 <img src="${pageContext.request.contextPath}/assets/simbolo-dinero.png" alt="logo" class="logo-img" />
@@ -12,7 +12,6 @@
             </a>
         </div>
 
-        <!-- Sección Central: Búsqueda y Navegación -->
         <div class="header-center">
             <%-- La barra de búsqueda solo aparece para usuarios NO administradores --%>
             <c:if test="${not empty sessionScope.usuario and not sessionScope.usuario.esAdmin()}">
