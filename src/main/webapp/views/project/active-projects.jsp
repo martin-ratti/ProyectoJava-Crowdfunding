@@ -74,7 +74,7 @@
                         <c:choose>
                             <%-- Un admin puede borrar proyectos activos --%>
                             <c:when test="${not empty sessionScope.usuario and sessionScope.usuario.esAdmin()}">
-                                <form action="${pageContext.request.contextPath}/deleteProject" method="post" style="display:inline;" onclick="event.stopPropagation();">
+                                <form action="${pageContext.request.contextPath}/rejectProject" method="post" style="display:inline;" onclick="event.stopPropagation();">
                                     <input type="hidden" name="idProyecto" value="${p.idProyecto}">
                                     <button type="submit" class="little-glow-btn-danger">Borrar</button>
                                 </form>
