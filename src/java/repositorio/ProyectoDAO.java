@@ -48,7 +48,26 @@ public class ProyectoDAO implements IProyectoDAO {
                 proyecto.setCreador(creador);
             }
         } catch (SQLException ignore) {
+            // Ignorar si las columnas del creador no están presentes
         }
+
+        // Mapear datos de cancelación si existen
+        try {
+            if ("Cancelado".equalsIgnoreCase(proyecto.getEstado())) {
+                String motivo = rs.getString("motivoCancelacion");
+                Date fechaCancelacion = rs.getDate("fechaCancelacion");
+                if (motivo != null && fechaCancelacion != null) {
+                    Cancelacion_Proyecto cancelacion = new Cancelacion_Proyecto();
+                    cancelacion.setIdProyecto(proyecto.getIdProyecto());
+                    cancelacion.setMotivo(motivo);
+                    cancelacion.setFecha(fechaCancelacion.toLocalDate());
+                    proyecto.setCancelacion(cancelacion);
+                }
+            }
+        } catch (SQLException ignore) {
+             // Ignorar si las columnas de cancelación no están presentes
+        }
+
 
         return proyecto;
     }
@@ -113,11 +132,14 @@ public class ProyectoDAO implements IProyectoDAO {
     @Override
     public Proyecto obtenerPorId(int id) throws SQLException {
         Proyecto proyecto = null;
-        String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador " +
+        // Consulta actualizada con LEFT JOIN para incluir datos de cancelación
+        String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador, " +
+                     "cp.motivo AS motivoCancelacion, cp.fecha AS fechaCancelacion " +
                      "FROM proyecto p " +
                      "JOIN categoria c ON p.idCategoria = c.idCategoria " +
                      "JOIN pais pa ON p.idPais = pa.idPais " +
                      "JOIN usuario u ON p.idCreador = u.idUsuario " +
+                     "LEFT JOIN cancelacion_proyecto cp ON p.idProyecto = cp.idProyecto " +
                      "WHERE p.idProyecto = ?";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -125,10 +147,6 @@ public class ProyectoDAO implements IProyectoDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     proyecto = mapResultSetToProyecto(rs);
-                    if ("Cancelado".equalsIgnoreCase(proyecto.getEstado())) {
-                        Cancelacion_Proyecto c = obtenerCancelacionPorProyecto(id);
-                        proyecto.setCancelacion(c);
-                    }
                 }
             }
         } catch (SQLException e) {
@@ -148,26 +166,6 @@ public class ProyectoDAO implements IProyectoDAO {
         } catch (SQLException e) {
             throw new SQLException("Error al actualizar estado del proyecto.", e);
         }
-    }
-
-    private Cancelacion_Proyecto obtenerCancelacionPorProyecto(int idProyecto) throws SQLException {
-        String sql = "SELECT * FROM cancelacion_proyecto WHERE idProyecto = ?";
-        try (Connection con = Conexion.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, idProyecto);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Cancelacion_Proyecto c = new Cancelacion_Proyecto();
-                    c.setIdProyecto(rs.getInt("idProyecto"));
-                    c.setMotivo(rs.getString("motivo"));
-                    c.setFecha(rs.getDate("fecha").toLocalDate());
-                    return c;
-                }
-            }
-        } catch (SQLException e) {
-            throw new SQLException("Error al obtener datos de cancelación.", e);
-        }
-        return null;
     }
 
     @Override
@@ -268,11 +266,14 @@ public class ProyectoDAO implements IProyectoDAO {
     @Override
     public List<Proyecto> obtenerPorUsuario(int idUsuario) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
-        String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador " +
+        // Consulta actualizada con LEFT JOIN para incluir datos de cancelación
+        String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador, " +
+               "cp.motivo AS motivoCancelacion, cp.fecha AS fechaCancelacion " +
                "FROM proyecto p " +
                "JOIN categoria c ON p.idCategoria = c.idCategoria " +
                "JOIN pais pa ON p.idPais = pa.idPais " +
                "JOIN usuario u ON p.idCreador = u.idUsuario " +
+               "LEFT JOIN cancelacion_proyecto cp ON p.idProyecto = cp.idProyecto " +
                "WHERE p.idCreador=? AND p.estado <> 'Borrado'";
 
         try (Connection con = Conexion.getConexion();
@@ -280,12 +281,7 @@ public class ProyectoDAO implements IProyectoDAO {
             ps.setInt(1, idUsuario);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Proyecto proyecto = mapResultSetToProyecto(rs);
-                    if ("Cancelado".equalsIgnoreCase(proyecto.getEstado())) {
-                        Cancelacion_Proyecto c = obtenerCancelacionPorProyecto(proyecto.getIdProyecto());
-                        proyecto.setCancelacion(c);
-                    }
-                    lista.add(proyecto);
+                    lista.add(mapResultSetToProyecto(rs));
                 }
             }
         } catch (SQLException e) {
@@ -368,38 +364,7 @@ public class ProyectoDAO implements IProyectoDAO {
             ps.setInt(1, idUsuario);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Proyecto proyecto = new Proyecto();
-                    proyecto.setIdProyecto(rs.getInt("idProyecto"));
-                    proyecto.setNombreProyecto(rs.getString("nombreProyecto"));
-                    proyecto.setDescripcion(rs.getString("descripcion"));
-                    proyecto.setMontoMeta(rs.getBigDecimal("montoMeta"));
-                    proyecto.setMontoRecaudado(rs.getBigDecimal("montoRecaudado"));
-                    proyecto.setFechaIni(rs.getDate("fechaIni").toLocalDate());
-                    proyecto.setFechaFin(rs.getDate("fechaFin").toLocalDate());
-                    proyecto.setIdCreador(rs.getInt("idCreador"));
-                    proyecto.setEstado(rs.getString("estado"));
-                    proyecto.setFoto(rs.getString("foto"));
-
-                    // Categoria
-                    Categoria categoria = new Categoria();
-                    categoria.setIdCategoria(rs.getInt("idCategoria"));
-                    categoria.setNombreCategoria(rs.getString("nombreCategoria"));
-                    proyecto.setCategoria(categoria);
-
-                    // Pais
-                    Pais pais = new Pais();
-                    pais.setIdPais(rs.getInt("idPais"));
-                    pais.setNombrePais(rs.getString("nombrePais"));
-                    proyecto.setPais(pais);
-
-                    // Creador
-                    Usuario creador = new Usuario();
-                    creador.setIdUsuario(rs.getInt("idCreador"));
-                    creador.setNombre(rs.getString("nombreCreador"));
-                    creador.setApellido(rs.getString("apellidoCreador"));
-                    proyecto.setCreador(creador);
-
-                    lista.add(proyecto);
+                    lista.add(mapResultSetToProyecto(rs));
                 }
             }
         } catch (SQLException e) {
@@ -430,4 +395,3 @@ public class ProyectoDAO implements IProyectoDAO {
         return lista;
     }
 }
-
