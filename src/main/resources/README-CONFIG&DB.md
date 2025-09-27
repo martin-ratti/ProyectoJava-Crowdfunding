@@ -10,7 +10,7 @@ El archivo se debe llamar config.properties
 
 Contenido ejemplo de config.properties:
 upload.dir=C:/Users/JohnArias/eclipse-workspace/ProyectoJava-Crowdfunding-main/src/main/webapp/uploads.
-stripe.secret.key= PEDISELA A AGUSTIN.
+stripe.secret.key= PEDILA.
 
 ----
 
