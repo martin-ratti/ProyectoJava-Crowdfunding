@@ -132,7 +132,6 @@ public class ProyectoDAO implements IProyectoDAO {
     @Override
     public Proyecto obtenerPorId(int id) throws SQLException {
         Proyecto proyecto = null;
-        // Consulta actualizada con LEFT JOIN para incluir datos de cancelación
         String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador, " +
                      "cp.motivo AS motivoCancelacion, cp.fecha AS fechaCancelacion " +
                      "FROM proyecto p " +
@@ -266,7 +265,6 @@ public class ProyectoDAO implements IProyectoDAO {
     @Override
     public List<Proyecto> obtenerPorUsuario(int idUsuario) throws SQLException {
         List<Proyecto> lista = new ArrayList<>();
-        // Consulta actualizada con LEFT JOIN para incluir datos de cancelación
         String sql = "SELECT p.*, c.nombreCategoria, pa.nombrePais, u.nombre AS nombreCreador, u.apellido AS apellidoCreador, " +
                "cp.motivo AS motivoCancelacion, cp.fecha AS fechaCancelacion " +
                "FROM proyecto p " +
@@ -315,7 +313,7 @@ public class ProyectoDAO implements IProyectoDAO {
             con.commit();
 
         } catch (SQLException e) {
-            // Si algo falla, revertir todos los cambios
+            // Si algo falla, revertir todos los cambios (rollback)
             if (con != null) {
                 try {
                     con.rollback();
