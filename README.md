@@ -1,490 +1,467 @@
-<!DOCTYPE html>
-<html lang="en">
-<body>
+<h1>🚀 ImpulsaMe - Plataforma de Crowdfunding en Java</h1>
 
-  <h1>ImpulsaMe – Java Crowdfunding Platform</h1>
-
-  <p>
-    <strong>Organization Name:</strong> ImpulsaMe<br />
-    <strong>Full project documentation (Spanish):</strong>
-    <a href="https://drive.google.com/drive/folders/1-iHSWlcJdVT-4DLdjdrMbCkB9aubQ5DZ?usp=sharing" target="_blank">
-      Google Drive – Project Docs
+<div align="center">
+    <a href="https://github.com/martin-ratti/ProyectoJava-Crowdfunding" target="_blank" style="text-decoration: none;">
+        <img src="https://img.shields.io/badge/💻%20Repo%20Principal-ImpulsaMe-0b7285?style=for-the-badge&logo=github&logoColor=white" alt="Repo ImpulsaMe"/>
     </a>
-  </p>
+    <a href="https://drive.google.com/drive/folders/1-iHSWlcJdVT-4DLdjdrMbCkB9aubQ5DZ?usp=sharing" target="_blank" style="text-decoration: none;">
+        <img src="https://img.shields.io/badge/📄%20Documentación%20Completa-Google%20Drive-34a853?style=for-the-badge&logo=googledrive&logoColor=white" alt="Docs Drive"/>
+    </a>
+</div>
 
-  <hr />
+<p align="center">
+    <a href="https://github.com/agussantinelli" target="_blank" style="text-decoration: none;">
+        <img src="https://img.shields.io/badge/👤%20Agustín%20Santinelli-agussantinelli-000000?style=for-the-badge&logo=github&logoColor=white" alt="Agus"/>
+    </a>
+    <a href="https://github.com/juaquin11" target="_blank" style="text-decoration: none;">
+        <img src="https://img.shields.io/badge/👤%20Joaquín%20Peralta-juaquin11-000000?style=for-the-badge&logo=github&logoColor=white" alt="Joaquin"/>
+    </a>
+    <a href="https://github.com/martin-ratti" target="_blank" style="text-decoration: none;">
+        <img src="https://img.shields.io/badge/👤%20Martín%20Ratti-martin--ratti-000000?style=for-the-badge&logo=github&logoColor=white" alt="Martin"/>
+    </a>
+</p>
 
-  <h2>Overview</h2>
-  <p>
-    <strong>ImpulsaMe</strong> is a web-based crowdfunding platform built with Java Servlets and JSP.
-    It enables users to create, browse, and fund projects through donations, with a strong focus on
-    moderation, role-based access control, and a clear project lifecycle.
-  </p>
-  <p>
-    This repository contains the source code of the application, including the presentation layer (JSP),
-    control layer (Servlets and filters), and data access layer (DAOs backed by PostgreSQL).
-  </p>
+<p align="center">
+    <img src="https://img.shields.io/badge/Java-Servlets%20%7C%20JSP-007396?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java Badge"/>
+    <img src="https://img.shields.io/badge/Web-Tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black" alt="Tomcat Badge"/>
+    <img src="https://img.shields.io/badge/DB-MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL Badge"/>
+    <img src="https://img.shields.io/badge/Build-Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven Badge"/>
+    <img src="https://img.shields.io/badge/Payments-Stripe-626CD9?style=for-the-badge&logo=stripe&logoColor=white" alt="Stripe Badge"/>
+</p>
 
-  <h3>Purpose &amp; Scope</h3>
-  <p>
-    The goal of ImpulsaMe is to provide a structured environment where:
-  </p>
-  <ul>
-    <li>
-      <strong>Project Creators</strong> can submit projects for funding, which enter a pending state
-      awaiting admin approval.
+<hr>
+
+<h2>🎯 Objetivo y Alcance</h2>
+
+<p>
+    <strong>ImpulsaMe</strong> es una plataforma web de <strong>crowdfunding</strong> desarrollada en Java (Servlets + JSP)
+    que permite crear, explorar y financiar proyectos mediante donaciones.
+</p>
+
+<p>
+    El sistema implementa un flujo completo de moderación y roles, donde cada proyecto pasa por estados
+    (<code>Pendiente → Activo → Cancelado/Borrado</code>) y sólo los proyectos aprobados son visibles
+    para recibir donaciones.
+</p>
+
+<ul>
+    <li><strong>Creadores de proyectos</strong>: publican proyectos que quedan en estado pendiente hasta ser moderados.</li>
+    <li><strong>Usuarios registrados</strong>: donan a proyectos activos y pueden comentar sólo si han donado.</li>
+    <li><strong>Administradores</strong>: aprueban/rechazan proyectos y moderan comentarios.</li>
+    <li><strong>Visitantes anónimos</strong>: navegan proyectos activos sin necesidad de autenticarse.</li>
+</ul>
+
+<p>
+    Toda la documentación extendida (diagramas, casos de uso, modelo de dominio, etc.) se encuentra en:
+    <a href="https://drive.google.com/drive/folders/1-iHSWlcJdVT-4DLdjdrMbCkB9aubQ5DZ?usp=sharing" target="_blank">
+        Google Drive – ImpulsaMe
+    </a>.
+</p>
+
+<hr>
+
+<h2>⚙️ Stack Tecnológico</h2>
+
+<table>
+ <thead>
+  <tr>
+   <th>Componente</th>
+   <th>Tecnología</th>
+   <th>Notas</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td><strong>Backend Web</strong></td>
+   <td>Java Servlets + JSP + JSTL</td>
+   <td>Implementa controladores, vistas y lógica de negocio.</td>
+  </tr>
+  <tr>
+   <td><strong>Servidor de Aplicaciones</strong></td>
+   <td>Apache Tomcat</td>
+   <td>Contenedor de Servlets para desplegar la aplicación.</td>
+  </tr>
+  <tr>
+   <td><strong>Base de datos</strong></td>
+   <td>MySQL</td>
+   <td>Almacena usuarios, proyectos, donaciones, comentarios y cancelaciones.</td>
+  </tr>
+  <tr>
+   <td><strong>Persistencia</strong></td>
+   <td>DAOs + JDBC</td>
+   <td>Capa de acceso a datos orientada a objetos (DAO pattern).</td>
+  </tr>
+  <tr>
+   <td><strong>Pagos</strong></td>
+   <td>Stripe Checkout</td>
+   <td>Procesamiento de donaciones en ARS con validaciones de monto.</td>
+  </tr>
+  <tr>
+   <td><strong>Build &amp; Dependencias</strong></td>
+   <td>Maven</td>
+   <td>Gestión de dependencias y empaquetado en <code>.war</code>.</td>
+  </tr>
+  <tr>
+   <td><strong>Configuración</strong></td>
+   <td><code>config.properties</code>, <code>database.properties</code>, <code>web.xml</code></td>
+   <td>Configuración de BD, Stripe, uploads y mapeo de servlets/filtros.</td>
+  </tr>
+ </tbody>
+</table>
+
+<hr>
+
+<h2>🏗️ Arquitectura de la Solución</h2>
+
+<p>ImpulsaMe sigue una arquitectura en <strong>tres capas</strong> bien definidas:</p>
+
+<ul>
+    <li><strong>Capa de Presentación (JSP)</strong>
+        <ul>
+            <li>Vistas que renderizan HTML y muestran datos a los usuarios.</li>
+            <li>Formularios de login, registro, creación de proyectos, donaciones, etc.</li>
+            <li>Ejemplos: <code>active-projects.jsp</code>, <code>project-details.jsp</code>, vistas de login/registro.</li>
+        </ul>
     </li>
-    <li>
-      <strong>Regular Users</strong> can browse active projects, donate money via Stripe, and comment on
-      projects they have supported.
+    <li><strong>Capa de Control (Servlets + Filtros)</strong>
+        <ul>
+            <li>Procesan peticiones HTTP y aplican reglas de negocio.</li>
+            <li>Coordinan DAOs y seleccionan qué vista mostrar.</li>
+            <li>Ejemplos: <code>ActiveProjectsServlet</code>, <code>CreateProjectServlet</code>, <code>CreateCheckoutSessionServlet</code>, <code>DisableCommentServlet</code>, <code>AuthFilter</code>.</li>
+        </ul>
     </li>
-    <li>
-      <strong>Administrators</strong> can moderate content by approving/rejecting projects and disabling
-      inappropriate comments.
+    <li><strong>Capa de Acceso a Datos (DAOs)</strong>
+        <ul>
+            <li>Encapsulan el acceso a MySQL mediante JDBC.</li>
+            <li>Mapean filas de la BD a objetos Java.</li>
+            <li>Ejemplos: <code>ProyectoDAO</code>, <code>DonacionDAO</code>, <code>ComentarioDAO</code>, DAOs de usuario.</li>
+        </ul>
     </li>
-    <li>
-      <strong>Anonymous Visitors</strong> can browse active projects without authentication, but cannot
-      donate, comment, or create projects.
+</ul>
+
+<hr>
+
+<h2>🧩 Entidades de Dominio Clave</h2>
+
+<ul>
+    <li><strong>Usuario</strong>
+        <ul>
+            <li>Campo <code>telefono</code>:
+                <ul>
+                    <li><code>NULL</code> → usuario administrador.</li>
+                    <li><code>NO NULL</code> → usuario regular.</li>
+                </ul>
+            </li>
+        </ul>
     </li>
-  </ul>
-  <p>
-    All new projects must be approved by an administrator before they become publicly visible and can
-    receive donations.
-  </p>
+    <li><strong>Proyecto</strong>
+        <ul>
+            <li>Estados: <code>Pendiente</code>, <code>Activo</code>, <code>Cancelado</code>, <code>Borrado</code>.</li>
+            <li>Campo <code>foto</code>: nombre de archivo UUID, con imágenes en <code>uploads/</code>.</li>
+            <li>Relación con el creador (<code>idCreador</code>) para identificar al dueño del proyecto.</li>
+        </ul>
+    </li>
+    <li><strong>Donación</strong>
+        <ul>
+            <li>Relaciona usuario ↔ proyecto + monto donado.</li>
+            <li>Integra con Stripe mediante <code>paymentAttemptId</code> (UUID) para evitar duplicados.</li>
+        </ul>
+    </li>
+    <li><strong>Comentario</strong>
+        <ul>
+            <li>Campo <code>estado</code> con valores como <code>Activo</code> / <code>Ignorado</code>.</li>
+            <li>Soft delete: comentarios ignorados no se muestran, pero quedan en BD.</li>
+        </ul>
+    </li>
+    <li><strong>Cancelación de Proyecto</strong>
+        <ul>
+            <li>Tabla opcional (<code>cancelacion_proyecto</code>) con información cuando un proyecto es cancelado por su dueño.</li>
+        </ul>
+    </li>
+</ul>
 
-  <p>
-    For more detailed aspects of the system, please refer to:
-  </p>
-  <ul>
-    <li><strong>Getting Started:</strong> environment setup, build, and deployment.</li>
-    <li><strong>Architecture Overview:</strong> diagrams and deeper explanation of layers and components.</li>
-    <li><strong>Authentication &amp; Authorization:</strong> details of login, sessions, and role enforcement.</li>
-  </ul>
+<hr>
 
-  <hr />
+<h2>👤 Roles y Reglas de Negocio</h2>
 
-  <h2>Core Features</h2>
-
-  <table border="1" cellspacing="0" cellpadding="6">
+<table>
     <thead>
       <tr>
-        <th>Feature</th>
-        <th>Description</th>
-        <th>Key Components</th>
+        <th>Rol</th>
+        <th>Identificación</th>
+        <th>Puede</th>
+        <th>No puede</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Project Lifecycle Management</strong></td>
-        <td>
-          Create, moderate, activate, and cancel projects through a controlled state machine
-          (<code>Pendiente → Activo → Cancelado/Borrado</code>).
-        </td>
-        <td>
-          <code>CreateProjectServlet</code>, <code>ProyectoDAO</code>, <code>proyecto.estado</code> field
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Payment Processing</strong></td>
-        <td>
-          Donations via Stripe with ARS (Argentine Peso), enforcing a 1000–999999.99 range and preventing
-          duplicate submissions.
-        </td>
-        <td>
-          <code>CreateCheckoutSessionServlet</code>, <code>DonacionDAO</code>, Stripe Checkout Session API
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Comment System</strong></td>
-        <td>
-          Donation-gated comments: users can comment only on projects they have donated to. Admins can
-          disable comments without deleting them.
-        </td>
-        <td>
-          <code>ComentarioDAO</code>, <code>DisableCommentServlet</code>, <code>comentario.estado</code>
-          (<code>Activo</code> / <code>Ignorado</code>)
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Project Discovery</strong></td>
-        <td>
-          Browse and search active projects, with filters by category and country, using dedicated JSP
-          pages and server-side queries.
-        </td>
-        <td>
-          <code>ActiveProjectsServlet</code>, <code>active-projects.jsp</code>, search/filter forms
-        </td>
-      </tr>
-      <tr>
-        <td><strong>File Management</strong></td>
-        <td>
-          UUID-based image uploads for project photos. Filenames are stored in the database, and physical
-          files go to a configurable upload directory.
-        </td>
-        <td>
-          <code>proyecto.foto</code> (UUID), filesystem <code>uploads/</code>, <code>config.properties</code>
-          (<code>upload.dir</code>)
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Access Control</strong></td>
-        <td>
-          Role-based authorization enforced by filters and session-based user identification, with
-          restrictions based on database attributes.
-        </td>
-        <td>
-          <code>AuthFilter</code>, HTTP session, role checks in JSPs and Servlets
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <hr />
-
-  <h2>Technology Stack</h2>
-
-  <h3>Core Technologies</h3>
-  <ul>
-    <li><strong>Java EE:</strong> Servlets, JSP, JSTL (Jakarta tags)</li>
-    <li><strong>PostgreSQL:</strong> relational database for all persistent data</li>
-    <li><strong>Stripe API:</strong> payment gateway for donation processing</li>
-    <li><strong>Maven:</strong> project management and build tool</li>
-    <li><strong>Tomcat (implied):</strong> servlet container used to run the web application</li>
-  </ul>
-
-  <hr />
-
-  <h2>System Architecture at a Glance</h2>
-  <p>
-    ImpulsaMe follows a classic three-tier architecture, with a clear separation between presentation,
-    control, and data access responsibilities.
-  </p>
-
-  <h3>Tier Responsibilities</h3>
-  <ul>
-    <li>
-      <strong>Presentation Layer (JSP):</strong> renders HTML views, displays data to users, and contains
-      forms for user input (e.g., <code>active-projects.jsp</code>, <code>project-details.jsp</code>).
-    </li>
-    <li>
-      <strong>Control Layer (Servlets):</strong> processes HTTP requests, enforces business rules, and
-      coordinates DAOs (e.g., <code>ActiveProjectsServlet</code>, <code>CreateProjectServlet</code>,
-      payment-related servlets, and filters like <code>AuthFilter</code>).
-    </li>
-    <li>
-      <strong>Data Access Layer (DAOs):</strong> encapsulates SQL queries and maps database rows to Java
-      objects (e.g., <code>ProyectoDAO</code>, <code>DonacionDAO</code>, <code>ComentarioDAO</code>).
-    </li>
-  </ul>
-
-  <p>
-    For a more detailed view of request routing, filters, and controller interactions, refer to the
-    <em>Request Flow &amp; Routing</em> section in the project documentation.
-  </p>
-
-  <hr />
-
-  <h2>Core Domain Entities</h2>
-  <p>
-    The main entities of the system are modeled in the database and reflected in the DAOs and domain
-    objects. Some notable fields and conventions:
-  </p>
-  <ul>
-    <li>
-      <strong><code>usuario.telefono</code>:</strong> used to distinguish roles. A <code>NULL</code> value
-      indicates an admin user; a non-null value indicates a regular user.
-    </li>
-    <li>
-      <strong><code>proyecto.estado</code>:</strong> controls the project lifecycle and visibility
-      (e.g., <code>Pendiente</code>, <code>Activo</code>, <code>Cancelado</code>, <code>Borrado</code>).
-    </li>
-    <li>
-      <strong><code>proyecto.foto</code>:</strong> stores a UUID filename, while the actual images are
-      stored under <code>webapp/uploads/</code>.
-    </li>
-    <li>
-      <strong><code>comentario.estado</code>:</strong> implements a soft-delete pattern. The
-      <code>Ignorado</code> state hides comments without removing them from the database.
-    </li>
-    <li>
-      <strong><code>cancelacion_proyecto</code>:</strong> optional table that stores cancellation
-      information when a project is cancelled by its owner.
-    </li>
-  </ul>
-
-  <hr />
-
-  <h2>User Roles &amp; Access Patterns</h2>
-  <p>
-    The system distinguishes four user types based on authentication state and database attributes:
-  </p>
-
-  <table border="1" cellspacing="0" cellpadding="6">
-    <thead>
-      <tr>
-        <th>Role</th>
-        <th>Identification</th>
-        <th>Can Do</th>
-        <th>Cannot Do</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Anonymous</strong></td>
-        <td>No session</td>
+        <td><strong>Visitante anónimo</strong></td>
+        <td>Sin sesión</td>
         <td>
           <ul>
-            <li>Browse active projects</li>
-            <li>View project details</li>
+            <li>Navegar proyectos activos.</li>
+            <li>Ver detalles de proyectos.</li>
           </ul>
         </td>
         <td>
           <ul>
-            <li>Donate</li>
-            <li>Comment</li>
-            <li>Create projects</li>
+            <li>Donar.</li>
+            <li>Comentar.</li>
+            <li>Crear proyectos.</li>
           </ul>
         </td>
       </tr>
       <tr>
-        <td><strong>Regular User</strong></td>
+        <td><strong>Usuario registrado</strong></td>
         <td><code>telefono != NULL</code></td>
         <td>
           <ul>
-            <li>Create projects</li>
-            <li>Donate to active projects</li>
-            <li>Comment on projects they have donated to</li>
+            <li>Crear proyectos (quedan en estado Pendiente).</li>
+            <li>Donar a proyectos activos.</li>
+            <li>Comentar proyectos a los que ha donado.</li>
           </ul>
         </td>
         <td>
           <ul>
-            <li>Approve or reject projects</li>
-            <li>Disable comments</li>
+            <li>Moderación de proyectos.</li>
+            <li>Deshabilitar comentarios.</li>
           </ul>
         </td>
       </tr>
       <tr>
-        <td><strong>Admin</strong></td>
-        <td><code>telefono == NULL</code></td>
+        <td><strong>Administrador</strong></td>
+        <td><code>telefono = NULL</code></td>
         <td>
           <ul>
-            <li>Approve/reject pending projects</li>
-            <li>Disable comments</li>
-            <li>Moderate the platform</li>
+            <li>Aprobar / rechazar proyectos pendientes.</li>
+            <li>Deshabilitar comentarios inapropiados.</li>
           </ul>
         </td>
         <td>
           <ul>
-            <li>Create projects</li>
-            <li>Donate to projects</li>
+            <li>Crear proyectos.</li>
+            <li>Donar a proyectos.</li>
           </ul>
         </td>
       </tr>
       <tr>
-        <td><strong>Project Owner</strong></td>
+        <td><strong>Dueño del proyecto</strong></td>
         <td><code>idUsuario == idCreador</code></td>
         <td>
           <ul>
-            <li>Add advances/updates to their own projects</li>
-            <li>Cancel their own active projects</li>
+            <li>Agregar avances/actualizaciones a su proyecto.</li>
+            <li>Cancelar su propio proyecto activo.</li>
           </ul>
         </td>
         <td>
           <ul>
-            <li>Donate to their own project</li>
-            <li>Comment on their own project</li>
+            <li>Donar a su propio proyecto.</li>
+            <li>Comentar su propio proyecto.</li>
           </ul>
         </td>
       </tr>
     </tbody>
-  </table>
+</table>
 
-  <p><strong>Notable business rules:</strong></p>
-  <ul>
-    <li>Users must donate to a project before they can comment on it.</li>
-    <li>Admins cannot create projects or donate.</li>
-    <li>Project owners cannot donate to or comment on their own projects.</li>
-    <li>Only active projects can receive donations.</li>
-  </ul>
+<p><strong>Reglas destacadas:</strong></p>
+<ul>
+    <li>Para comentar en un proyecto primero hay que haber donado.</li>
+    <li>Admins no pueden crear proyectos ni donar.</li>
+    <li>Dueños no pueden donar ni comentar su propio proyecto.</li>
+    <li>Sólo proyectos en estado <code>Activo</code> pueden recibir donaciones.</li>
+</ul>
 
-  <hr />
+<hr>
 
-  <h2>Project Workflow Overview</h2>
-  <p>
-    Projects are governed by a state machine implemented via the <code>proyecto.estado</code> field.
-    Typical lifecycle:
-  </p>
-  <ol>
-    <li>
-      <strong>Creation:</strong> A new project is submitted and stored with state
-      <code>Pendiente</code>.
-    </li>
-    <li>
-      <strong>Moderation:</strong> Admins review pending projects in the <code>/pendingProjects</code>
-      view and can approve or reject them.
-    </li>
-    <li>
-      <strong>Active Fundraising:</strong> Approved projects become <code>Activo</code> and appear in
-      <code>/activeProjects</code>, where users can donate.
-    </li>
-    <li>
-      <strong>Cancellation:</strong> Project owners can cancel active projects, recording information in
-      <code>cancelacion_proyecto</code> (if applicable).
-    </li>
-    <li>
-      <strong>Deletion:</strong> A soft delete is performed by setting
-      <code>estado = 'Borrado'</code>, which filters the project out of standard queries.
-    </li>
-  </ol>
+<h2>📈 Flujo de Proyectos y Donaciones</h2>
 
-  <hr />
+<h3>Estado de los proyectos</h3>
 
-  <h2>Payment Integration</h2>
-  <p>
-    Donations are handled via the Stripe Checkout Session API, configured specifically for Argentine
-    Pesos (ARS).
-  </p>
+<ol>
+    <li><strong>Creación</strong> – un usuario crea un proyecto, se guarda como <code>Pendiente</code>.</li>
+    <li><strong>Moderación</strong> – el administrador revisa la cola en <code>/pendingProjects</code> y aprueba/rechaza.</li>
+    <li><strong>Recaudación Activa</strong> – los proyectos aprobados pasan a <code>Activo</code> y aparecen en <code>/activeProjects</code>.</li>
+    <li><strong>Cancelación</strong> – el dueño puede cancelar un proyecto activo (se registra en <code>cancelacion_proyecto</code> si aplica).</li>
+    <li><strong>Borrado lógico</strong> – se marca como <code>Borrado</code> y se excluye de las consultas estándar.</li>
+</ol>
 
-  <h3>Payment Configuration</h3>
-  <ul>
-    <li><strong>Currency:</strong> ARS (Argentine Peso)</li>
-    <li><strong>Allowed amount range:</strong> 1000 – 999999.99</li>
-    <li>
-      <strong>API key:</strong> configured in <code>config.properties</code> as
-      <code>stripe.secret.key</code>
-    </li>
-    <li>
-      <strong>Duplicate prevention:</strong> a UUID-based <code>paymentAttemptId</code> is used to
-      avoid duplicate form submissions.
-    </li>
-  </ul>
+<h3>Integración de pagos con Stripe</h3>
 
-  <hr />
+<ul>
+    <li>Moneda: <strong>ARS</strong> (peso argentino).</li>
+    <li>Rango de montos permitido: <strong>1000 – 999.999,99</strong>.</li>
+    <li>Clave secreta: se configura en <code>config.properties</code> como <code>stripe.secret.key</code>.</li>
+    <li>Se usa un <strong>UUID</strong> (<code>paymentAttemptId</code>) para evitar donaciones duplicadas por reenvío de formularios.</li>
+</ul>
 
-  <h2>Key Configuration Files</h2>
-  <p>
-    Application behavior and environment-specific settings are centralized in configuration files:
-  </p>
-  <table border="1" cellspacing="0" cellpadding="6">
+<hr>
+
+<h2>🛠️ Archivos de Configuración Clave</h2>
+
+<table>
     <thead>
       <tr>
-        <th>File</th>
-        <th>Purpose</th>
-        <th>Key Properties / Content</th>
+        <th>Archivo</th>
+        <th>Rol</th>
+        <th>Propiedades destacadas</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><code>config.properties</code></td>
-        <td>Application configuration</td>
+        <td>Configuración general de la app</td>
         <td>
           <ul>
-            <li><code>upload.dir</code> – file storage path for project images</li>
-            <li><code>stripe.secret.key</code> – Stripe payment API secret key</li>
+            <li><code>upload.dir</code> – ruta física donde se guardan las imágenes de proyectos.</li>
+            <li><code>stripe.secret.key</code> – clave secreta de Stripe.</li>
           </ul>
         </td>
       </tr>
       <tr>
         <td><code>database.properties</code></td>
-        <td>Database connection</td>
+        <td>Conexión a MySQL</td>
         <td>
-          Typically includes JDBC URL, username, password, and driver class for PostgreSQL.
+          Contiene el URL JDBC, usuario, contraseña y driver para la base MySQL.
         </td>
       </tr>
       <tr>
         <td><code>web.xml</code></td>
-        <td>Servlet and filter configuration</td>
+        <td>Descriptor de despliegue</td>
         <td>
-          Contains servlet mappings, URL patterns, filter configuration (e.g. <code>AuthFilter</code>),
-          and welcome files.
+          Define mapeos de servlets, filtros (incluyendo <code>AuthFilter</code>) y páginas de bienvenida.
         </td>
       </tr>
     </tbody>
-  </table>
+</table>
 
-  <hr />
+<hr>
 
-  <h2>Navigation Entry Points</h2>
-  <p>
-    Users interact with the platform through a set of public, user, and admin pages:
-  </p>
+<h2>🧭 Puntos de Navegación</h2>
 
-  <h3>Public Pages (No Authentication Required)</h3>
-  <ul>
-    <li><code>/home</code> – landing page with featured content.</li>
-    <li><code>/activeProjects</code> – list and filters for all active projects.</li>
-    <li><code>/projectDetails</code> – details of a single project.</li>
-    <li><code>/login</code>, <code>/register</code> – authentication and sign-up forms.</li>
-  </ul>
+<h3>Páginas públicas (sin login)</h3>
+<ul>
+    <li><code>/home</code> – landing page con contenido destacado.</li>
+    <li><code>/activeProjects</code> – listado de proyectos activos con filtros.</li>
+    <li><code>/projectDetails</code> – detalle de un proyecto individual.</li>
+    <li><code>/login</code>, <code>/register</code> – autenticación y registro.</li>
+</ul>
 
-  <h3>User Pages (Authentication Required)</h3>
-  <ul>
-    <li><code>/myProjects</code> – dashboard listing projects created by the logged-in user.</li>
-    <li><code>/createProject</code> – form to submit a new project for approval.</li>
-    <li><code>/supportedProjects</code> – projects to which the user has donated.</li>
-    <li><code>/addAdvance</code> – add progress updates/advances to owned projects.</li>
-  </ul>
+<h3>Páginas de usuario (requiere autenticación)</h3>
+<ul>
+    <li><code>/myProjects</code> – proyectos creados por el usuario logueado.</li>
+    <li><code>/createProject</code> – alta de nuevos proyectos.</li>
+    <li><code>/supportedProjects</code> – proyectos a los que el usuario ha donado.</li>
+    <li><code>/addAdvance</code> – carga de avances/actualizaciones del proyecto.</li>
+</ul>
 
-  <h3>Admin Pages (Admin Only)</h3>
-  <ul>
-    <li><code>/pendingProjects</code> – queue of projects waiting for approval.</li>
-    <li><code>/approveProject</code>, <code>/rejectProject</code> – moderation actions.</li>
-    <li><code>/disableComment</code> – comment moderation endpoint.</li>
-  </ul>
+<h3>Páginas de administración (solo admin)</h3>
+<ul>
+    <li><code>/pendingProjects</code> – cola de proyectos pendientes de aprobación.</li>
+    <li><code>/approveProject</code>, <code>/rejectProject</code> – acciones de moderación.</li>
+    <li><code>/disableComment</code> – deshabilitar comentarios inapropiados.</li>
+</ul>
 
-  <hr />
+<hr>
 
-  <h2>Relevant Source Files (Examples)</h2>
-  <p>
-    Some of the most relevant source files and descriptors mentioned in the documentation:
-  </p>
-  <ul>
-    <li><code>ActiveProjectsServlet</code> – controller for listing and filtering active projects.</li>
-    <li><code>active-projects.jsp</code> – main view for project discovery.</li>
-    <li><code>project-details.jsp</code> – project detail page, donation and comments logic.</li>
-    <li><code>CreateProjectServlet</code> – project creation workflow.</li>
-    <li><code>CreateCheckoutSessionServlet</code> – Stripe checkout integration.</li>
-    <li><code>ProyectoDAO</code>, <code>DonacionDAO</code>, <code>ComentarioDAO</code> – data access layer.</li>
-    <li><code>AuthFilter</code> – role-based access and session enforcement.</li>
-  </ul>
+<h2>🚀 Puesta en Marcha (Setup Local)</h2>
 
-  <hr />
+<h3>1. Requisitos</h3>
+<ul>
+    <li><strong>JDK</strong> (por ejemplo Java 17+).</li>
+    <li><strong>Maven</strong> instalado y en el <code>PATH</code>.</li>
+    <li><strong>MySQL</strong> en ejecución (local o remoto).</li>
+    <li><strong>Apache Tomcat</strong> (u otro contenedor de Servlets compatible).</li>
+    <li>Cuenta de <strong>Stripe</strong> y clave de prueba (test key).</li>
+</ul>
 
-  <h2>Getting Started (High-Level)</h2>
-  <p>
-    Detailed setup instructions are available in the project documentation (Google Drive link at the top).
-    A typical high-level setup flow looks like:
-  </p>
-  <ol>
-    <li>Configure PostgreSQL and create the database/schema as documented.</li>
-    <li>Update <code>database.properties</code> and <code>config.properties</code> with your environment values.</li>
-    <li>Provide valid <code>stripe.secret.key</code> for payment processing (or use test keys).</li>
-    <li>Build the project with Maven.</li>
-    <li>Deploy the generated <code>.war</code> (or equivalent) to a servlet container such as Tomcat.</li>
-    <li>Access the application via the configured context path (e.g. <code>http://localhost:8080/impulsame</code>).</li>
-  </ol>
+<h3>2. Configuración</h3>
 
-  <p>
-    For precise commands, environment variables, and deployment details, please refer to the
-    <strong>Getting Started</strong> section in the full documentation.
-  </p>
+<ol>
+    <li>Clonar el repositorio:
+        <pre><code>git clone https://github.com/martin-ratti/ProyectoJava-Crowdfunding.git
+</code></pre>
+    </li>
+    <li>Crear la base de datos MySQL (por ejemplo <code>impulsame</code>) e importar el esquema/tablas según los scripts o documentación del proyecto.</li>
+    <li>Configurar <code>database.properties</code> con el JDBC URL, usuario y contraseña de tu instancia MySQL.</li>
+    <li>Configurar <code>config.properties</code> con:
+        <ul>
+            <li><code>upload.dir</code> apuntando a una carpeta válida para subir imágenes.</li>
+            <li><code>stripe.secret.key</code> con tu clave de prueba o producción de Stripe.</li>
+        </ul>
+    </li>
+    <li>Construir el proyecto:
+        <pre><code>mvn clean package</code></pre>
+    </li>
+    <li>Desplegar el <code>.war</code> generado en tu instancia de Tomcat (o ejecutar desde tu IDE apuntando al servidor).</li>
+    <li>Acceder a la app en el navegador (ejemplo):
+        <pre><code>http://localhost:8080</code></pre>
+    </li>
+</ol>
 
-  <hr />
-
-  <h2>Project Documentation</h2>
-  <p>
-    All diagrams (system architecture, domain model, request flow, payment integration, state machine, etc.)
-    as well as extended documentation (in Spanish) are available at:
-  </p>
-  <p>
+<p>
+    Para comandos específicos, scripts SQL y diagramas, ver la carpeta de documentación en Google Drive:
     <a href="https://drive.google.com/drive/folders/1-iHSWlcJdVT-4DLdjdrMbCkB9aubQ5DZ?usp=sharing" target="_blank">
-      https://drive.google.com/drive/folders/1-iHSWlcJdVT-4DLdjdrMbCkB9aubQ5DZ?usp=sharing
-    </a>
-  </p>
+        Documentación ImpulsaMe
+    </a>.
+</p>
 
-  <hr />
+<hr>
 
-  <p><em>ImpulsaMe – Crowdfunding platform built with Java Servlets, JSP, PostgreSQL, and Stripe.</em></p>
+<h2>📚 Documentación Adicional</h2>
 
-</body>
-</html>
+<p>La documentación completa del proyecto (en español) incluye:</p>
+
+<ul>
+    <li>Diagramas de arquitectura del sistema.</li>
+    <li>Modelo de dominio y diagrama entidad-relación.</li>
+    <li>Flujos de navegación y diagramas de secuencia.</li>
+    <li>Detalles del modelo de seguridad y control de acceso.</li>
+    <li>Descripción detallada de endpoints, casos de uso y decisiones de diseño.</li>
+</ul>
+
+<p>
+    Todo esto está disponible en:
+    <a href="https://drive.google.com/drive/folders/1-iHSWlcJdVT-4DLdjdrMbCkB9aubQ5DZ?usp=sharing" target="_blank">
+        Google Drive – ImpulsaMe
+    </a>.
+</p>
+
+<hr>
+
+<h2>👥 Equipo</h2>
+
+<ul>
+    <li><strong>Agustín Santinelli</strong> – <a href="https://github.com/agussantinelli" target="_blank">@agussantinelli</a></li>
+    <li><strong>Joaquín Peralta</strong> – <a href="https://github.com/juaquin11" target="_blank">@juaquin11</a></li>
+    <li><strong>Martín Ratti</strong> – <a href="https://github.com/martin-ratti" target="_blank">@martin-ratti</a></li>
+</ul>
+
+<p>Proyecto académico desarrollado en equipo para la UTN FRRO.</p>
+
+<hr>
+
+<h2>🤝 Contribuir</h2>
+
+<ol>
+    <li>Haz un <strong>fork</strong> del repositorio.</li>
+    <li>Crea una rama con el formato <code>feature/...</code> o <code>fix/...</code>.</li>
+    <li>Realiza los cambios con buenas prácticas (nombres claros, separación por capas, etc.).</li>
+    <li>Incluye, si es posible, tests o ejemplos de uso para la nueva funcionalidad.</li>
+    <li>Abre un <strong>Pull Request</strong> describiendo claramente:
+        <ul>
+            <li>Qué problema resuelve.</li>
+            <li>Qué partes del sistema toca (Servlets, DAOs, JSP, etc.).</li>
+            <li>Si requiere cambios en configuración o BD.</li>
+        </ul>
+    </li>
+</ol>
+
+<hr>
+
+<h2>⚖️ Licencia</h2>
+
+<p>
+    La licencia del proyecto se especifica en el archivo <code>LICENSE</code> de este repositorio.
+</p>
+
+<p><em>ImpulsaMe – Plataforma de crowdfunding en Java con moderación, pagos y control de acceso por roles.</em></p>
