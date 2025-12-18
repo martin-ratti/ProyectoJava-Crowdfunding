@@ -436,7 +436,7 @@
     <li><strong>Martín Ratti</strong> – <a href="https://github.com/martin-ratti" target="_blank">@martin-ratti</a></li>
 </ul>
 
-<p>Proyecto académico desarrollado en equipo para la UTN FRRO.</p>
+<p>Proyecto académico desarrollado en equipo para la UTN FRRO (Catedra Lenguaje de Programación Java).</p>
 
 <hr>
 
