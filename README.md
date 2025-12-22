@@ -178,6 +178,29 @@
             <li>Tabla opcional (<code>cancelacion_proyecto</code>) con información cuando un proyecto es cancelado por su dueño.</li>
         </ul>
     </li>
+    <li><strong>Avance de Proyecto</strong>
+        <ul>
+            <li>Representa actualizaciones o hitos del proyecto publicados por el creador.</li>
+            <li>Incluye descripción, fecha y una foto opcional para mostrar progreso a los donantes.</li>
+        </ul>
+    </li>
+    <li><strong>Categoría</strong>
+        <ul>
+            <li>Permite clasificar los proyectos en áreas temáticas (ej. Tecnología, Arte, Solidaridad).</li>
+            <li>Facilita el filtrado y búsqueda de proyectos activos.</li>
+        </ul>
+    </li>
+    <li><strong>País</strong>
+        <ul>
+            <li>Referencia geográfica para la ubicación del proyecto o del usuario.</li>
+        </ul>
+    </li>
+    <li><strong>Contacto</strong>
+        <ul>
+            <li>Almacena los mensajes enviados por visitantes o usuarios a través del formulario de contacto.</li>
+            <li>Contiene nombre, email, asunto y mensaje.</li>
+        </ul>
+    </li>
 </ul>
 
 <hr>
