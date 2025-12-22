@@ -151,6 +151,36 @@
 
 <hr>
 
+<h2>📂 Estructura del Proyecto</h2>
+
+<pre><code>ProyectoJava-Crowdfunding/
+├── src/
+│   └── main/
+│       ├── java/                    # Código Fuente Java
+│       │   ├── modelo/              # Clases del Dominio (Entidades POJO)
+│       │   ├── repositorio/         # Capa de Acceso a Datos (DAOs)
+│       │   ├── servlet/             # Controladores (Servlets & Filtros)
+│       │   ├── interfaces/          # Contratos de interfaz para DAOs
+│       │   ├── db/                  # Gestor de conexiones JDBC
+│       │   └── utils/               # Utilidades y configuración
+│       └── webapp/                  # Recursos Web (Frontend)
+│           ├── assets/              # Imágenes y estáticos
+│           ├── views/               # Vistas JSP organizadas por módulo
+│           │   ├── common/          # Páginas públicas (Home, Error, etc.)
+│           │   ├── fragments/       # Partials (Header, Footer)
+│           │   ├── auth/            # Login y Registro
+│           │   ├── admin/           # Panel de Control
+│           │   └── user/            # Gestión de proyectos de usuario
+│           └── WEB-INF/             # Configuración privada
+│               └── web.xml          # Descriptor de despliegue
+├── .settings/                       # Configuraciones del entorno (Eclipse/VSCode)
+├── target/                          # Builds y compilados (.class, .war)
+├── pom.xml                          # Dependencias Maven
+└── README.md                        # Documentación principal
+</code></pre>
+
+<hr>
+
 <h2>🧩 Entidades de Dominio Clave</h2>
 
 <ul>
