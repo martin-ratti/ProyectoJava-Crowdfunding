@@ -3,13 +3,11 @@
 .project
 .settings/
 
-
 /target/
 /bin/
 
 database.properties
 config.properties
-
 
 *.class
 *.jar
@@ -17,3 +15,12 @@ config.properties
 *.log
 *.bak
 hs_err_pid*.log
+
+# IDE specific
+.vscode/
+.idea/
+*.iml
+
+# OS specific
+.DS_Store
+Thumbs.db
