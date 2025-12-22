@@ -62,82 +62,86 @@
 
 <h2>⚙️ Stack Tecnológico</h2>
 
-<table>
- <thead>
-  <tr>
-   <th>Componente</th>
-   <th>Tecnología</th>
-   <th>Notas</th>
-  </tr>
- </thead>
- <tbody>
-  <tr>
-   <td><strong>Backend Web</strong></td>
-   <td>Java Servlets + JSP + JSTL</td>
-   <td>Implementa controladores, vistas y lógica de negocio.</td>
-  </tr>
-  <tr>
-   <td><strong>Servidor de Aplicaciones</strong></td>
-   <td>Apache Tomcat</td>
-   <td>Contenedor de Servlets para desplegar la aplicación.</td>
-  </tr>
-  <tr>
-   <td><strong>Base de datos</strong></td>
-   <td>MySQL</td>
-   <td>Almacena usuarios, proyectos, donaciones, comentarios y cancelaciones.</td>
-  </tr>
-  <tr>
-   <td><strong>Persistencia</strong></td>
-   <td>DAOs + JDBC</td>
-   <td>Capa de acceso a datos orientada a objetos (DAO pattern).</td>
-  </tr>
-  <tr>
-   <td><strong>Pagos</strong></td>
-   <td>Stripe Checkout</td>
-   <td>Procesamiento de donaciones en ARS con validaciones de monto.</td>
-  </tr>
-  <tr>
-   <td><strong>Build &amp; Dependencias</strong></td>
-   <td>Maven</td>
-   <td>Gestión de dependencias y empaquetado en <code>.war</code>.</td>
-  </tr>
-  <tr>
-   <td><strong>Configuración</strong></td>
-   <td><code>config.properties</code>, <code>database.properties</code>, <code>web.xml</code></td>
-   <td>Configuración de BD, Stripe, uploads y mapeo de servlets/filtros.</td>
-  </tr>
- </tbody>
-</table>
+ <table>
+  <thead>
+   <tr>
+    <th>Componente</th>
+    <th>Tecnología</th>
+    <th>Versión / Detalles</th>
+   </tr>
+  </thead>
+  <tbody>
+   <tr>
+    <td><strong>Backend Web</strong></td>
+    <td>Jakarta EE (Servlets + JSP)</td>
+    <td>v10 (Servlet 6.0, JSP 3.0)</td>
+   </tr>
+   <tr>
+    <td><strong>Servidor de Aplicaciones</strong></td>
+    <td>Apache Tomcat</td>
+    <td>v10.1+ (Soporte Jakarta EE 10)</td>
+   </tr>
+   <tr>
+    <td><strong>Base de datos</strong></td>
+    <td>MySQL</td>
+    <td>v8.0.33 (Connector/J)</td>
+   </tr>
+   <tr>
+    <td><strong>Persistencia</strong></td>
+    <td>JDBC + DAO Pattern</td>
+    <td>Acceso nativo optimizado sin ORM pesado.</td>
+   </tr>
+   <tr>
+    <td><strong>Seguridad</strong></td>
+    <td>JBCrypt</td>
+    <td>Hashing seguro de contraseñas.</td>
+   </tr>
+   <tr>
+    <td><strong>Pagos</strong></td>
+    <td>Stripe API</td>
+    <td>v24.8.0 (Checkout Sessions)</td>
+   </tr>
+   <tr>
+    <td><strong>Procesamiento JSON</strong></td>
+    <td>Gson</td>
+    <td>v2.10.1 (API REST y AJAX)</td>
+   </tr>
+   <tr>
+    <td><strong>Build Tool</strong></td>
+    <td>Maven</td>
+    <td>Gestión de dependencias y ciclo de vida.</td>
+   </tr>
+  </tbody>
+ </table>
 
 <hr>
 
 <h2>🏗️ Arquitectura de la Solución</h2>
 
-<p>ImpulsaMe sigue una arquitectura en <strong>tres capas</strong> bien definidas:</p>
+ <p>ImpulsaMe sigue un patrón <strong>MVC (Modelo-Vista-Controlador)</strong> estricto implementado con tecnologías estándar de Java:</p>
 
-<ul>
-    <li><strong>Capa de Presentación (JSP)</strong>
-        <ul>
-            <li>Vistas que renderizan HTML y muestran datos a los usuarios.</li>
-            <li>Formularios de login, registro, creación de proyectos, donaciones, etc.</li>
-            <li>Ejemplos: <code>active-projects.jsp</code>, <code>project-details.jsp</code>, vistas de login/registro.</li>
-        </ul>
-    </li>
-    <li><strong>Capa de Control (Servlets + Filtros)</strong>
-        <ul>
-            <li>Procesan peticiones HTTP y aplican reglas de negocio.</li>
-            <li>Coordinan DAOs y seleccionan qué vista mostrar.</li>
-            <li>Ejemplos: <code>ActiveProjectsServlet</code>, <code>CreateProjectServlet</code>, <code>CreateCheckoutSessionServlet</code>, <code>DisableCommentServlet</code>, <code>AuthFilter</code>.</li>
-        </ul>
-    </li>
-    <li><strong>Capa de Acceso a Datos (DAOs)</strong>
-        <ul>
-            <li>Encapsulan el acceso a MySQL mediante JDBC.</li>
-            <li>Mapean filas de la BD a objetos Java.</li>
-            <li>Ejemplos: <code>ProyectoDAO</code>, <code>DonacionDAO</code>, <code>ComentarioDAO</code>, DAOs de usuario.</li>
-        </ul>
-    </li>
-</ul>
+ <ul>
+     <li><strong>Controlador (Servlets & Filters):</strong>
+         <ul>
+             <li><code>AuthFilter</code>: Interceptor central de seguridad que valida sesiones y roles (RBAC) antes de llegar a los servlets.</li>
+             <li><strong>Servlets de Negocio:</strong> Procesan lógica específica (ej. <code>CreateProjectServlet</code>, <code>DonationSuccessServlet</code>).</li>
+             <li><strong>Manejo de Errores:</strong> Redirecciones controladas a páginas de advertencia (<code>warning.jsp</code>) o prohibido (<code>forbidden.jsp</code>).</li>
+         </ul>
+     </li>
+     <li><strong>Modelo (DAOs & Entidades):</strong>
+         <ul>
+             <li><strong>Entidades (POJOs):</strong> Clases puras como <code>Usuario</code>, <code>Proyecto</code>, <code>Donacion</code>.</li>
+             <li><strong>Data Access Objects (DAOs):</strong> Abstracción total de SQL. Cada entidad tiene su DAO (<code>UsuarioDAO</code>, <code>ProyectoDAO</code>) para operaciones CRUD.</li>
+         </ul>
+     </li>
+     <li><strong>Vista (JSP + JSTL):</strong>
+         <ul>
+             <li>Páginas renderizadas en servidor (SSR).</li>
+             <li>Uso extensivo de JSTL para lógica de presentación limpia (sin scriptlets Java).</li>
+             <li>Componentes reutilizables en <code>/views/common/</code> (header, footer, cards).</li>
+         </ul>
+     </li>
+ </ul>
 
 <hr>
 
@@ -207,115 +211,95 @@
 
 <h2>👤 Roles y Reglas de Negocio</h2>
 
-<table>
-    <thead>
-      <tr>
-        <th>Rol</th>
-        <th>Identificación</th>
-        <th>Puede</th>
-        <th>No puede</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Visitante anónimo</strong></td>
-        <td>Sin sesión</td>
-        <td>
-          <ul>
-            <li>Navegar proyectos activos.</li>
-            <li>Ver detalles de proyectos.</li>
-          </ul>
-        </td>
-        <td>
-          <ul>
-            <li>Donar.</li>
-            <li>Comentar.</li>
-            <li>Crear proyectos.</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Usuario registrado</strong></td>
-        <td><code>telefono != NULL</code></td>
-        <td>
-          <ul>
-            <li>Crear proyectos (quedan en estado Pendiente).</li>
-            <li>Donar a proyectos activos.</li>
-            <li>Comentar proyectos a los que ha donado.</li>
-          </ul>
-        </td>
-        <td>
-          <ul>
-            <li>Moderación de proyectos.</li>
-            <li>Deshabilitar comentarios.</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Administrador</strong></td>
-        <td><code>telefono = NULL</code></td>
-        <td>
-          <ul>
-            <li>Aprobar / rechazar proyectos pendientes.</li>
-            <li>Deshabilitar comentarios inapropiados.</li>
-          </ul>
-        </td>
-        <td>
-          <ul>
-            <li>Crear proyectos.</li>
-            <li>Donar a proyectos.</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td><strong>Dueño del proyecto</strong></td>
-        <td><code>idUsuario == idCreador</code></td>
-        <td>
-          <ul>
-            <li>Agregar avances/actualizaciones a su proyecto.</li>
-            <li>Cancelar su propio proyecto activo.</li>
-          </ul>
-        </td>
-        <td>
-          <ul>
-            <li>Donar a su propio proyecto.</li>
-            <li>Comentar su propio proyecto.</li>
-          </ul>
-        </td>
-      </tr>
-    </tbody>
-</table>
-
-<p><strong>Reglas destacadas:</strong></p>
-<ul>
-    <li>Para comentar en un proyecto primero hay que haber donado.</li>
-    <li>Admins no pueden crear proyectos ni donar.</li>
-    <li>Dueños no pueden donar ni comentar su propio proyecto.</li>
-    <li>Sólo proyectos en estado <code>Activo</code> pueden recibir donaciones.</li>
-</ul>
+ <h3>Control de Acceso (RBAC)</h3>
+ <p>El sistema identifica 3 niveles de acceso gestionados por el <code>AuthFilter</code>:</p>
+ 
+ <table>
+     <thead>
+       <tr>
+         <th>Rol</th>
+         <th>Condición</th>
+         <th>Capacidades Principales</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td><strong>Visitante</strong></td>
+         <td>Sesión no iniciada</td>
+         <td>Ver proyectos activos, buscar por categorías, contactar soporte, registrarse/login.</td>
+       </tr>
+       <tr>
+         <td><strong>Usuario (Inversor/Creador)</strong></td>
+         <td><code>telefono != null</code></td>
+         <td>Crear proyectos, donar, comentar, publicar avances, ver historial de donaciones.</td>
+       </tr>
+       <tr>
+         <td><strong>Administrador</strong></td>
+         <td><code>telefono == null</code></td>
+         <td>Moderar proyectos (aprobar/rechazar), ver mensajes de contacto, moderar comentarios.</td>
+       </tr>
+     </tbody>
+ </table>
+ 
+ <h3>Reglas de Negocio Críticas</h3>
+ <ul>
+     <li><strong>Validación de Donaciones:</strong>
+         <ul>
+             <li>Monto mínimo: <strong>$1,000 ARS</strong>.</li>
+             <li>Monto máximo: <strong>$999,999.99 ARS</strong>.</li>
+             <li><strong>Restricción de Auto-donación:</strong> Un creador NO puede donar a su propio proyecto.</li>
+         </ul>
+     </li>
+     <li><strong>Moderación de Proyectos:</strong>
+         <ul>
+              <li>Todo proyecto nace en estado <code>Pendiente</code>.</li>
+              <li>Solo un <strong>Administrador</strong> puede transcionarlo a <code>Activo</code> (visible) o rechazarlo (eliminación lógica).</li>
+         </ul>
+     </li>
+      <li><strong>Comentarios:</strong>
+         <ul>
+              <li>Solo usuarios que <strong>han donado</strong> previamente a un proyecto pueden comentar en él.</li>
+              <li>Los comentarios pueden ser deshabilitados (soft delete) por administradores.</li>
+         </ul>
+     </li>
+ </ul>
 
 <hr>
 
 <h2>📈 Flujo de Proyectos y Donaciones</h2>
 
-<h3>Estado de los proyectos</h3>
-
-<ol>
-    <li><strong>Creación</strong> – un usuario crea un proyecto, se guarda como <code>Pendiente</code>.</li>
-    <li><strong>Moderación</strong> – el administrador revisa la cola en <code>/pendingProjects</code> y aprueba/rechaza.</li>
-    <li><strong>Recaudación Activa</strong> – los proyectos aprobados pasan a <code>Activo</code> y aparecen en <code>/activeProjects</code>.</li>
-    <li><strong>Cancelación</strong> – el dueño puede cancelar un proyecto activo (se registra en <code>cancelacion_proyecto</code> si aplica).</li>
-    <li><strong>Borrado lógico</strong> – se marca como <code>Borrado</code> y se excluye de las consultas estándar.</li>
-</ol>
-
-<h3>Integración de pagos con Stripe</h3>
-
-<ul>
-    <li>Moneda: <strong>ARS</strong> (peso argentino).</li>
-    <li>Rango de montos permitido: <strong>1000 – 999.999,99</strong>.</li>
-    <li>Clave secreta: se configura en <code>config.properties</code> como <code>stripe.secret.key</code>.</li>
-    <li>Se usa un <strong>UUID</strong> (<code>paymentAttemptId</code>) para evitar donaciones duplicadas por reenvío de formularios.</li>
-</ul>
+ <h3>Ciclo de Vida del Proyecto</h3>
+ <ol>
+     <li><strong>Alta:</strong> Usuario completa formulario en <code>/createProject</code>. Se valida imagen y datos. Estado inicial: <strong>PENDIENTE</strong>.</li>
+     <li><strong>Revisión:</strong> El proyecto aparece en el panel admin (<code>/pendingProjects</code>).</li>
+     <li><strong>Decisión:</strong>
+         <ul>
+             <li><strong>Aprobar:</strong> <code>ApproveProjectServlet</code> cambia estado a <strong>ACTIVO</strong>. Se vuelve público.</li>
+             <li><strong>Rechazar:</strong> <code>RejectProjectServlet</code> elimina lógicamente el proyecto.</li>
+         </ul>
+     </li>
+     <li><strong>Evolución:</strong> El creador sube actualizaciones mediante <code>/addAdvance</code> (aparecen en la pestaña "Avances").</li>
+ </ol>
+ 
+ <h3>Flujo de Donación (Stripe Checkout)</h3>
+ <ol>
+     <li><strong>Inicio:</strong> Usuario elige monto en <code>donation.jsp</code>.</li>
+     <li><strong>Sesión de Pago:</strong> <code>CreateCheckoutSessionServlet</code> valida montos y contacta a la API de Stripe para crear una sesión.
+         <ul>
+             <li>Se genera un <code>paymentAttemptId</code> único para idempotencia.</li>
+         </ul>
+     </li>
+     <li><strong>Redirección:</strong> Usuario es llevado a la página segura de Stripe.</li>
+     <li><strong>Retorno Exitoso:</strong> Stripe redirige a <code>/donation-success</code>.</li>
+     <li><strong>Confirmación:</strong>
+         <ul>
+             <li>El servlet verifica la sesión y el monto.</li>
+             <li>Se inserta el registro en la tabla <code>Donaciones</code>.</li>
+             <li>Se actualiza el <code>montoRecaudado</code> del proyecto de forma atómica.</li>
+             <li>Usuario ve pantalla de agradecimiento y su donación reflejada.</li>
+         </ul>
+     </li>
+ </ol>
 
 <hr>
 
@@ -361,28 +345,31 @@
 
 <h2>🧭 Puntos de Navegación</h2>
 
-<h3>Páginas públicas (sin login)</h3>
-<ul>
-    <li><code>/home</code> – landing page con contenido destacado.</li>
-    <li><code>/activeProjects</code> – listado de proyectos activos con filtros.</li>
-    <li><code>/projectDetails</code> – detalle de un proyecto individual.</li>
-    <li><code>/login</code>, <code>/register</code> – autenticación y registro.</li>
-</ul>
-
-<h3>Páginas de usuario (requiere autenticación)</h3>
-<ul>
-    <li><code>/myProjects</code> – proyectos creados por el usuario logueado.</li>
-    <li><code>/createProject</code> – alta de nuevos proyectos.</li>
-    <li><code>/supportedProjects</code> – proyectos a los que el usuario ha donado.</li>
-    <li><code>/addAdvance</code> – carga de avances/actualizaciones del proyecto.</li>
-</ul>
-
-<h3>Páginas de administración (solo admin)</h3>
-<ul>
-    <li><code>/pendingProjects</code> – cola de proyectos pendientes de aprobación.</li>
-    <li><code>/approveProject</code>, <code>/rejectProject</code> – acciones de moderación.</li>
-    <li><code>/disableComment</code> – deshabilitar comentarios inapropiados.</li>
-</ul>
+ <h3>Público</h3>
+ <ul>
+     <li><code>/home</code> : Landing page principal.</li>
+     <li><code>/activeProjects</code> : Catálogo de proyectos financiables.</li>
+     <li><code>/categories</code> : Exploración por categorías.</li>
+     <li><code>/how-it-works</code> : Guía de uso.</li>
+     <li><code>/contact</code> : Formulario de contacto para soporte.</li>
+ </ul>
+ 
+ <h3>Usuario Registrado</h3>
+ <ul>
+     <li><code>/createProject</code> : Formulario de alta de proyecto.</li>
+     <li><code>/myProjects</code> : Dashboard de mis proyectos (creados).</li>
+     <li><code>/supportedProjects</code> : Historial de proyectos apoyados.</li>
+     <li><code>/addAdvance</code> : Publicar novedad en un proyecto propio.</li>
+     <li><code>/editProject</code> : Modificar datos de un proyecto propio.</li>
+ </ul>
+ 
+ <h3>Administrador</h3>
+ <ul>
+     <li><code>/pendingProjects</code> : Bandeja de revisión de proyectos.</li>
+     <li><code>/showMessages</code> : Bandeja de entrada de mensajes de contacto.</li>
+     <li><code>/approveProject</code> / <code>/rejectProject</code> : Acciones de moderación.</li>
+     <li><code>/disableComment</code> : Moderación de contenido social.</li>
+ </ul>
 
 <hr>
 
